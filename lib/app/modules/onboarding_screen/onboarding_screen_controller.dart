@@ -53,12 +53,23 @@ class OnboardingScreenController extends GetxController {
 
   Future<void> completeOnboarding() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('seenOnboarding', true);
+      // final prefs = await SharedPreferences.getInstance();
+      // await prefs.setBool('seenOnboarding', true);
+      debugPrint("Onboarding status saved successfully");
       Get.offAllNamed(AppRoutes.selectUserScreen);
     } catch (e) {
       debugPrint("Error saving onboarding status: $e");
-      // Optionally handle the error, e.g., show a Snackbar
+      // Fallback: Navigate to select user screen even if shared_preferences fails
+      Get.offAllNamed(AppRoutes.selectUserScreen);
+
+      // Show a warning to the user
+      Get.snackbar(
+        'Warning',
+        'Unable to save preferences, but you can continue using the app.',
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 

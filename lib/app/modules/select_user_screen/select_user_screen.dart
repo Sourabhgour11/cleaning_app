@@ -54,7 +54,7 @@ class SelectUserScreen extends StatelessWidget {
           width: screenWidth,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(AppImages.backgroundImage),
+              image: AssetImage(AppImages.background),
               fit: BoxFit.cover,
             ),
           ),
@@ -73,11 +73,12 @@ class SelectUserScreen extends StatelessWidget {
               const SizedBox(height: 40),
               // Login as User
               userOption("Login as User", () {
-                Get.toNamed(AppRoutes.home);
+                Get.toNamed(AppRoutes.login);
                 // Navigate to User Login Screen
               }),
               // Login as Cleaner
               userOption("Login as Cleaner", () {
+                Get.toNamed(AppRoutes.login);
                 // Navigate to Cleaner Login Screen
               }),
             ],

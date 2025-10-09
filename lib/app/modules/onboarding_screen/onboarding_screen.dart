@@ -20,7 +20,7 @@ class OnboardingScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 100 / 100,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(AppImages.backgroundImage),
+              image: AssetImage(AppImages.background),
               fit: BoxFit.cover,
             ),
           ),
