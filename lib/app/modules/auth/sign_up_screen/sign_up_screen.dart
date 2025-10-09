@@ -1,7 +1,7 @@
-import '../../../utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_export.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    AppStrings.signInToContinue,
+                    AppStrings.signUpToContinue,
                     style: TextStyle(
                       fontSize: 16,
                       color: AppColours.white,
@@ -149,14 +149,14 @@ class LoginScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
-                                Icons.waving_hand,
+                                Icons.shield_rounded,
                                 color: AppColours.appColor,
                                 size: 20,
                               ),
                             ),
                             const SizedBox(width: 12),
                             const Text(
-                              AppStrings.welcomeBack,
+                              AppStrings.signUp,
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -168,6 +168,59 @@ class LoginScreen extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 10),
+                        // Name Field
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.person_outline,
+                              color: AppColours.appColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              AppStrings.name,
+                              style: AppStyle.textfieldHeading,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColours.white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: AppColours.grey.withOpacity(0.2),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColours.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: const TextField(
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your name',
+                              hintStyle: TextStyle(color: AppColours.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person,
+                                color: AppColours.grey,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
                         // Email Field
                         Row(
                           children: [
@@ -220,8 +273,111 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        // Password Field
+                        // Phone Field
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.phone_outlined,
+                              color: AppColours.appColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              AppStrings.phone,
+                              style: AppStyle.textfieldHeading,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColours.white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: AppColours.grey.withOpacity(0.2),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColours.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: const TextField(
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your phone number',
+                              hintStyle: TextStyle(color: AppColours.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.phone,
+                                color: AppColours.grey,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Address Field
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: AppColours.appColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              AppStrings.address,
+                              style: AppStyle.textfieldHeading,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColours.white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: AppColours.grey.withOpacity(0.2),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColours.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: const TextField(
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your address',
+                              hintStyle: TextStyle(color: AppColours.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.location_on,
+                                color: AppColours.grey,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Confirm Password Field
                         Row(
                           children: [
                             const Icon(
@@ -257,7 +413,7 @@ class LoginScreen extends StatelessWidget {
                           child: const TextField(
                             obscureText: true,
                             decoration: InputDecoration(
-                              hintText: 'Enter your password',
+                              hintText: 'Enter your confirm password',
                               hintStyle: TextStyle(color: AppColours.grey),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
@@ -278,155 +434,81 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // Forgot Password
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Get.toNamed(AppRoutes.forgotPassword);
-                            },
-                            child: Text(
-                              AppStrings.forgotPassword,
-                              style: TextStyle(
-                                color: AppColours.appColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                fontFamily: AppFonts.fontFamily,
+                        const SizedBox(height: 10),
+                        // Password Field
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.lock_outline_rounded,
+                              color: AppColours.appColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              AppStrings.confirmPassword,
+                              style: AppStyle.textfieldHeading,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColours.white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: AppColours.grey.withOpacity(0.2),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColours.grey.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: const TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your confirm password',
+                              hintStyle: TextStyle(color: AppColours.grey),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.lock_outline_rounded,
+                                color: AppColours.grey,
+                                size: 20,
+                              ),
+                              suffixIcon: Icon(
+                                Icons.visibility_off,
+                                color: AppColours.grey,
+                                size: 20,
                               ),
                             ),
                           ),
                         ),
+                        const SizedBox(height: 16),
 
-                        // Login Button
+                        // Sign Up Button
                         Center(
                           child: AppButton(
                             onPressed: () {
-                              // Get.toNamed(AppRoutes.signUp);
+                              Get.toNamed(AppRoutes.otp);
                             },
-                            title: AppStrings.login,
+                            title: AppStrings.signUp,
                             icon: Icons.login,
                           ),
                         ),
-                        const SizedBox(height: 20),
-
-                        // Divider
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: AppColours.grey.withOpacity(0.3),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              child: Text(
-                                AppStrings.or,
-                                style: TextStyle(
-                                  color: AppColours.grey,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: AppFonts.fontFamily,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: AppColours.grey.withOpacity(0.3),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Social Login Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
-                              decoration: BoxDecoration(
-                                color: AppColours.white,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColours.grey.withOpacity(0.3),
-                                  width: 1,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColours.grey.withOpacity(0.1),
-                                    spreadRadius: 1,
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.g_mobiledata,
-                                color: Colors.red,
-                                size: 28,
-                              ),
-                            ),
-                            Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
-                              decoration: BoxDecoration(
-                                color: AppColours.white,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColours.grey.withOpacity(0.3),
-                                  width: 1,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColours.grey.withOpacity(0.1),
-                                    spreadRadius: 1,
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.facebook,
-                                color: Colors.blue,
-                                size: 28,
-                              ),
-                            ),
-                            Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
-                              decoration: BoxDecoration(
-                                color: AppColours.white,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColours.grey.withOpacity(0.3),
-                                  width: 1,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColours.grey.withOpacity(0.1),
-                                    spreadRadius: 1,
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.apple,
-                                color: Colors.black,
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Sign Up Link
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              AppStrings.dontHaveAnAccount,
+                              AppStrings.alreadyHaveAnAccount,
                               style: TextStyle(
                                 color: AppColours.grey,
                                 fontFamily: AppFonts.fontFamily,
@@ -434,10 +516,10 @@ class LoginScreen extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.toNamed(AppRoutes.signUp);
+                                Get.toNamed(AppRoutes.login);
                               },
                               child: Text(
-                                AppStrings.signUp,
+                                AppStrings.login,
                                 style: TextStyle(
                                   color: AppColours.appColor,
                                   fontWeight: FontWeight.w600,
