@@ -36,6 +36,11 @@ class AppStrings {
   static const String sendResetEmail = 'Send otp on email';
   static const String rememberYourPassword = 'Remember your password? ';
   static const String backToLogin = 'Back to Login';
+  static const String invalidCredentials = 'Invalid credentials';
+  static const String user = 'User';
+  static const String cleaner = 'Cleaner';
+  static const String bookings = 'Bookings';
+  static const String inbox = 'Inbox';
 
   //------------------------Sourabh -----------------------
   static const String next = 'Next';
@@ -50,4 +55,7 @@ class AppStrings {
   static const String sitBackAndRelaxWeHandleTheRest =
       'Sit back and relax, we handle the rest';
   static const String selectUserType = 'Select User Type';
+
+  static const String loginAsUser = 'Login as User';
+  static const String loginAsCleaner = 'Login as Cleaner';
 }

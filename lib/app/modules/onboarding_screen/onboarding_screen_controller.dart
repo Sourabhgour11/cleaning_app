@@ -3,7 +3,6 @@ import 'package:cleaning_app/app/utils/app_images.dart';
 import 'package:cleaning_app/app/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreenController extends GetxController {
   var pageIndex = 0.obs;
