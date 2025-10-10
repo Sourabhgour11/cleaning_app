@@ -4,13 +4,13 @@ import '../../../utils/app_style.dart';
 import 'resate_password_screen_controller.dart';
 
 class ResatePasswordScreen extends StatelessWidget {
-  ResatePasswordScreen({Key? key}) : super(key: key);
+  ResatePasswordScreen({super.key});
   final controller = Get.put(ResatePasswordScreenController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColours.white,
+      backgroundColor: AppColours.appColor,
       body: SafeArea(
         child: Container(
           height: AppStyle.heightPercent(context, 100),

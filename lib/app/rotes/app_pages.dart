@@ -18,6 +18,14 @@ import '../modules/auth/resate_password_screen/resate_password_screen.dart';
 import '../modules/auth/resate_password_screen/resate_password_screen_binding.dart';
 import '../modules/auth/sign_up_screen/sign_up_screen.dart';
 import '../modules/auth/sign_up_screen/sign_up_screen_binding.dart';
+import '../modules/cleaner app/booking screen/booking_screen.dart';
+import '../modules/cleaner app/booking screen/booking_screen_binding.dart';
+import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen.dart';
+import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen_binding.dart';
+import '../modules/cleaner app/home screen/home_screen.dart';
+import '../modules/cleaner app/home screen/home_screen_binding.dart';
+import '../modules/cleaner app/inbox screen/inbox_screen.dart';
+import '../modules/cleaner app/inbox screen/inbox_screen_binding.dart';
 import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
@@ -29,11 +37,6 @@ class AppPages {
   static const initial = AppRoutes.splash;
 
   static final routes = [
-    GetPage(
-      name: AppRoutes.home,
-      page: () => HomeScreen(),
-      binding: HomeScreenBinding(),
-    ),
     GetPage(
       name: AppRoutes.splash,
       page: () => const SplashScreen(),
@@ -47,7 +50,7 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginScreen(),
+      page: () => LoginScreen(),
       binding: LoginScreenBinding(),
     ),
     GetPage(
@@ -96,5 +99,26 @@ class AppPages {
       binding: BookServiceScreenBinding(),
     ),
 
+
+    GetPage(
+      name: AppRoutes.cleanerHome,
+      page: () => CleanerHomeScreen(),
+      binding: CleanerHomeScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.booking,
+      page: () => BookingScreen(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.inbox,
+      page: () => InboxScreen(),
+      binding: InboxScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bottomNav,
+      page: () => BottomNavScreen(),
+      binding: BottomNavBinding(),
+    ),
   ];
 }

@@ -48,41 +48,39 @@ class SelectUserScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: screenHeight,
-          width: screenWidth,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppImages.background),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        height: screenHeight,
+        width: screenWidth,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppImages.background),
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppStrings.selectUserType,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontFamily,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  color: AppColours.white,
-                ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              AppStrings.selectUserType,
+              style: TextStyle(
+                fontFamily: AppFonts.fontFamily,
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: AppColours.white,
               ),
-              const SizedBox(height: 40),
-              // Login as User
-              userOption("Login as User", () {
-                Get.toNamed(AppRoutes.login);
-                // Navigate to User Login Screen
-              }),
-              // Login as Cleaner
-              userOption("Login as Cleaner", () {
-                Get.toNamed(AppRoutes.login);
-                // Navigate to Cleaner Login Screen
-              }),
-            ],
-          ),
+            ),
+            const SizedBox(height: 40),
+            // Login as User
+            userOption(AppStrings.loginAsUser, () {
+              Get.toNamed(AppRoutes.login, arguments: 'User');
+              // Navigate to User Login Screen
+            }),
+            // Login as Cleaner
+            userOption(AppStrings.loginAsCleaner, () {
+              Get.toNamed(AppRoutes.login, arguments: 'Cleaner');
+              // Navigate to Cleaner Login Screen
+            }),
+          ],
         ),
       ),
     );

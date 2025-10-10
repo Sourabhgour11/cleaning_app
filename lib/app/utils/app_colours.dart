@@ -12,4 +12,10 @@ class AppColours {
   static const Color green = Colors.green;
   static const Color yellow = Colors.yellow;
   static const Color orange = Colors.orange;
+
+  static const Gradient gradientColor = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColours.appColor, AppColours.appColor2],
+  );
 }

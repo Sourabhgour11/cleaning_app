@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 7 / 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: AppColours.appColor,
+        gradient: AppColours.gradientColor,
         boxShadow: [
           BoxShadow(
             color: AppColours.appColor.withOpacity(0.3),

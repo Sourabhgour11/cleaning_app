@@ -1,14 +1,14 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColours.white,
+      backgroundColor: AppColours.appColor,
       body: SafeArea(
         child: Container(
           height: height * 100 / 100,

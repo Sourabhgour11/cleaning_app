@@ -1,18 +1,19 @@
 import '../../../utils/app_export.dart';
+import 'login_screen_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({super.key});
+
+  final controller = Get.put(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColours.white,
+      backgroundColor: AppColours.appColor,
       body: SafeArea(
         child: Container(
-          height: height * 100 / 100,
-          width: width * 100 / 100,
+          height: AppStyle.heightPercent(context, 100),
+          width: AppStyle.widthPercent(context, 100),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(AppImages.background),
@@ -22,7 +23,52 @@ class LoginScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: height * 2 / 100),
+                SizedBox(height: AppStyle.heightPercent(context, 2)),
+                Row(
+                  children: [
+                    SizedBox(width: AppStyle.widthPercent(context, 5)),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width: AppStyle.widthPercent(context, 10),
+                        height: AppStyle.heightPercent(context, 10),
+                        decoration: BoxDecoration(
+                          color: AppColours.white.withOpacity(0.95),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColours.black.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                            BoxShadow(
+                              color: AppColours.appColor.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                          border: Border.all(
+                            color: AppColours.appColor.withOpacity(0.3),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: AppColours.black,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // App Logo with Animation
                 TweenAnimationBuilder<double>(
                   duration: const Duration(milliseconds: 1000),
                   tween: Tween(begin: 0.0, end: 1.1),
@@ -30,8 +76,8 @@ class LoginScreen extends StatelessWidget {
                     return Transform.scale(
                       scale: value,
                       child: Container(
-                        width: width * 20 / 100,
-                        height: width * 20 / 100,
+                        width: AppStyle.widthPercent(context, 20),
+                        height: AppStyle.widthPercent(context, 20),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColours.white,
@@ -107,7 +153,8 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 30),
 
                 Container(
-                  width: width * 100 / 100,
+                  width: AppStyle.widthPercent(context, 100),
+                  height: AppStyle.heightPercent(context, 80),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(35),
@@ -201,9 +248,10 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: const TextField(
+                          child: TextField(
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
+                            controller: controller.emailController,
+                            decoration: const InputDecoration(
                               hintText: 'Enter your email address',
                               hintStyle: TextStyle(color: AppColours.grey),
                               border: InputBorder.none,
@@ -254,9 +302,10 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: const TextField(
+                          child: TextField(
+                            controller: controller.passwordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter your password',
                               hintStyle: TextStyle(color: AppColours.grey),
                               border: InputBorder.none,
@@ -301,7 +350,10 @@ class LoginScreen extends StatelessWidget {
                         Center(
                           child: AppButton(
                             onPressed: () {
-                               Get.toNamed(AppRoutes.bottomNav);
+                              controller.login(
+                                controller.emailController.text,
+                                controller.passwordController.text,
+                              );
                             },
                             title: AppStrings.login,
                             icon: Icons.login,
@@ -346,8 +398,8 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
+                              width: AppStyle.widthPercent(context, 12),
+                              height: AppStyle.widthPercent(context, 12),
                               decoration: BoxDecoration(
                                 color: AppColours.white,
                                 borderRadius: BorderRadius.circular(12),
@@ -370,8 +422,8 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
+                              width: AppStyle.widthPercent(context, 12),
+                              height: AppStyle.widthPercent(context, 12),
                               decoration: BoxDecoration(
                                 color: AppColours.white,
                                 borderRadius: BorderRadius.circular(12),
@@ -394,8 +446,8 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: width * 12 / 100,
-                              height: width * 12 / 100,
+                              width: AppStyle.widthPercent(context, 12),
+                              height: AppStyle.widthPercent(context, 12),
                               decoration: BoxDecoration(
                                 color: AppColours.white,
                                 borderRadius: BorderRadius.circular(12),
