@@ -1,7 +1,12 @@
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen.dart';
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen_binding.dart';
-import 'package:cleaning_app/app/modules/home_screen/home_screen.dart';
-import 'package:cleaning_app/app/modules/home_screen/home_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/sub_categories_screen/sub_categories_screen.dart';
 import 'package:get/get.dart';
 import '../modules/auth/forgot_otp_screen/forgot_otp_screen.dart';
 import '../modules/auth/forgot_otp_screen/forgot_otp_screen_binding.dart';
@@ -17,10 +22,11 @@ import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
 import '../modules/splash_screen/splash_screen_binding.dart';
+import '../modules/user app/sub_categories_screen/sub_categories_screen_binding.dart';
 import 'app_routes.dart';
 
 class AppPages {
-  static const initial = AppRoutes.login;
+  static const initial = AppRoutes.splash;
 
   static final routes = [
     GetPage(
@@ -46,7 +52,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.home,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
       binding: HomeScreenBinding(),
     ),
     GetPage(
@@ -74,5 +80,21 @@ class AppPages {
       page: () => ResatePasswordScreen(),
       binding: ResatePasswordScreenBinding(),
     ),
+    GetPage(
+      name: AppRoutes.bottomNav,
+      page: () => const BottomNavScreen(),
+      binding: BottomNavBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.subCategory,
+      page: () => SubCategoriesScreen(),
+      binding: SubCategoriesScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bookService,
+      page: () => BookServiceScreen(),
+      binding: BookServiceScreenBinding(),
+    ),
+
   ];
 }

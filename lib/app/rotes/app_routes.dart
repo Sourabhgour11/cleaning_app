@@ -9,4 +9,7 @@ class AppRoutes {
   static const selectUserScreen = '/selectUserScreen';
   static const splash = '/splash';
   static const onboarding = '/onboarding';
+  static const bottomNav = '/bottomNav';
+  static const subCategory = '/subCategory';
+  static const bookService = '/bookService';
 }

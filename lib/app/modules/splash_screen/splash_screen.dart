@@ -1,5 +1,4 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:cleaning_app/app/modules/home_screen/home_screen.dart';
 import 'package:cleaning_app/app/modules/onboarding_screen/onboarding_screen.dart';
 import 'package:cleaning_app/app/utils/app_images.dart';
 import 'package:flutter/material.dart';

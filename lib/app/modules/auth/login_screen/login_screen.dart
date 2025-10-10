@@ -301,7 +301,7 @@ class LoginScreen extends StatelessWidget {
                         Center(
                           child: AppButton(
                             onPressed: () {
-                              // Get.toNamed(AppRoutes.signUp);
+                               Get.toNamed(AppRoutes.bottomNav);
                             },
                             title: AppStrings.login,
                             icon: Icons.login,
