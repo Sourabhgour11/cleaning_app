@@ -4,6 +4,10 @@ import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_ser
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/delete_account_screen/delete_account_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/delete_account_screen/delete_accoutt_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/sub_categories_screen/sub_categories_screen.dart';
@@ -119,6 +123,16 @@ class AppPages {
       name: AppRoutes.userBottomNav,
       page: () => UserBottomNavScreen(),
       binding: UserBottomNavBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.favourite,
+      page: () => FavouritesScreen(),
+      binding: FavouritesScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.deleteAccount,
+      page: () => DeleteAccountScreen(),
+      binding: DeleteAccountScreenBinding(),
     ),
   ];
 }

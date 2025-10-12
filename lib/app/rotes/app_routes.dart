@@ -16,4 +16,6 @@ class AppRoutes {
   static const userBottomNav = '/userBottomNav';
   static const subCategory = '/subCategory';
   static const bookService = '/bookService';
+  static const favourite = '/favourite';
+  static const deleteAccount = '/deleteAccount';
 }

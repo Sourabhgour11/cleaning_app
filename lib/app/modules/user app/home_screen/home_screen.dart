@@ -332,7 +332,7 @@ Widget simpleSalonGrid(String titleName, List<Map<String, dynamic>> list,
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       const SizedBox(height: 10),
-      Container(
+      SizedBox(
         height: 120, // height of the horizontal grid
         child: GridView.builder(
           scrollDirection: Axis.horizontal,

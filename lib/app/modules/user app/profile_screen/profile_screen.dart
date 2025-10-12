@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,7 +72,9 @@ class ProfileScreen extends StatelessWidget {
             ProfileOptionTile(
               icon: Icons.favorite_border,
               title: 'Favorites',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.favourite);
+              },
             ),
             ProfileOptionTile(
               icon: Icons.credit_card,
@@ -88,15 +91,17 @@ class ProfileScreen extends StatelessWidget {
             //   title: 'Gift Card',
             //   onTap: () {},
             // ),
-            ProfileOptionTile(
-              icon: Icons.help_outline,
-              title: 'Get Help',
-              onTap: () {},
-            ),
+            // ProfileOptionTile(
+            //   icon: Icons.help_outline,
+            //   title: 'Get Help',
+            //   onTap: () {},
+            // ),
             ProfileOptionTile(
               icon: Icons.delete_outline,
               title: 'Delete Account',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.deleteAccount);
+              },
             ), ProfileOptionTile(
               icon: Icons.description_outlined,
               title: 'Terms & Condition',
@@ -114,7 +119,9 @@ class ProfileScreen extends StatelessWidget {
             // --- Logout ---
             const SizedBox(height: 12),
             GestureDetector(
-              onTap: controller.onLogout,
+              onTap: (){
+                controller.showLogoutDialog();
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
