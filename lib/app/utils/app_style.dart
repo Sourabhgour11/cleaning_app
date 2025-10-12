@@ -102,6 +102,7 @@ class AppStyle {
     automaticallyImplyLeading: isBackButton,
     backgroundColor: Colors.transparent,
     foregroundColor: AppColours.white,
+    foregroundColor: AppColours.appColor,
     elevation: 0,
     centerTitle: true,
     flexibleSpace: Container(
@@ -116,6 +117,7 @@ class AppStyle {
         //   colors: [AppColours.appColor, AppColours.appColor2],
         // ),
         color: AppColours.appColor,
+        gradient: AppColours.gradientColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,

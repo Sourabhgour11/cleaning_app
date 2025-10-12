@@ -26,15 +26,24 @@ import '../modules/cleaner app/booking screen/booking_screen.dart';
 import '../modules/cleaner app/booking screen/booking_screen_binding.dart';
 import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen.dart';
 import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen_binding.dart';
+import '../modules/cleaner app/edit profile/edit_profile_screen.dart';
+import '../modules/cleaner app/edit profile/edit_profile_screen_binding.dart';
+import '../modules/cleaner app/delete account/delete_screen.dart';
+import '../modules/cleaner app/delete account/delete_screen_binding.dart';
+import '../modules/cleaner app/get content/get_content_binding.dart';
+import '../modules/cleaner app/get content/get_content_screen.dart';
+import '../modules/cleaner app/help & support/help_and_support_screen.dart';
+import '../modules/cleaner app/help & support/help_and_support_screen_binding.dart';
 import '../modules/cleaner app/home screen/home_screen.dart';
 import '../modules/cleaner app/home screen/home_screen_binding.dart';
 import '../modules/cleaner app/inbox screen/inbox_screen.dart';
 import '../modules/cleaner app/inbox screen/inbox_screen_binding.dart';
+import '../modules/cleaner app/incentive/incentive_screen.dart';
+import '../modules/cleaner app/incentive/incentive_screen_binding.dart';
 import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
 import '../modules/splash_screen/splash_screen_binding.dart';
-import '../modules/user app/sub_categories_screen/sub_categories_screen_binding.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -58,9 +67,75 @@ class AppPages {
       binding: LoginScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.home,
-      page: () => HomeScreen(),
-      binding: HomeScreenBinding(),
+      name: AppRoutes.signUp,
+      page: () => const SignUpScreen(),
+      binding: SignUpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.otp,
+      page: () => OtpScreenScreen(),
+      binding: OtpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotPassword,
+      page: () => ForgotPasswordScreen(),
+      binding: ForgotPasswordScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotOtp,
+      page: () => ForgotOtpScreen(),
+      binding: ForgotOtpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.resatePassword,
+      page: () => ResatePasswordScreen(),
+      binding: ResatePasswordScreenBinding(),
+    ),
+
+    GetPage(
+      name: AppRoutes.cleanerHome,
+      page: () => CleanerHomeScreen(),
+      binding: CleanerHomeScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.booking,
+      page: () => BookingScreen(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.inbox,
+      page: () => InboxScreen(),
+      binding: InboxScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bottomNav,
+      page: () => BottomNavScreen(),
+      binding: BottomNavBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.editProfile,
+      page: () => EditProfileScreen(),
+      binding: EditProfileScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.incentive,
+      page: () => IncentiveScreen(),
+      binding: IncentiveScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.helpAndSupport,
+      page: () => HelpAndSupportScreen(),
+      binding: HelpAndSupportScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.getContent,
+      page: () => GetContentScreen(),
+      binding: GetContentBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.deleteAccount,
+      page: () => DeleteScreen(),
+      binding: DeleteScreenBinding(),
     ),
     GetPage(
       name: AppRoutes.signUp,

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import '../../../rotes/app_routes.dart';
 import '../../../utils/app_images.dart';
 
 class ProfileScreenController extends GetxController {
@@ -60,10 +61,16 @@ class ProfileScreenController extends GetxController {
       'action': 'privacy',
     },
     {
-      'title': 'Terms of Service',
+      'title': 'Terms & Condition',
       'icon': Icons.description,
       'color': Colors.indigo,
       'action': 'terms',
+    },
+    {
+      'title': 'About Us',
+      'icon': Icons.info,
+      'color': Colors.blue,
+      'action': 'about',
     },
     {
       'title': 'Delete Account',
@@ -102,22 +109,37 @@ class ProfileScreenController extends GetxController {
   void handleMenuAction(String action) {
     switch (action) {
       case 'edit_profile':
-        toggleEditMode();
+        Get.toNamed(AppRoutes.editProfile);
         break;
       case 'settings':
         Get.snackbar('Settings', 'Settings screen coming soon!');
         break;
       case 'incentive':
-        Get.snackbar('Incentive', 'Incentive methods screen coming soon!');
+       Get.toNamed(AppRoutes.incentive);
         break;
       case 'help':
-        Get.snackbar('Help', 'Help & Support screen coming soon!');
+        Get.toNamed(AppRoutes.helpAndSupport);
         break;
       case 'privacy':
-        Get.snackbar('Privacy', 'Privacy Policy screen coming soon!');
+        Get.toNamed(
+          AppRoutes.getContent,
+          arguments: {'type': 'privacy'},
+        );
         break;
       case 'terms':
-        Get.snackbar('Terms', 'Terms of Service screen coming soon!');
+        Get.toNamed(
+          AppRoutes.getContent,
+          arguments: {'type': 'terms'},
+        );
+        break;
+      case 'about':
+        Get.toNamed(
+          AppRoutes.getContent,
+          arguments: {'type': 'about'},
+        );
+        break;
+      case 'delete account':
+        Get.toNamed(AppRoutes.deleteAccount);
         break;
       case 'logout':
         _showLogoutDialog();

@@ -59,6 +59,7 @@ class AnnouncementScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Notifications',
+                        'Announcements',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -69,7 +70,7 @@ class AnnouncementScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Obx(
                         () => Text(
-                          '${controller.unreadCount} unread notifications',
+                          '${controller.unreadCount} unread announcements',
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.white70,
@@ -119,7 +120,7 @@ class AnnouncementScreen extends StatelessWidget {
           Icon(Icons.notifications_none, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No notifications',
+            'No announcements',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -129,7 +130,7 @@ class AnnouncementScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'New notifications will appear here',
+            'New announcements will appear here',
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[500],
@@ -224,7 +225,7 @@ class AnnouncementScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Text(
-                        'Mark Read',
+                        'Mark Read Announcement',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,

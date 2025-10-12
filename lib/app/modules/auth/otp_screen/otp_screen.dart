@@ -3,7 +3,6 @@ import 'package:timer_button/timer_button.dart';
 
 import 'otp_screen_controller.dart';
 import '../../../utils/app_export.dart';
-import '../../../utils/app_style.dart';
 
 class OtpScreenScreen extends StatelessWidget {
   OtpScreenScreen({super.key});

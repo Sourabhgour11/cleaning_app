@@ -26,7 +26,7 @@ class BookingScreen extends StatelessWidget {
               const SizedBox(height: 15),
               // Content
               Expanded(child: Obx(() => _buildContent())),
-              const SizedBox(height: 55),
+              const SizedBox(height: 70),
             ],
           ),
         ),
@@ -80,22 +80,7 @@ class BookingScreen extends StatelessWidget {
                       ),
                     ),
                     // Filter Icon
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.filter_list,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
+
                   ],
                 ),
                 const SizedBox(height: 16),
