@@ -58,6 +58,7 @@ class AnnouncementScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        'Notifications',
                         'Announcements',
                         style: const TextStyle(
                           fontSize: 24,

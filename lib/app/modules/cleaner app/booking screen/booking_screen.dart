@@ -80,7 +80,7 @@ class BookingScreen extends StatelessWidget {
                       ),
                     ),
                     // Filter Icon
-                  
+
                   ],
                 ),
                 const SizedBox(height: 16),

@@ -76,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                         backgroundImage: AssetImage(
                           controller.profileData['profileImage'] as String,
                         ),
-                      
+
                       ),
                     ),
                     const SizedBox(height: 12),

@@ -1,5 +1,12 @@
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen.dart';
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/sub_categories_screen/sub_categories_screen.dart';
 import 'package:get/get.dart';
 import '../modules/auth/forgot_otp_screen/forgot_otp_screen.dart';
 import '../modules/auth/forgot_otp_screen/forgot_otp_screen_binding.dart';
@@ -125,6 +132,68 @@ class AppPages {
       name: AppRoutes.deleteAccount,
       page: () => DeleteScreen(),
       binding: DeleteScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.signUp,
+      page: () => const SignUpScreen(),
+      binding: SignUpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.otp,
+      page: () => OtpScreenScreen(),
+      binding: OtpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotPassword,
+      page: () => ForgotPasswordScreen(),
+      binding: ForgotPasswordScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotOtp,
+      page: () => ForgotOtpScreen(),
+      binding: ForgotOtpScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.resatePassword,
+      page: () => ResatePasswordScreen(),
+      binding: ResatePasswordScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bottomNav,
+      page: () => BottomNavScreen(),
+      binding: BottomNavBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.subCategory,
+      page: () => SubCategoriesScreen(),
+      binding: SubCategoriesScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bookService,
+      page: () => BookServiceScreen(),
+      binding: BookServiceScreenBinding(),
+    ),
+
+
+    GetPage(
+      name: AppRoutes.cleanerHome,
+      page: () => CleanerHomeScreen(),
+      binding: CleanerHomeScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.booking,
+      page: () => BookingScreen(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.inbox,
+      page: () => InboxScreen(),
+      binding: InboxScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.userBottomNav,
+      page: () => UserBottomNavScreen(),
+      binding: UserBottomNavBinding(),
     ),
   ];
 }
