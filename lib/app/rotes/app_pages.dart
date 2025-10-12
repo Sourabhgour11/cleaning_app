@@ -85,7 +85,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.bottomNav,
-      page: () => const BottomNavScreen(),
+      page: () => BottomNavScreen(),
       binding: BottomNavBinding(),
     ),
     GetPage(
@@ -116,9 +116,9 @@ class AppPages {
       binding: InboxScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.bottomNav,
-      page: () => BottomNavScreen(),
-      binding: BottomNavBinding(),
+      name: AppRoutes.userBottomNav,
+      page: () => UserBottomNavScreen(),
+      binding: UserBottomNavBinding(),
     ),
   ];
 }

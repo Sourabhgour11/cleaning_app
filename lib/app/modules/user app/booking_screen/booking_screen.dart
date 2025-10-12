@@ -15,20 +15,21 @@ class BookingScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
-          foregroundColor: AppColours.white,
+          foregroundColor: Colors.white,
           centerTitle: true,
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [AppColours.appColor, AppColours.appColor2],
-              ),
-              boxShadow: [
+              // gradient: LinearGradient(
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              //   colors: [AppColours.appColor, AppColours.appColor2],
+              // ),
+              color: AppColours.appColor,
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   offset: Offset(0, 2),
@@ -44,11 +45,12 @@ class BookingScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.filter_list),
+              icon: const Icon(Icons.filter_list, color: Colors.white),
               onPressed: () {},
             ),
           ],
@@ -58,20 +60,22 @@ class BookingScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: Container(
                 height: 45,
-                // decoration: BoxDecoration(
-                //   color: Colors.white, // Background color of TabBar
-                //   borderRadius: BorderRadius.circular(15), // Curved borders
-                // ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: TabBar(
                   indicator: BoxDecoration(
-                    color: Colors.orangeAccent, // Fill color for selected tab
-                    borderRadius: BorderRadius.circular(15),  // Full pill shape
+                    gradient: LinearGradient(
+                      colors: [Colors.orangeAccent, Colors.deepOrangeAccent],
+                    ),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   indicatorAnimation: TabIndicatorAnimation.elastic,
                   indicatorPadding: EdgeInsets.zero,
-                  indicatorSize: TabBarIndicatorSize.tab,// Makes indicator fill entire tab
-                  labelColor: Colors.white, // Text color for selected tab
-                  unselectedLabelColor: Colors.grey, // Text color for unselected tabs
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white70,
                   labelStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -80,14 +84,13 @@ class BookingScreen extends StatelessWidget {
                     Tab(text: 'Upcoming'),
                     Tab(text: 'Past'),
                   ],
-                )
-
+                ),
               ),
             ),
           ),
         ),
 
-          body: TabBarView(
+        body: TabBarView(
           children: [
 
             // Upcoming Tab

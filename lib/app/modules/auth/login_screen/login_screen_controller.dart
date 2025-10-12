@@ -18,12 +18,13 @@ class LoginScreenController extends GetxController {
     if (email.isNotEmpty && password.isNotEmpty) {
       print("Email And Password Is Not Empty");
       isLoading.value = false;
+
     } else if (userType == AppStrings.cleaner) {
       isLoading.value = false;
       print("User Type Is Cleaner");
       Get.offAllNamed(AppRoutes.bottomNav);
     } else if (userType == AppStrings.user) {
-      Get.offAllNamed(AppRoutes.bottomNav);
+      Get.offAllNamed(AppRoutes.userBottomNav);
       isLoading.value = false;
       print("User Type Is User");
     } else {

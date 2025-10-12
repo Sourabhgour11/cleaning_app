@@ -29,35 +29,40 @@ class HomeScreen extends StatelessWidget {
                 // SliverAppBar with greeting, location, search
                 SliverAppBar(
                   automaticallyImplyLeading: false,
-                  expandedHeight: 140,
+                  expandedHeight: 145,
                   floating: false,
                   pinned: true,
                   elevation: 2,
                   flexibleSpace: LayoutBuilder(
                     builder: (context, constraints) {
-                      var top = constraints.biggest.height;
-                      bool isCollapsed = top <= kToolbarHeight + 20; // adjust as needed
+                      // The current height of the SliverAppBar
+                      double top = constraints.biggest.height;
+
+                      // Detect if the appbar is collapsed
+                      bool isCollapsed = top < 120; // adjust threshold as needed
 
                       return Stack(
+                        fit: StackFit.expand,
                         children: [
                           // Gradient Background
                           Container(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [AppColours.appColor, AppColours.appColor2],
-                              ),
+                              // gradient: LinearGradient(
+                              //   begin: Alignment.topLeft,
+                              //   end: Alignment.bottomRight,
+                              //   colors: [AppColours.appColor, AppColours.appColor2],
+                              // ),
+                              color: AppColours.appColor
                             ),
                           ),
 
-                          // Collapsible Content
+                          // Collapsible Content (fades out on scroll)
                           Positioned(
                             left: 16,
                             right: 16,
-                            top: MediaQuery.of(context).size.height*0.07,
+                            top: MediaQuery.of(context).padding.top + 20,
                             child: AnimatedOpacity(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 200),
                               opacity: isCollapsed ? 0.0 : 1.0,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,15 +73,15 @@ class HomeScreen extends StatelessWidget {
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: AppFonts.fontFamily,
-                                      color: Colors.white, // Changed for better visibility on gradient
+                                      color: Colors.white,
                                     ),
                                   )),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 4),
                                   Obx(() => Row(
                                     children: [
                                       const Icon(
                                         Icons.location_on_outlined,
-                                        color: Colors.white, // Changed for better visibility
+                                        color: Colors.white,
                                         size: 18,
                                       ),
                                       const SizedBox(width: 4),
@@ -84,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                                         child: Text(
                                           controller.location.value,
                                           style: const TextStyle(
-                                            color: Colors.white, // Changed for better visibility
+                                            color: Colors.white,
                                             fontSize: 14,
                                             fontFamily: AppFonts.fontFamily,
                                             overflow: TextOverflow.ellipsis,
@@ -94,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                                       const Icon(
                                         Icons.keyboard_arrow_down,
                                         size: 18,
-                                        color: Colors.white, // Changed for better visibility
+                                        color: Colors.white,
                                       ),
                                     ],
                                   )),
@@ -103,15 +108,15 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
 
-                          // Search Bar (Pinned at bottom of SliverAppBar)
+                          // Search Bar pinned at the bottom
                           Positioned(
                             left: 16,
                             right: 16,
-                            bottom: 6,
+                            bottom: 10,
                             child: Container(
                               height: 45,
                               decoration: BoxDecoration(
-                                color: Colors.white, // Changed to white for better contrast
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
@@ -126,9 +131,9 @@ class HomeScreen extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   Icon(Icons.search, color: Colors.grey[600]),
                                   const SizedBox(width: 8),
-                                  Expanded(
-                                    child: TextFormField(
-                                      decoration: const InputDecoration(
+                                  const Expanded(
+                                    child: TextField(
+                                      decoration: InputDecoration(
                                         hintText: 'Search for "Home Cleaning"',
                                         border: InputBorder.none,
                                         hintStyle: TextStyle(color: Colors.grey),
@@ -144,6 +149,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
+
 
 
 

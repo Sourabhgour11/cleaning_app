@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 
 import 'bottom_nav_screen_controller.dart';
 
-class BottomNavScreen extends GetView<BottomNavController> {
-  const BottomNavScreen({Key? key}) : super(key: key);
+class UserBottomNavScreen extends GetView<UserBottomNavController> {
+  const UserBottomNavScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final BottomNavController controller = Get.find();
+    final UserBottomNavController controller = Get.find();
 
     return Scaffold(
       backgroundColor: Colors.white,
