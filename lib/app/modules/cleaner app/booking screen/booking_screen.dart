@@ -9,6 +9,10 @@ class BookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildHeader(context),
+      ),
       body: SafeArea(
         child: SizedBox(
           height: AppStyle.heightPercent(context, 100),
@@ -16,7 +20,7 @@ class BookingScreen extends StatelessWidget {
           child: Column(
             children: [
               // Header with Search
-              _buildHeader(context),
+              // _buildHeader(context),
               const SizedBox(height: 15),
               // Tab Bar
               SizedBox(
@@ -36,7 +40,7 @@ class BookingScreen extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      height: AppStyle.heightPercent(context, 18),
+      height: AppStyle.heightPercent(context, 22),
       width: AppStyle.widthPercent(context, 100),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -54,8 +58,8 @@ class BookingScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 80),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Column(
@@ -79,8 +83,8 @@ class BookingScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Filter Icon
 
+                    // Filter Icon
                   ],
                 ),
                 const SizedBox(height: 16),

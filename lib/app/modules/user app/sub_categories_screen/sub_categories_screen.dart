@@ -1,100 +1,110 @@
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:flutter/material.dart';
 
 import 'sub_categories_screen_controller.dart';
 
 class SubCategoriesScreen extends StatelessWidget {
   SubCategoriesScreen({super.key});
 
-  final SubCategoriesScreenController controller = Get.put(SubCategoriesScreenController());
+  final SubCategoriesScreenController controller = Get.put(
+    SubCategoriesScreenController(),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           controller.hideServicePopup();
         },
         child: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(children: [
-                 SizedBox(
-                   // height: double.infinity,
-                   child: GridView.builder(
-                     padding: const EdgeInsets.all(16),
-                     shrinkWrap: true, // Important: makes GridView take only required height
-                     physics: const NeverScrollableScrollPhysics(), // Prevent inner scrolling if inside another scroll
-                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                       crossAxisCount: 2, // 2 items per row
-                       crossAxisSpacing: 12,
-                       mainAxisSpacing: 12,
-                       childAspectRatio: 3 / 2,
-                     ),
-                     itemCount: controller.generalCleaning.length, // Dynamic number of items
-                     itemBuilder: (context, index) {
-                       final item = controller.generalCleaning[index];
-                       return InkWell(
-                         onTap: () {
-                           // Show service popup instead of navigating to booking
-                           controller.showServicePopup(index);
-                         },
-                         child: Stack(
-                           children: [
-                             // Image with dark overlay
-                             ClipRRect(
-                               borderRadius: BorderRadius.circular(6), // smaller radius
-                               child: Stack(
-                                 children: [
-                                   Image.asset(
-                                     item['image'],
-                                     // width: MediaQuery.of(context).size.width*20/100,
-                                     height: double.infinity,
-                                     fit: BoxFit.cover,
-                                   ),
-                                   Container(
-                                     // width: MediaQuery.of(context).size.width*20/100,
-                                     height: double.infinity,
-                                     color: Colors.black.withOpacity(0.4), // dark overlay
-                                   ),
-                                   Positioned(
-                                     bottom: 6,
-                                     left: 6,
-                                     child: SizedBox(
-                                       width: 110,
-                                       child: Text(
-                                         item['name'],
-                                         maxLines: 2,
-                                         overflow: TextOverflow.ellipsis,
-                                         style: const TextStyle(
-                                           color: Colors.white,
-                                           fontSize: 12,
-                                           fontFamily: AppFonts.fontFamily,
-                                           fontWeight: FontWeight.bold,
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                 ],
-                               ),
-                             ),
-                           ],
-                         ),
-                       );
-                     },
-                   ),
-
-                 ),
-              ],),
+              child: Column(
+                children: [
+                  SizedBox(
+                    // height: double.infinity,
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(16),
+                      shrinkWrap:
+                          true, // Important: makes GridView take only required height
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Prevent inner scrolling if inside another scroll
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // 2 items per row
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 3 / 2,
+                          ),
+                      itemCount: controller
+                          .generalCleaning
+                          .length, // Dynamic number of items
+                      itemBuilder: (context, index) {
+                        final item = controller.generalCleaning[index];
+                        return InkWell(
+                          onTap: () {
+                            // Show service popup instead of navigating to booking
+                            controller.showServicePopup(index);
+                          },
+                          child: Stack(
+                            children: [
+                              // Image with dark overlay
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  6,
+                                ), // smaller radius
+                                child: Stack(
+                                  children: [
+                                    Image.asset(
+                                      item['image'],
+                                      // width: MediaQuery.of(context).size.width*20/100,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Container(
+                                      // width: MediaQuery.of(context).size.width*20/100,
+                                      height: double.infinity,
+                                      color: Colors.black.withOpacity(
+                                        0.4,
+                                      ), // dark overlay
+                                    ),
+                                    Positioned(
+                                      bottom: 6,
+                                      left: 6,
+                                      child: SizedBox(
+                                        width: 110,
+                                        child: Text(
+                                          item['name'],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontFamily: AppFonts.fontFamily,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             // Service Details Popup
-            Obx(() => controller.isServicePopupVisible.value
-              ? _buildServicePopup(controller)
-              : const SizedBox.shrink()
+            Obx(
+              () => controller.isServicePopupVisible.value
+                  ? _buildServicePopup(controller)
+                  : const SizedBox.shrink(),
             ),
           ],
         ),
@@ -130,7 +140,7 @@ class SubCategoriesScreen extends StatelessWidget {
 
   Widget _buildServiceContent(SubCategoriesScreenController controller) {
     final service = controller.currentService;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,7 +156,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Customize label
         Padding(
           padding: const EdgeInsets.all(16),
@@ -160,7 +170,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // What's Included section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -184,29 +194,33 @@ class SubCategoriesScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...service['whatsIncluded'].map<Widget>((item) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                color: Colors.green[600],
-                                size: 16,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                    fontFamily: AppFonts.fontFamily,
-                                  ),
+                        ...service['whatsIncluded']
+                            .map<Widget>(
+                              (item) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle,
+                                      color: Colors.green[600],
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black87,
+                                          fontFamily: AppFonts.fontFamily,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        )).toList(),
+                            )
+                            .toList(),
                       ],
                     ),
                   ),
@@ -237,11 +251,11 @@ class SubCategoriesScreen extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                controller.isServiceFavorited.value 
-                                    ? Icons.favorite 
+                                controller.isServiceFavorited.value
+                                    ? Icons.favorite
                                     : Icons.favorite_border,
-                                color: controller.isServiceFavorited.value 
-                                    ? Colors.red 
+                                color: controller.isServiceFavorited.value
+                                    ? Colors.red
                                     : Colors.grey,
                                 size: 18,
                               ),
@@ -256,9 +270,9 @@ class SubCategoriesScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // Service details and pricing
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -277,11 +291,7 @@ class SubCategoriesScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 16,
-                    color: Colors.grey[600],
-                  ),
+                  Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
                   const SizedBox(width: 4),
                   Text(
                     service['duration'],
@@ -340,9 +350,9 @@ class SubCategoriesScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // What We Bring section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -360,35 +370,39 @@ class SubCategoriesScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              ...service['whatWeBring'].map<Widget>((item) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle,
-                      color: Colors.green[600],
-                      size: 16,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black87,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
+              ...service['whatWeBring']
+                  .map<Widget>(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check_circle,
+                            color: Colors.green[600],
+                            size: 16,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black87,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              )).toList(),
+                  )
+                  .toList(),
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // Know This Before You Book section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -406,39 +420,43 @@ class SubCategoriesScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              ...service['bookingNotes'].map<Widget>((item) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 4,
-                      height: 4,
-                      margin: const EdgeInsets.only(top: 6, right: 8),
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
+              ...service['bookingNotes']
+                  .map<Widget>(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 4,
+                            height: 4,
+                            margin: const EdgeInsets.only(top: 6, right: 8),
+                            decoration: const BoxDecoration(
+                              color: Colors.black,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black87,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black87,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )).toList(),
+                  )
+                  .toList(),
             ],
           ),
         ),
-        
+
         const SizedBox(height: 30),
-        
+
         // Quantity selector and Add button
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -464,15 +482,17 @@ class SubCategoriesScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Obx(() => Text(
-                    controller.serviceQuantity.value.toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontFamily: AppFonts.fontFamily,
+                  Obx(
+                    () => Text(
+                      controller.serviceQuantity.value.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontFamily: AppFonts.fontFamily,
+                      ),
                     ),
-                  )),
+                  ),
                   const SizedBox(width: 16),
                   GestureDetector(
                     onTap: controller.increaseQuantity,
@@ -492,38 +512,40 @@ class SubCategoriesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               const Spacer(),
-              
+
               // Add button
               Expanded(
                 flex: 2,
-                child: Obx(() => ElevatedButton(
-                  onPressed: (){
-                    controller.addServiceToCart(controller.appBarTitle);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColours.appColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                child: Obx(
+                  () => ElevatedButton(
+                    onPressed: () {
+                      controller.addServiceToCart(controller.appBarTitle);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColours.appColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(
-                    'Add for ${controller.getFormattedPrice(controller.totalServicePrice)}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppFonts.fontFamily,
+                    child: Text(
+                      'Add for ${controller.getFormattedPrice(controller.totalServicePrice)}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: AppFonts.fontFamily,
+                      ),
                     ),
                   ),
-                )),
+                ),
               ),
             ],
           ),
         ),
-        
+
         const SizedBox(height: 30),
       ],
     );

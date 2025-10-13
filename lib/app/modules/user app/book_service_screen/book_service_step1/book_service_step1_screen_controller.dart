@@ -1,6 +1,6 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-class BookServiceScreenController extends GetxController {
+class BookServiceStep1ScreenController extends GetxController {
 
 var appBarTitle = "".obs;
 

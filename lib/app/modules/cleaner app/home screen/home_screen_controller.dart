@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 class CleanerHomeScreenController extends GetxController {
   var userName = 'Sourabh'.obs;

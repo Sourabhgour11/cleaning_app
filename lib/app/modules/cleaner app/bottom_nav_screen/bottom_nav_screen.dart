@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../utils/app_bottom_bar.dart';
+
+import '../../../utils/app_cleaner_bottom_bar.dart';
 import 'bottom_nav_screen_controller.dart';
 
-class BottomNavScreen extends GetView<BottomNavController> {
-  const BottomNavScreen({super.key});
+class CleanerBottomNavScreen extends GetView<CleanerBottomNavController> {
+  const CleanerBottomNavScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BottomNavController());
+    final controller = Get.put(CleanerBottomNavController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -21,7 +22,7 @@ class BottomNavScreen extends GetView<BottomNavController> {
               left: 0,
               right: 0,
               child: Obx(
-                () => ModernBottomBar(
+                () => CleanerModernBottomBar(
                   currentIndex: controller.selectedIndex.value,
                   onTabChanged: controller.onTabChanged,
                 ),

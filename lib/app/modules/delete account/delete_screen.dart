@@ -1,7 +1,5 @@
 import 'delete_screen_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-
 
 class DeleteScreen extends StatelessWidget {
   const DeleteScreen({super.key});
@@ -11,9 +9,19 @@ class DeleteScreen extends StatelessWidget {
     final controller = Get.put(DeleteScreenController());
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColours.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildHeader(context, controller),
+      ),
       body: SafeArea(
-        child: Obx(() => _buildContent(context, controller)),
+        child: Obx(
+          () => SizedBox(
+            height: AppStyle.heightPercent(context, 100),
+            width: AppStyle.widthPercent(context, 100),
+            child: _buildContent(context, controller),
+          ),
+        ),
       ),
     );
   }
@@ -24,49 +32,47 @@ class DeleteScreen extends StatelessWidget {
   ) {
     return Column(
       children: [
-        _buildHeader(context, controller),
+        const SizedBox(height: 20),
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildWarningCard(),
-                const SizedBox(height: 24),
-                // _buildAlternativeButton(controller),
-                // const SizedBox(height: 24),
-                // _buildReasonsSection(controller),
-                // const SizedBox(height: 24),
-                _buildOtherReasonField(controller),
-                const SizedBox(height: 24),
-              
-                _buildAgreementCheckbox(controller),
-                const SizedBox(height: 24),
-                _buildDeleteButton(controller),
-                const SizedBox(height: 24),
-              ],
+          child: Container(
+            color: AppColours.white,
+            width: AppStyle.widthPercent(context, 90),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildWarningCard(),
+                  const SizedBox(height: 24),
+                  // _buildAlternativeButton(controller),
+                  // const SizedBox(height: 24),
+                  // _buildReasonsSection(controller),
+                  // const SizedBox(height: 24),
+                  _buildOtherReasonField(controller),
+                  const SizedBox(height: 24),
+
+                  _buildAgreementCheckbox(controller),
+                  const SizedBox(height: 24),
+                  _buildDeleteButton(controller),
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
           ),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
 
-  Widget _buildHeader(
-    BuildContext context,
-    DeleteScreenController controller,
-  ) {
+  Widget _buildHeader(BuildContext context, DeleteScreenController controller) {
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.red[700]!,
-            Colors.red[900]!,
-          ],
+          colors: [Colors.red[700]!, Colors.red[900]!],
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -83,6 +89,7 @@ class DeleteScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -118,9 +125,9 @@ class DeleteScreen extends StatelessWidget {
               const SizedBox(width: 42),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
@@ -139,18 +146,9 @@ class DeleteScreen extends StatelessWidget {
           const Text(
             'We\'re Sorry to See You Go',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              fontFamily: AppFonts.fontFamily,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Your feedback helps us improve',
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.white.withOpacity(0.9),
               fontFamily: AppFonts.fontFamily,
             ),
           ),
@@ -161,7 +159,7 @@ class DeleteScreen extends StatelessWidget {
 
   Widget _buildWarningCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.red[50],
         borderRadius: BorderRadius.circular(16),
@@ -222,7 +220,7 @@ class DeleteScreen extends StatelessWidget {
           onTap: controller.showAlternativeOptions,
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(10),
             child: Row(
               children: [
                 Container(
@@ -335,10 +333,7 @@ class DeleteScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(
-                color: Colors.grey.withOpacity(0.1),
-                width: 1,
-              ),
+              bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
             ),
           ),
           child: Row(
@@ -430,7 +425,10 @@ class DeleteScreen extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColours.appColor, width: 2),
+                borderSide: const BorderSide(
+                  color: AppColours.appColor,
+                  width: 2,
+                ),
               ),
               contentPadding: const EdgeInsets.all(16),
             ),
@@ -579,11 +577,7 @@ class DeleteScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
               ),
               child: controller.isAgreed.value
-                  ? const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
-                    )
+                  ? const Icon(Icons.check, color: Colors.white, size: 16)
                   : null,
             ),
           ),
@@ -599,9 +593,7 @@ class DeleteScreen extends StatelessWidget {
                     fontFamily: AppFonts.fontFamily,
                   ),
                   children: const [
-                    TextSpan(
-                      text: 'I understand that ',
-                    ),
+                    TextSpan(text: 'I understand that '),
                     TextSpan(
                       text: 'this action is permanent',
                       style: TextStyle(
@@ -609,9 +601,7 @@ class DeleteScreen extends StatelessWidget {
                         color: Colors.red,
                       ),
                     ),
-                    TextSpan(
-                      text: ' and I want to delete my account',
-                    ),
+                    TextSpan(text: ' and I want to delete my account'),
                   ],
                 ),
               ),
@@ -630,9 +620,7 @@ class DeleteScreen extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         gradient: canProceed
-            ? LinearGradient(
-                colors: [Colors.red[700]!, Colors.red[900]!],
-              )
+            ? LinearGradient(colors: [Colors.red[700]!, Colors.red[900]!])
             : null,
         color: canProceed ? null : Colors.grey[300],
         borderRadius: BorderRadius.circular(16),

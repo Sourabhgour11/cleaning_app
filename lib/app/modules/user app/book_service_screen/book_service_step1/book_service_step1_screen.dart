@@ -1,16 +1,12 @@
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:flutter/material.dart';
+import 'book_service_step1_screen_controller.dart';
 
-import 'book_service_screen_controller.dart';
-
-class BookServiceScreen extends StatelessWidget {
-  const BookServiceScreen({super.key});
+class BookServiceStep1Screen extends StatelessWidget {
+  const BookServiceStep1Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final BookServiceScreenController controller = Get.put(BookServiceScreenController());
+    final BookServiceStep1ScreenController controller = Get.put(BookServiceStep1ScreenController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -63,7 +59,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BookServiceScreenController controller) {
+  Widget _buildHeader(BookServiceStep1ScreenController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -92,7 +88,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExclusiveOffer(BookServiceScreenController controller) {
+  Widget _buildExclusiveOffer(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -166,7 +162,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceDuration(BookServiceScreenController controller) {
+  Widget _buildServiceDuration(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -244,7 +240,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfessionalsCount(BookServiceScreenController controller) {
+  Widget _buildProfessionalsCount(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -299,7 +295,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCleaningMaterials(BookServiceScreenController controller) {
+  Widget _buildCleaningMaterials(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -420,7 +416,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSpecificInstructions(BookServiceScreenController controller) {
+  Widget _buildSpecificInstructions(BookServiceStep1ScreenController controller) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -457,7 +453,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFooter(BookServiceScreenController controller) {
+  Widget _buildFooter(BookServiceStep1ScreenController controller) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

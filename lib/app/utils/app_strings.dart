@@ -7,6 +7,7 @@ class AppStrings {
   static const String home = 'Home';
 
   //----------------------------- Ramlakhan's Strings -----------------------------
+  static const String loginAsPartner = 'Login as Partner';
   static const String welcomeBack = 'Welcome Back!';
   static const String signInToContinue =
       'Sign in to continue your cleaning journey';
@@ -39,6 +40,7 @@ class AppStrings {
   static const String invalidCredentials = 'Invalid credentials';
   static const String user = 'User';
   static const String cleaner = 'Cleaner';
+  static const String partner = 'Partner';
   static const String bookings = 'Bookings';
   static const String inbox = 'Inbox';
 

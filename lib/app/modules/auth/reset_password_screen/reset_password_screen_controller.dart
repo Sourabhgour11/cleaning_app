@@ -1,6 +1,6 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-class ResatePasswordScreenController extends GetxController {
+class ResetPasswordScreenController extends GetxController {
   // Controllers
   Rx<TextEditingController> newPasswordController = TextEditingController().obs;
   Rx<TextEditingController> confirmPasswordController =

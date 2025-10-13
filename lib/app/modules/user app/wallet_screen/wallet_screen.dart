@@ -1,8 +1,4 @@
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:cleaning_app/app/utils/app_style.dart';
-import 'package:flutter/material.dart';
 
 import 'wallet_screen_controller.dart';
 
@@ -15,30 +11,30 @@ class WalletScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppStyle.appBarStyle("My Wallet",isBackButton: false),
+      appBar: AppStyle.appBarStyle("My Wallet", isBackButton: false),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 16),
-            
+
             // Wallet Balance Card
             _buildWalletBalanceCard(controller),
-            
+
             const SizedBox(height: 20),
-            
+
             // Quick Actions Grid
             _buildQuickActionsGrid(controller),
-            
+
             const SizedBox(height: 20),
-            
+
             // Recent Transactions
             _buildRecentTransactions(controller),
-            
+
             const SizedBox(height: 20),
-            
+
             // Payment Methods
             _buildPaymentMethods(controller),
-            
+
             const SizedBox(height: 100), // Bottom padding for navigation
           ],
         ),
@@ -99,15 +95,17 @@ class WalletScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Obx(() => Text(
-            '\$${controller.walletBalance.value.toStringAsFixed(2)}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              fontFamily: AppFonts.fontFamily,
+          Obx(
+            () => Text(
+              '\$${controller.walletBalance.value.toStringAsFixed(2)}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                fontFamily: AppFonts.fontFamily,
+              ),
             ),
-          )),
+          ),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -143,11 +141,7 @@ class WalletScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            color: Colors.white70,
-            size: 16,
-          ),
+          Icon(icon, color: Colors.white70, size: 16),
           const SizedBox(height: 4),
           Text(
             label,
@@ -188,27 +182,32 @@ class WalletScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Obx(() => GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.2,
+          Obx(
+            () => GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 1.2,
+              ),
+              itemCount: controller.quickActions.length,
+              itemBuilder: (context, index) {
+                final action = controller.quickActions[index];
+                return _buildQuickActionCard(action, controller);
+              },
             ),
-            itemCount: controller.quickActions.length,
-            itemBuilder: (context, index) {
-              final action = controller.quickActions[index];
-              return _buildQuickActionCard(action, controller);
-            },
-          )),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildQuickActionCard(Map<String, dynamic> action, WalletScreenController controller) {
+  Widget _buildQuickActionCard(
+    Map<String, dynamic> action,
+    WalletScreenController controller,
+  ) {
     return GestureDetector(
       onTap: () {
         switch (action['title']) {
@@ -249,11 +248,7 @@ class WalletScreen extends StatelessWidget {
                 color: (action['color'] as Color).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                action['icon'],
-                color: action['color'],
-                size: 24,
-              ),
+              child: Icon(action['icon'], color: action['color'], size: 24),
             ),
             const SizedBox(height: 8),
             Text(
@@ -316,24 +311,29 @@ class WalletScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Obx(() => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.transactions.take(5).length,
-            itemBuilder: (context, index) {
-              final transaction = controller.transactions[index];
-              return _buildTransactionTile(transaction, controller);
-            },
-          )),
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.transactions.take(5).length,
+              itemBuilder: (context, index) {
+                final transaction = controller.transactions[index];
+                return _buildTransactionTile(transaction, controller);
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTransactionTile(Map<String, dynamic> transaction, WalletScreenController controller) {
+  Widget _buildTransactionTile(
+    Map<String, dynamic> transaction,
+    WalletScreenController controller,
+  ) {
     final isPositive = transaction['amount'] > 0;
     final amountColor = isPositive ? AppColours.green : AppColours.red;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(16),
@@ -354,7 +354,9 @@ class WalletScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: controller.getTransactionTypeColor(transaction['type']).withOpacity(0.1),
+              color: controller
+                  .getTransactionTypeColor(transaction['type'])
+                  .withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -399,9 +401,12 @@ class WalletScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
-                        color: transaction['status'] == 'completed' 
+                        color: transaction['status'] == 'completed'
                             ? AppColours.green.withOpacity(0.1)
                             : AppColours.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -410,7 +415,7 @@ class WalletScreen extends StatelessWidget {
                         transaction['status'].toString().toUpperCase(),
                         style: TextStyle(
                           fontSize: 10,
-                          color: transaction['status'] == 'completed' 
+                          color: transaction['status'] == 'completed'
                               ? AppColours.green
                               : AppColours.orange,
                           fontWeight: FontWeight.w600,
@@ -483,15 +488,17 @@ class WalletScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Obx(() => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.paymentMethods.length,
-            itemBuilder: (context, index) {
-              final method = controller.paymentMethods[index];
-              return _buildPaymentMethodTile(method);
-            },
-          )),
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.paymentMethods.length,
+              itemBuilder: (context, index) {
+                final method = controller.paymentMethods[index];
+                return _buildPaymentMethodTile(method);
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -504,7 +511,7 @@ class WalletScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: method['isDefault'] 
+        border: method['isDefault']
             ? Border.all(color: AppColours.appColor.withOpacity(0.3), width: 1)
             : null,
         boxShadow: [
@@ -524,11 +531,7 @@ class WalletScreen extends StatelessWidget {
               color: AppColours.appColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              method['icon'],
-              color: AppColours.appColor,
-              size: 20,
-            ),
+            child: Icon(method['icon'], color: AppColours.appColor, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -549,7 +552,10 @@ class WalletScreen extends StatelessWidget {
                     if (method['isDefault']) ...[
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColours.appColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
@@ -579,11 +585,7 @@ class WalletScreen extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.chevron_right,
-            color: Colors.grey[400],
-            size: 20,
-          ),
+          Icon(Icons.chevron_right, color: Colors.grey[400], size: 20),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen_controller.dart';
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_fonts.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,9 @@ import 'package:get/get.dart';
 class FavouritesScreen extends StatelessWidget {
   FavouritesScreen({super.key});
 
-  final FavouritesScreenController controller = Get.put(FavouritesScreenController());
+  final FavouritesScreenController controller = Get.put(
+    FavouritesScreenController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +19,18 @@ class FavouritesScreen extends StatelessWidget {
         // height: double.infinity,
         child: GridView.builder(
           padding: const EdgeInsets.all(16),
-          shrinkWrap: true, // Important: makes GridView take only required height
-          physics: const NeverScrollableScrollPhysics(), // Prevent inner scrolling if inside another scroll
+          shrinkWrap:
+              true, // Important: makes GridView take only required height
+          physics:
+              const NeverScrollableScrollPhysics(), // Prevent inner scrolling if inside another scroll
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // 2 items per row
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
             childAspectRatio: 3 / 2,
           ),
-          itemCount: controller.generalCleaning.length, // Dynamic number of items
+          itemCount:
+              controller.generalCleaning.length, // Dynamic number of items
           itemBuilder: (context, index) {
             final item = controller.generalCleaning[index];
             return InkWell(
@@ -53,19 +57,20 @@ class FavouritesScreen extends StatelessWidget {
                           color: Colors.black.withOpacity(0.4), // dark overlay
                         ),
                         Positioned(
-                            right: 10,
-                            child: Container(
-                          margin: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.3),
-                              width: 1,
+                          right: 10,
+                          child: Container(
+                            margin: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.3),
+                                width: 1,
+                              ),
                             ),
+                            child: Icon(Icons.favorite, color: Colors.red),
                           ),
-                          child: Icon(Icons.favorite,color: Colors.red,),
-                        )),
+                        ),
                         Positioned(
                           bottom: 6,
                           left: 6,
@@ -92,7 +97,6 @@ class FavouritesScreen extends StatelessWidget {
             );
           },
         ),
-
       ),
     );
   }

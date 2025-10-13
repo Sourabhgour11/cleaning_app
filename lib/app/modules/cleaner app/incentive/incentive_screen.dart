@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../../../utils/app_export.dart';
 import 'incentive_screen_controller.dart';
 
@@ -10,10 +9,12 @@ class IncentiveScreen extends StatelessWidget {
     final controller = Get.put(IncentiveScreenController());
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: Obx(() => _buildContent(context, controller)),
+      backgroundColor: AppColours.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildEarningsHeader(context, controller),
       ),
+      body: SafeArea(child: Obx(() => _buildContent(context, controller))),
     );
   }
 
@@ -29,13 +30,10 @@ class IncentiveScreen extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            // Header with Total Earnings
-            _buildEarningsHeader(context, controller),
             const SizedBox(height: 20),
             // Earnings Summary Cards
             _buildEarningsSummary(context, controller),
             const SizedBox(height: 20),
-           
             _buildRecentIncentives(controller),
             const SizedBox(height: 100),
           ],
@@ -50,7 +48,8 @@ class IncentiveScreen extends StatelessWidget {
   ) {
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      height: AppStyle.heightPercent(context, 22),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -68,6 +67,7 @@ class IncentiveScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -101,9 +101,9 @@ class IncentiveScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 15),
-              ],
+            ],
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
           // Total Earnings
           const Text(
             'Total Earnings',
@@ -113,7 +113,7 @@ class IncentiveScreen extends StatelessWidget {
               fontFamily: AppFonts.fontFamily,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +121,7 @@ class IncentiveScreen extends StatelessWidget {
               const Text(
                 '\$',
                 style: TextStyle(
-                  fontSize: 48,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: AppFonts.fontFamily,
@@ -131,7 +131,7 @@ class IncentiveScreen extends StatelessWidget {
               Text(
                 controller.totalEarnings.value.toStringAsFixed(2),
                 style: const TextStyle(
-                  fontSize: 48,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: AppFonts.fontFamily,
@@ -140,7 +140,7 @@ class IncentiveScreen extends StatelessWidget {
               ),
             ],
           ),
-         ],
+        ],
       ),
     );
   }
@@ -330,10 +330,7 @@ class IncentiveScreen extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            color,
-            color.withOpacity(0.7),
-          ],
+          colors: [color, color.withOpacity(0.7)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -509,8 +506,8 @@ class IncentiveScreen extends StatelessWidget {
                     progress >= 0.8
                         ? Colors.green
                         : progress >= 0.5
-                            ? Colors.orange
-                            : AppColours.appColor,
+                        ? Colors.orange
+                        : AppColours.appColor,
                   ),
                 ),
               ),
@@ -577,10 +574,7 @@ class IncentiveScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: Colors.grey.withOpacity(0.1),
-            width: 1,
-          ),
+          bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
         ),
       ),
       child: Row(

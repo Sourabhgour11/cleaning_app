@@ -1,21 +1,129 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import '../../../rotes/app_routes.dart';
+
 class ProfileController extends GetxController {
   var userName = 'Sourabh'.obs;
   var phoneNumber = '+918120527453'.obs;
 
+  // Profile data
+  var profileData = {
+    'name': 'Sourabh',
+    'email': 'sourabh@email.com',
+    'phone': '+918120527453',
+    'address': '123 Main Street, Downtown, City',
+    'totalBookings': 24,
+    'favorites': 8,
+    'cancelledBookings': 2,
+    'totalSpent': 12500,
+    'profileImage': 'assets/images/profile.png',
+    'isVerified': true,
+    'joinDate': '2023-01-15',
+    'userType': 'Premium User',
+    'rating': 4.9,
+  }.obs;
+
+  // Menu items
+  var menuItems = [
+    {
+      'title': 'Edit Profile',
+      'icon': Icons.edit,
+      'color': Colors.blue,
+      'action': 'edit_profile',
+    },
+    {
+      'title': 'Favorites',
+      'icon': Icons.favorite,
+      'color': Colors.red,
+      'action': 'favorites',
+    },
+    {
+      'title': 'Payment Methods',
+      'icon': Icons.credit_card,
+      'color': Colors.green,
+      'action': 'payment_methods',
+    },
+    {
+      'title': 'Help & Support',
+      'icon': Icons.help_outline,
+      'color': Colors.orange,
+      'action': 'help',
+    },
+    {
+      'title': 'Privacy Policy',
+      'icon': Icons.privacy_tip,
+      'color': Colors.purple,
+      'action': 'privacy',
+    },
+    {
+      'title': 'Terms & Condition',
+      'icon': Icons.description,
+      'color': Colors.indigo,
+      'action': 'terms',
+    },
+    {
+      'title': 'About Us',
+      'icon': Icons.info,
+      'color': Colors.indigo,
+      'action': 'about',
+    },
+    {
+      'title': 'Delete Account',
+      'icon': Icons.delete_forever,
+      'color': Colors.red,
+      'action': 'delete_account',
+    },
+    {
+      'title': 'Logout',
+      'icon': Icons.logout,
+      'color': Colors.red,
+      'action': 'logout',
+    },
+  ].obs;
+
   void onLogout() {
     // Handle logout logic here
+    Get.offAllNamed(AppRoutes.selectUserScreen);
     Get.snackbar('Logout', 'You have logged out successfully');
+  }
+
+  void handleMenuAction(String action) {
+    switch (action) {
+      case 'edit_profile':
+        Get.toNamed(AppRoutes.editProfile);
+        break;
+      case 'favorites':
+        Get.toNamed(AppRoutes.favourite);
+        break;
+      case 'payment_methods':
+        Get.snackbar('Payment Methods', 'Payment methods screen coming soon!');
+        break;
+      case 'help':
+        Get.toNamed(AppRoutes.helpAndSupport);
+        break;
+      case 'privacy':
+        Get.toNamed(AppRoutes.getContent, arguments: {'type': 'privacy'});
+        break;
+      case 'terms':
+        Get.toNamed(AppRoutes.getContent, arguments: {'type': 'terms'});
+        break;
+      case 'about':
+        Get.toNamed(AppRoutes.getContent, arguments: {'type': 'about'});
+        break;
+      case 'delete_account':
+        Get.toNamed(AppRoutes.deleteAccount);
+        break;
+      case 'logout':
+        showLogoutDialog();
+        break;
+    }
   }
 
   void showLogoutDialog() {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         insetPadding: const EdgeInsets.symmetric(horizontal: 40),
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -41,10 +149,7 @@ class ProfileController extends GetxController {
               // 🔤 Title
               const Text(
                 "Logout",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 10),
@@ -53,10 +158,7 @@ class ProfileController extends GetxController {
               const Text(
                 "Are you sure you want to logout?",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black54,
-                ),
+                style: TextStyle(fontSize: 15, color: Colors.black54),
               ),
 
               const SizedBox(height: 25),
@@ -119,7 +221,7 @@ class ProfileController extends GetxController {
 
   void logoutUser() {
     // Add your logout logic here (e.g. clearing storage, navigating to login)
-    Get.back(); // close the dialog
+    Get.offAllNamed(AppRoutes.selectUserScreen);
     Get.snackbar(
       "Logged out",
       "You have been successfully logged out.",

@@ -9,11 +9,15 @@ class InboxScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColours.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildHeader(context),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             // Header
-            _buildHeader(context),
+            // _buildHeader(context),
             // Chat Interface
             Expanded(child: Obx(() => _buildChatInterface(context))),
           ],
@@ -24,7 +28,7 @@ class InboxScreen extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      height: AppStyle.heightPercent(context, 18),
+      height: AppStyle.heightPercent(context, 22),
       width: AppStyle.widthPercent(context, 100),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -42,8 +46,8 @@ class InboxScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 60),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Column(
@@ -85,7 +89,7 @@ class InboxScreen extends StatelessWidget {
                                       : 'Admin is offline',
                                   style: const TextStyle(
                                     fontSize: 14,
-                                    color: Colors.white70,
+                                    color: AppColours.white,
                                     fontFamily: AppFonts.fontFamily,
                                   ),
                                 ),
@@ -135,10 +139,19 @@ class InboxScreen extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColours.white.withOpacity(0.2),
+                                color: controller.adminIsOnline.value
+                                    ? const Color.fromARGB(
+                                        255,
+                                        12,
+                                        224,
+                                        19,
+                                      ).withOpacity(0.2)
+                                    : AppColours.white.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: AppColours.white.withOpacity(0.3),
+                                  color: controller.adminIsOnline.value
+                                      ? const Color.fromARGB(255, 12, 224, 19)
+                                      : AppColours.white,
                                   width: 1,
                                 ),
                               ),
@@ -149,8 +162,8 @@ class InboxScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: controller.adminIsOnline.value
-                                      ? Colors.green
-                                      : Colors.grey[600],
+                                      ? const Color.fromARGB(255, 12, 224, 19)
+                                      : AppColours.grey,
                                   fontFamily: AppFonts.fontFamily,
                                 ),
                               ),

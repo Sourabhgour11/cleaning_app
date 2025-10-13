@@ -1,12 +1,14 @@
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen.dart';
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen_binding.dart';
+import 'package:cleaning_app/app/modules/auth/reset_password_screen/reset_password_screen.dart';
+import 'package:cleaning_app/app/modules/auth/reset_password_screen/reset_password_screen_binding.dart';
 import 'package:cleaning_app/app/modules/delete%20account/delete_screen_binding.dart';
 import 'package:cleaning_app/app/modules/get%20content/get_content_binding.dart';
 import 'package:cleaning_app/app/modules/get%20content/get_content_screen.dart';
 import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen.dart';
 import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step1/book_service_step1_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step1/book_service_step1_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen.dart';
@@ -19,8 +21,6 @@ import '../modules/auth/forgot_password/forgot_password_screen.dart';
 import '../modules/auth/forgot_password/forgot_password_screen_binding.dart';
 import '../modules/auth/otp_screen/otp_screen.dart';
 import '../modules/auth/otp_screen/otp_screen_binding.dart';
-import '../modules/auth/resate_password_screen/resate_password_screen.dart';
-import '../modules/auth/resate_password_screen/resate_password_screen_binding.dart';
 import '../modules/auth/sign_up_screen/sign_up_screen.dart';
 import '../modules/auth/sign_up_screen/sign_up_screen_binding.dart';
 import '../modules/cleaner app/booking screen/booking_screen.dart';
@@ -36,6 +36,8 @@ import '../modules/cleaner app/inbox screen/inbox_screen_binding.dart';
 import '../modules/cleaner app/incentive/incentive_screen.dart';
 import '../modules/cleaner app/incentive/incentive_screen_binding.dart';
 import '../modules/delete account/delete_screen.dart';
+import '../modules/partner app/bottom_nav_screen/bottom_nav_screen.dart';
+import '../modules/partner app/bottom_nav_screen/bottom_nav_screen_binding.dart';
 import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
@@ -84,12 +86,6 @@ class AppPages {
       binding: ForgotOtpScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.resatePassword,
-      page: () => ResatePasswordScreen(),
-      binding: ResatePasswordScreenBinding(),
-    ),
-
-    GetPage(
       name: AppRoutes.cleanerHome,
       page: () => CleanerHomeScreen(),
       binding: CleanerHomeScreenBinding(),
@@ -103,11 +99,6 @@ class AppPages {
       name: AppRoutes.inbox,
       page: () => InboxScreen(),
       binding: InboxScreenBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.bottomNav,
-      page: () => BottomNavScreen(),
-      binding: BottomNavBinding(),
     ),
     GetPage(
       name: AppRoutes.editProfile,
@@ -155,14 +146,14 @@ class AppPages {
       binding: ForgotOtpScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.resatePassword,
-      page: () => ResatePasswordScreen(),
-      binding: ResatePasswordScreenBinding(),
+      name: AppRoutes.resetPassword,
+      page: () => ResetPassword(),
+      binding: ResetPasswordScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.bottomNav,
-      page: () => BottomNavScreen(),
-      binding: BottomNavBinding(),
+      name: AppRoutes.cleanerbottomNav,
+      page: () => CleanerBottomNavScreen(),
+      binding: CleanerBottomNavBinding(),
     ),
     GetPage(
       name: AppRoutes.subCategory,
@@ -171,10 +162,9 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.bookService,
-      page: () => BookServiceScreen(),
-      binding: BookServiceScreenBinding(),
+      page: () => BookServiceStep1Screen(),
+      binding: BookServiceStep1ScreenBinding(),
     ),
-
 
     GetPage(
       name: AppRoutes.cleanerHome,
@@ -195,6 +185,11 @@ class AppPages {
       name: AppRoutes.userBottomNav,
       page: () => UserBottomNavScreen(),
       binding: UserBottomNavBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.partnerbottomNav,
+      page: () => PartnerBottomNavScreen(),
+      binding: PartnerBottomNavBinding(),
     ),
     GetPage(
       name: AppRoutes.favourite,

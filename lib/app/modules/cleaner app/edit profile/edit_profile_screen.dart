@@ -10,68 +10,16 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     double width = MediaQuery.of(context).size.width;
     
     return Scaffold(
-      backgroundColor: AppColours.appColor,
+      backgroundColor: Colors.white,
+      appBar: AppStyle.appBarStyle("Edit Profile"),
       body: SafeArea(
-        child: Container(
-          height: height,
-          width: width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppImages.background),
-              fit: BoxFit.fill,
-            ),
-          ),
         child: Column(
           children: [
-            _buildHeader(context),
               Expanded(
                 child: _buildBody(context, height, width),
               ),
           ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppColours.white.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColours.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColours.appColor,
-                size: 20,
-              ),
-            ),
-          ),
-          const SizedBox(width: 15),
-          const Text(
-            'Edit Profile',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColours.white,
-              fontFamily: AppFonts.fontFamily,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -80,29 +28,11 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(35),
-          topRight: Radius.circular(35),
-        ),
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [AppColours.white, Color(0xFFF8F9FA)],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColours.appColor.withOpacity(0.1),
-            spreadRadius: 5,
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-          BoxShadow(
-            color: AppColours.black.withOpacity(0.7),
-            spreadRadius: 2,
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

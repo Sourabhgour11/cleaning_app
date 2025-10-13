@@ -15,145 +15,85 @@ class CleanerHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // SliverAppBar with collapsible greeting/location and fixed search bar
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
-              expandedHeight: 170,
-              floating: false,
-              pinned: true,
-              elevation: 0,
-              flexibleSpace: LayoutBuilder(
-                builder: (context, constraints) {
-                  var top = constraints.biggest.height;
-                  bool isCollapsed = top <= kToolbarHeight + 60;
+      body: CustomScrollView(
+        slivers: [
+          // SliverAppBar with greeting, location, search
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            expandedHeight: 145,
+            floating: false,
+            pinned: true,
+            elevation: 2,
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                // The current height of the SliverAppBar
+                double top = constraints.biggest.height;
 
-                  return Container(
-                    decoration: BoxDecoration(
-                      gradient: AppColours.gradientColor,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 2),
-                          blurRadius: 8,
-                          spreadRadius: 0,
+                // Detect if the appbar is collapsed
+                bool isCollapsed = top < 120; // adjust threshold as needed
+
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Gradient Background
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: AppColours.gradientColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
-                      ],
+                      ),
                     ),
-                    child: FlexibleSpaceBar(
-                      background: Padding(
-                        padding: const EdgeInsets.all(16),
+
+                    // Collapsible Content (fades out on scroll)
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      top: MediaQuery.of(context).padding.top + 20,
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 200),
+                        opacity: isCollapsed ? 0.0 : 1.0,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Greeting and Location Row (collapsible)
-                            AnimatedOpacity(
-                              duration: const Duration(milliseconds: 300),
-                              opacity: isCollapsed ? 0.0 : 1.0,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "😊 Good afternoon",
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: AppFonts.fontFamily,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Obx(
-                                          () => Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.location_on_outlined,
-                                                color: Colors.white70,
-                                                size: 18,
-                                              ),
-                                              const SizedBox(width: 4),
-                                              SizedBox(
-                                                width: AppStyle.widthPercent(
-                                                  context,
-                                                  70,
-                                                ),
-                                                child: Text(
-                                                  controller.location.value,
-                                                  style: const TextStyle(
-                                                    color: Colors.white70,
-                                                    fontSize: 15,
-                                                    fontFamily:
-                                                        AppFonts.fontFamily,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                              ),
-                                              const Icon(
-                                                Icons.keyboard_arrow_down,
-                                                size: 20,
-                                                color: Colors.white70,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                            Obx(
+                              () => Text(
+                                "😊 Good afternoon, ${controller.userName.value}",
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: AppFonts.fontFamily,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            // Fixed Search Bar (always visible)
-                            Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 8,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: Row(
+                            const SizedBox(height: 4),
+                            Obx(
+                              () => Row(
                                 children: [
-                                  const SizedBox(width: 16),
-                                  Icon(
-                                    Icons.search,
-                                    color: Colors.grey[600],
-                                    size: 22,
+                                  const Icon(
+                                    Icons.location_on_outlined,
+                                    color: Colors.white,
+                                    size: 18,
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Search for "Home Cleaning"',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[500],
-                                          fontFamily: AppFonts.fontFamily,
-                                        ),
-                                        border: InputBorder.none,
-                                      ),
-                                      style: TextStyle(
+                                  const SizedBox(width: 4),
+                                  SizedBox(
+                                    width: AppStyle.widthPercent(context, 60),
+                                    child: Text(
+                                      controller.location.value,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
                                         fontFamily: AppFonts.fontFamily,
-                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
+                                  ),
+                                  const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 20,
+                                    color: Colors.white,
                                   ),
                                 ],
                               ),
@@ -162,95 +102,129 @@ class CleanerHomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-            // Carousel Slider
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 6),
-                    CarouselSlider.builder(
-                      carouselController: carouselController,
-                      itemCount: controller.images.length,
-                      itemBuilder: (context, index, realIndex) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(
-                            controller.images[index],
-                            fit: BoxFit.fill,
-                            width: double.infinity,
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        height: 180,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        // viewportFraction: 0.9,
-                        onPageChanged: (index, reason) {
-                          controller.currentIndex.value = index;
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Obx(
-                      () => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: controller.images.asMap().entries.map((
-                          entry,
-                        ) {
-                          return GestureDetector(
-                            onTap: () =>
-                                carouselController.animateToPage(entry.key),
-                            child: Container(
-                              width: controller.currentIndex.value == entry.key
-                                  ? 8
-                                  : 6,
-                              height: controller.currentIndex.value == entry.key
-                                  ? 8
-                                  : 6,
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    controller.currentIndex.value == entry.key
-                                    ? Colors.blueAccent
-                                    : Colors.grey,
+
+                    // Search Bar pinned at the bottom
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      bottom: 16,
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 8),
+                            Icon(Icons.search, color: Colors.grey[600]),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'Search for "Home Cleaning"',
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                ),
                               ),
                             ),
-                          );
-                        }).toList(),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-
-                    // Cleaner Dashboard Section
-                    _buildCleanerDashboard(),
-
-                    const SizedBox(height: 20),
-
-                    // Quick Stats Grid
-                    _buildQuickStatsGrid(),
-
-                    const SizedBox(height: 20),
-
-                    // Recent Jobs Section
-                    _buildRecentJobs(),
-
-                    const SizedBox(
-                      height: 100,
-                    ), // Extra space for floating tab bar
                   ],
-                ),
+                );
+              },
+            ),
+          ),
+          // Carousel Slider
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 6),
+                  CarouselSlider.builder(
+                    carouselController: carouselController,
+                    itemCount: controller.images.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          controller.images[index],
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: 180,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      // viewportFraction: 0.9,
+                      onPageChanged: (index, reason) {
+                        controller.currentIndex.value = index;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: controller.images.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () =>
+                              carouselController.animateToPage(entry.key),
+                          child: Container(
+                            width: controller.currentIndex.value == entry.key
+                                ? 8
+                                : 6,
+                            height: controller.currentIndex.value == entry.key
+                                ? 8
+                                : 6,
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: controller.currentIndex.value == entry.key
+                                  ? Colors.blueAccent
+                                  : Colors.grey,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Cleaner Dashboard Section
+                  _buildCleanerDashboard(),
+
+                  const SizedBox(height: 20),
+
+                  // Quick Stats Grid
+                  _buildQuickStatsGrid(),
+
+                  const SizedBox(height: 20),
+
+                  // Recent Jobs Section
+                  _buildRecentJobs(),
+
+                  const SizedBox(
+                    height: 100,
+                  ), // Extra space for floating tab bar
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -485,34 +459,16 @@ class CleanerHomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recent Jobs',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColours.black,
-                fontFamily: AppFonts.fontFamily,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Get.snackbar('Navigation', 'View all jobs');
-              },
-              child: Text(
-                'View All',
-                style: TextStyle(
-                  color: AppColours.appColor,
-                  fontFamily: AppFonts.fontFamily,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
+        Text(
+          'Recent Jobs',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColours.black,
+            fontFamily: AppFonts.fontFamily,
+          ),
         ),
-        const SizedBox(height: 16),
+        // const SizedBox(height: 4),
         Obx(
           () => controller.completedJobsList.isEmpty
               ? _buildEmptyJobsState()
@@ -576,7 +532,7 @@ class CleanerHomeScreen extends StatelessWidget {
   // Job Card Widget
   Widget _buildJobCard(Map<String, dynamic> job) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColours.white,
@@ -591,7 +547,6 @@ class CleanerHomeScreen extends StatelessWidget {
         border: Border.all(color: Colors.green.withOpacity(0.1), width: 1),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [

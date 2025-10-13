@@ -10,11 +10,15 @@ class AnnouncementScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildHeader(context, controller),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             // Header
-            _buildHeader(context, controller),
+            // _buildHeader(context, controller),
             const SizedBox(height: 15),
             // Content
             Expanded(child: Obx(() => _buildContent(controller, context))),
@@ -29,7 +33,7 @@ class AnnouncementScreen extends StatelessWidget {
     AnnouncementScreenController controller,
   ) {
     return Container(
-      height: AppStyle.heightPercent(context, 15),
+      height: AppStyle.heightPercent(context, 22),
       width: AppStyle.widthPercent(context, 100),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -47,8 +51,8 @@ class AnnouncementScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 100),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Row(
@@ -58,7 +62,6 @@ class AnnouncementScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-
                         'Announcements',
                         style: const TextStyle(
                           fontSize: 24,

@@ -80,6 +80,10 @@ class SelectUserScreen extends StatelessWidget {
               Get.toNamed(AppRoutes.login, arguments: 'Cleaner');
               // Navigate to Cleaner Login Screen
             }),
+            userOption(AppStrings.loginAsPartner, () {
+              Get.toNamed(AppRoutes.login, arguments: 'Partner');
+              // Navigate to Cleaner Login Screen
+            }),
           ],
         ),
       ),

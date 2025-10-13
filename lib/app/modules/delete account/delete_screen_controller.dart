@@ -1,6 +1,5 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-
 class DeleteScreenController extends GetxController {
   // Observable variables
   var selectedReason = ''.obs;
@@ -54,11 +53,7 @@ class DeleteScreenController extends GetxController {
         'icon': Icons.pause_circle,
         'value': 'taking_break',
       },
-      {
-        'title': 'Other reason',
-        'icon': Icons.more_horiz,
-        'value': 'other',
-      },
+      {'title': 'Other reason', 'icon': Icons.more_horiz, 'value': 'other'},
     ];
   }
 
@@ -68,21 +63,21 @@ class DeleteScreenController extends GetxController {
 
   void toggleAgreement() {
     isAgreed.value = !isAgreed.value;
+    print(isAgreed.value);
   }
 
   bool canProceed() {
-    if (selectedReason.value.isEmpty) return false;
-    if (selectedReason.value == 'other' && otherReason.value.trim().isEmpty) {
-      return false;
-    }
-    return isAgreed.value;
+    // Check if either a reason is selected OR other reason text is provided
+    bool hasReason =
+        selectedReason.value.isNotEmpty || otherReason.value.trim().isNotEmpty;
+    return hasReason && isAgreed.value;
   }
 
   void showFinalConfirmation() {
     if (!canProceed()) {
       Get.snackbar(
         'Incomplete Information',
-        'Please select a reason and agree to the terms',
+        'Please provide a reason and agree to the terms',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.orange,
         colorText: Colors.white,
@@ -94,11 +89,7 @@ class DeleteScreenController extends GetxController {
       AlertDialog(
         title: Row(
           children: [
-            Icon(
-              Icons.warning_amber_rounded,
-              color: Colors.red,
-              size: 28,
-            ),
+            Icon(Icons.warning_amber_rounded, color: Colors.red, size: 28),
             const SizedBox(width: 12),
             const Text(
               'Final Confirmation',
@@ -116,10 +107,7 @@ class DeleteScreenController extends GetxController {
           children: [
             const Text(
               'This is your last chance!',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 12),
             const Text(
@@ -153,10 +141,7 @@ class DeleteScreenController extends GetxController {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -181,12 +166,7 @@ class DeleteScreenController extends GetxController {
         children: [
           const Icon(Icons.close, color: Colors.red, size: 16),
           const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 13),
-            ),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 13))),
         ],
       ),
     );
@@ -215,7 +195,7 @@ class DeleteScreenController extends GetxController {
             ElevatedButton(
               onPressed: () {
                 Get.back(); // Close dialog
-               Get.toNamed(AppRoutes.login); // Go back to previous screen
+                Get.offAllNamed(AppRoutes.selectUserScreen);
                 Get.snackbar(
                   'Goodbye',
                   'Your account has been deleted',
@@ -311,10 +291,7 @@ class DeleteScreenController extends GetxController {
               ),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
           ),

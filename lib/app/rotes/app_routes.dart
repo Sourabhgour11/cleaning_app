@@ -1,4 +1,3 @@
-
 class AppRoutes {
   static const login = '/login';
   static const home = '/home';
@@ -7,13 +6,14 @@ class AppRoutes {
   static const otp = '/otp';
   static const forgotPassword = '/forgotPassword';
   static const forgotOtp = '/forgotOtp';
-  static const resatePassword = '/resatePassword';
+  static const resetPassword = '/resetPassword';
   static const selectUserScreen = '/selectUserScreen';
   static const splash = '/splash';
   static const onboarding = '/onboarding';
   static const booking = '/booking';
   static const inbox = '/inbox';
-  static const bottomNav = '/bottomNav';
+  static const cleanerbottomNav = '/cleanerbottomNav';
+  static const partnerbottomNav = '/partnerbottomNav';
   static const editProfile = '/editProfile';
   static const incentive = '/incentive';
   static const helpAndSupport = '/helpAndSupport';

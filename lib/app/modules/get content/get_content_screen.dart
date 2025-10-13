@@ -10,9 +10,11 @@ class GetContentScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: Obx(() => _buildContent(context, controller)),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        child: _buildHeader(context, controller),
       ),
+      body: SafeArea(child: Obx(() => _buildContent(context, controller))),
     );
   }
 
@@ -24,14 +26,7 @@ class GetContentScreen extends StatelessWidget {
       return _buildLoadingState(context, controller);
     }
 
-    return Column(
-      children: [
-        _buildHeader(context, controller),
-        Expanded(
-          child: _buildContentBody(controller),
-        ),
-      ],
-    );
+    return Column(children: [Expanded(child: _buildContentBody(controller))]);
   }
 
   Widget _buildLoadingState(
@@ -40,12 +35,7 @@ class GetContentScreen extends StatelessWidget {
   ) {
     return Column(
       children: [
-        _buildHeader(context, controller),
-        const Expanded(
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
+        const Expanded(child: Center(child: CircularProgressIndicator())),
       ],
     );
   }
@@ -69,7 +59,7 @@ class GetContentScreen extends StatelessWidget {
 
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -85,8 +75,9 @@ class GetContentScreen extends StatelessWidget {
           ),
         ],
       ),
-        child: Column(
-          children: [
+      child: Column(
+        children: [
+          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -125,9 +116,9 @@ class GetContentScreen extends StatelessWidget {
               const SizedBox(width: 42),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
@@ -136,11 +127,7 @@ class GetContentScreen extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: Icon(
-              getHeaderIcon(),
-              size: 40,
-              color: Colors.white,
-            ),
+            child: Icon(getHeaderIcon(), size: 40, color: Colors.white),
           ),
           const SizedBox(height: 12),
           Container(
@@ -156,11 +143,7 @@ class GetContentScreen extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  Icons.update,
-                  color: Colors.white,
-                  size: 14,
-                ),
+                const Icon(Icons.update, color: Colors.white, size: 14),
                 const SizedBox(width: 6),
                 Text(
                   'Last Updated: ${controller.lastUpdated.value}',
@@ -244,10 +227,7 @@ class GetContentScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8, top: 8),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: AppColours.appColor,
-            width: 2,
-          ),
+          bottom: BorderSide(color: AppColours.appColor, width: 2),
         ),
       ),
       child: Row(
@@ -339,43 +319,49 @@ class GetContentScreen extends StatelessWidget {
     for (final match in regex.allMatches(text)) {
       // Add text before the bold part
       if (match.start > lastIndex) {
-        spans.add(TextSpan(
-          text: text.substring(lastIndex, match.start),
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[800],
-            height: 1.7,
-            fontFamily: AppFonts.fontFamily,
+        spans.add(
+          TextSpan(
+            text: text.substring(lastIndex, match.start),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[800],
+              height: 1.7,
+              fontFamily: AppFonts.fontFamily,
+            ),
           ),
-        ));
+        );
       }
 
       // Add bold text
-      spans.add(TextSpan(
-        text: match.group(1),
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: Colors.grey[900],
-          height: 1.7,
-          fontFamily: AppFonts.fontFamily,
+      spans.add(
+        TextSpan(
+          text: match.group(1),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[900],
+            height: 1.7,
+            fontFamily: AppFonts.fontFamily,
+          ),
         ),
-      ));
+      );
 
       lastIndex = match.end;
     }
 
     // Add remaining text
     if (lastIndex < text.length) {
-      spans.add(TextSpan(
-        text: text.substring(lastIndex),
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.grey[800],
-          height: 1.7,
-          fontFamily: AppFonts.fontFamily,
+      spans.add(
+        TextSpan(
+          text: text.substring(lastIndex),
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[800],
+            height: 1.7,
+            fontFamily: AppFonts.fontFamily,
+          ),
         ),
-      ));
+      );
     }
 
     return RichText(

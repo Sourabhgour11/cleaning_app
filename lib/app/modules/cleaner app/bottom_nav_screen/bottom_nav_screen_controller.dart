@@ -6,7 +6,7 @@ import '../home screen/home_screen.dart';
 import '../inbox screen/inbox_screen.dart';
 import '../profile screen/profile_screen.dart';
 
-class BottomNavController extends GetxController {
+class CleanerBottomNavController extends GetxController {
   // Selected index observable
   var selectedIndex = 0.obs;
 

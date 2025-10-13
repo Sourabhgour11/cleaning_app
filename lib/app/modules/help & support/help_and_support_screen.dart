@@ -1,7 +1,6 @@
 import 'help_and_support_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-
 class HelpAndSupportScreen extends StatelessWidget {
   const HelpAndSupportScreen({super.key});
 
@@ -11,9 +10,11 @@ class HelpAndSupportScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: Obx(() => _buildContent(context, controller)),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 30)),
+        child: _buildHeader(context),
       ),
+      body: SafeArea(child: Obx(() => _buildContent(context, controller))),
     );
   }
 
@@ -24,8 +25,6 @@ class HelpAndSupportScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Header
-          _buildHeader(context),
           const SizedBox(height: 24),
           // FAQs Section
           _buildFaqSection(controller),
@@ -33,9 +32,6 @@ class HelpAndSupportScreen extends StatelessWidget {
           // Contact Information
           _buildContactSection(controller),
           const SizedBox(height: 24),
-          // Additional Resources
-          _buildAdditionalResources(),
-          const SizedBox(height: 100),
         ],
       ),
     );
@@ -44,7 +40,7 @@ class HelpAndSupportScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -62,6 +58,7 @@ class HelpAndSupportScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -99,7 +96,8 @@ class HelpAndSupportScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Container(
-            padding: const EdgeInsets.all(20),
+            width: AppStyle.widthPercent(context, 60),
+            height: AppStyle.heightPercent(context, 18),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
@@ -109,9 +107,9 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
                     shape: BoxShape.circle,
@@ -126,7 +124,7 @@ class HelpAndSupportScreen extends StatelessWidget {
                 const Text(
                   'We\'re Here to Help!',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontFamily: AppFonts.fontFamily,
@@ -136,7 +134,7 @@ class HelpAndSupportScreen extends StatelessWidget {
                 Text(
                   'Get assistance with any questions or issues',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 13,
                     color: Colors.white.withOpacity(0.9),
                     fontFamily: AppFonts.fontFamily,
                   ),
@@ -190,11 +188,8 @@ class HelpAndSupportScreen extends StatelessWidget {
           child: Column(
             children: List.generate(
               controller.faqItems.length,
-              (index) => _buildFaqItem(
-                controller.faqItems[index],
-                index,
-                controller,
-              ),
+              (index) =>
+                  _buildFaqItem(controller.faqItems[index], index, controller),
             ),
           ),
         ),
@@ -212,10 +207,7 @@ class HelpAndSupportScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: Colors.grey.withOpacity(0.1),
-            width: 1,
-          ),
+          bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
         ),
       ),
       child: Theme(
@@ -347,16 +339,14 @@ class HelpAndSupportScreen extends StatelessWidget {
 
     return GestureDetector(
       onTap: type != 'info'
-          ? () => controller.handleContactMethod(type, method['value'] as String)
+          ? () =>
+                controller.handleContactMethod(type, method['value'] as String)
           : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: Colors.grey.withOpacity(0.1),
-              width: 1,
-            ),
+            bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
           ),
         ),
         child: Row(
@@ -388,7 +378,9 @@ class HelpAndSupportScreen extends StatelessWidget {
                     method['value'] as String,
                     style: TextStyle(
                       fontSize: 13,
-                      color: type != 'info' ? AppColours.appColor : Colors.grey[600],
+                      color: type != 'info'
+                          ? AppColours.appColor
+                          : Colors.grey[600],
                       fontFamily: AppFonts.fontFamily,
                     ),
                   ),
@@ -396,11 +388,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               ),
             ),
             if (type != 'info')
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey[400],
-              ),
+              Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
           ],
         ),
       ),
@@ -523,7 +511,9 @@ class HelpAndSupportScreen extends StatelessWidget {
       ),
       onTap: () {
         // Navigate to GetContentScreen for Privacy Policy, Terms, and About
-        if (title.contains('Privacy') || title.contains('Terms') || title.contains('About')) {
+        if (title.contains('Privacy') ||
+            title.contains('Terms') ||
+            title.contains('About')) {
           Get.toNamed(
             AppRoutes.getContent,
             arguments: {'type': getContentType(title)},
