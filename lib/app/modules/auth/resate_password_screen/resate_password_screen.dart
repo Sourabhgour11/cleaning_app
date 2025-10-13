@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
 import '../../../utils/app_export.dart';
-import '../../../utils/app_style.dart';
 import 'resate_password_screen_controller.dart';
 
 class ResatePasswordScreen extends StatelessWidget {

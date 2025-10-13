@@ -4,7 +4,7 @@ import '../../../utils/app_bottom_bar.dart';
 import 'bottom_nav_screen_controller.dart';
 
 class BottomNavScreen extends GetView<BottomNavController> {
-  BottomNavScreen({super.key});
+  const BottomNavScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

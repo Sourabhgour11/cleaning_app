@@ -51,12 +51,12 @@ class SubCategoriesScreen extends StatelessWidget {
                                  children: [
                                    Image.asset(
                                      item['image'],
-                                     width: 200,
+                                     // width: MediaQuery.of(context).size.width*20/100,
                                      height: double.infinity,
                                      fit: BoxFit.cover,
                                    ),
                                    Container(
-                                     width: 200,
+                                     // width: MediaQuery.of(context).size.width*20/100,
                                      height: double.infinity,
                                      color: Colors.black.withOpacity(0.4), // dark overlay
                                    ),

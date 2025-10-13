@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,12 +67,16 @@ class ProfileScreen extends StatelessWidget {
             ProfileOptionTile(
               icon: Icons.person_outline,
               title: 'Edit Profile',
-              onTap: () => Get.snackbar('Profile', 'Open profile settings'),
+              onTap: (){
+                Get.toNamed(AppRoutes.editProfile);
+              },
             ),
             ProfileOptionTile(
               icon: Icons.favorite_border,
               title: 'Favorites',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.favourite);
+              },
             ),
             ProfileOptionTile(
               icon: Icons.credit_card,
@@ -88,33 +93,43 @@ class ProfileScreen extends StatelessWidget {
             //   title: 'Gift Card',
             //   onTap: () {},
             // ),
-            ProfileOptionTile(
-              icon: Icons.help_outline,
-              title: 'Get Help',
-              onTap: () {},
-            ),
+            // ProfileOptionTile(
+            //   icon: Icons.help_outline,
+            //   title: 'Get Help',
+            //   onTap: () {},
+            // ),
             ProfileOptionTile(
               icon: Icons.delete_outline,
               title: 'Delete Account',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.deleteAccount);
+              },
             ), ProfileOptionTile(
               icon: Icons.description_outlined,
               title: 'Terms & Condition',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.getContent);
+              },
             ), ProfileOptionTile(
               icon: Icons.privacy_tip_outlined,
               title: 'Privacy Policy',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.getContent);
+              },
             ), ProfileOptionTile(
               icon: Icons.help_outline,
               title: 'Help & Support',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.helpAndSupport);
+              },
             ),
 
             // --- Logout ---
             const SizedBox(height: 12),
             GestureDetector(
-              onTap: controller.onLogout,
+              onTap: (){
+                controller.showLogoutDialog();
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(

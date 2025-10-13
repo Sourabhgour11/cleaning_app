@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
     ProfileScreenController controller,
   ) {
     return Container(
-      height: AppStyle.heightPercent(context, 35),
+      height: AppStyle.heightPercent(context, 40),
       width: AppStyle.widthPercent(context, 100),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -68,46 +68,16 @@ class ProfileScreen extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 47,
-                            backgroundImage: AssetImage(
-                              controller.profileData['profileImage'] as String,
-                            ),
-                            child:
-                                (controller.profileData['profileImage']
-                                        as String?) ==
-                                    null
-                                ? const Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.grey,
-                                  )
-                                : null,
-                          ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 47,
+                        backgroundImage: AssetImage(
+                          controller.profileData['profileImage'] as String,
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: AppColours.appColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
-                        ),
-                      ],
+
+                      ),
                     ),
                     const SizedBox(height: 12),
                     // Name and Verification
@@ -180,30 +150,7 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // Edit Button
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                child: GestureDetector(
-                  onTap: controller.toggleEditMode,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                        width: 1,
-                      ),
-                    ),
-                    child: Icon(
-                      controller.isEditing.value ? Icons.close : Icons.edit,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+             ],
           ),
           const SizedBox(height: 20),
           // Availability Status
