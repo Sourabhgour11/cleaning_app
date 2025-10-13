@@ -13,7 +13,7 @@ class AppRoutes {
   static const booking = '/booking';
   static const inbox = '/inbox';
   static const bottomNav = '/bottomNav';
-  static const bottomNav = '/bottomNav';
+  static const userBottomNav = '/userBottomNav';
   static const subCategory = '/subCategory';
   static const bookService = '/bookService';
 }

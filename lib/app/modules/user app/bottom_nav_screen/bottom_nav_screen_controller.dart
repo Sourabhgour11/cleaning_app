@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 
-class BottomNavController extends GetxController {
+class UserBottomNavController extends GetxController {
   // Selected index observable
   var selectedIndex = 0.obs;
 

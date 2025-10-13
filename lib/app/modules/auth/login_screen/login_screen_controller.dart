@@ -23,7 +23,7 @@ class LoginScreenController extends GetxController {
       print("User Type Is Cleaner");
       Get.offAllNamed(AppRoutes.bottomNav);
     } else if (userType == AppStrings.user) {
-      Get.offAllNamed(AppRoutes.bottomNav);
+      Get.offAllNamed(AppRoutes.userBottomNav);
       isLoading.value = false;
       print("User Type Is User");
     } else {
