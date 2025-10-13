@@ -120,7 +120,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               controller: scrollController,
-              child: Obx(() => _buildServiceContent(controller)),
+              child: Obx(() => _buildServiceContent(controller,context)),
             ),
           );
         },
@@ -128,7 +128,7 @@ class SubCategoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceContent(SubCategoriesScreenController controller) {
+  Widget _buildServiceContent(SubCategoriesScreenController controller,BuildContext context) {
     final service = controller.currentService;
     
     return Column(
@@ -496,30 +496,13 @@ class SubCategoriesScreen extends StatelessWidget {
               const Spacer(),
               
               // Add button
-              Expanded(
-                flex: 2,
-                child: Obx(() => ElevatedButton(
-                  onPressed: (){
-                    controller.addServiceToCart(controller.appBarTitle);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColours.appColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(
-                    'Add for ${controller.getFormattedPrice(controller.totalServicePrice)}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppFonts.fontFamily,
-                    ),
-                  ),
-                )),
-              ),
+           SizedBox(
+             height: AppStyle.heightPercent(context, 5),
+             width: AppStyle.widthPercent(context, 55),
+             child: AppButton(onPressed: (){
+               controller.addServiceToCart(controller.appBarTitle);
+             }, title: "Add for ${controller.getFormattedPrice(controller.totalServicePrice)}",),
+           )
             ],
           ),
         ),

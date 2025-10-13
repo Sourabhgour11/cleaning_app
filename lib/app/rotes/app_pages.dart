@@ -1,47 +1,10 @@
-import 'package:cleaning_app/app/modules/auth/login_screen/login_screen.dart';
-import 'package:cleaning_app/app/modules/auth/login_screen/login_screen_binding.dart';
-import 'package:cleaning_app/app/modules/delete%20account/delete_screen_binding.dart';
-import 'package:cleaning_app/app/modules/get%20content/get_content_binding.dart';
-import 'package:cleaning_app/app/modules/get%20content/get_content_screen.dart';
-import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen.dart';
-import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/sub_categories_screen/sub_categories_screen.dart';
-import 'package:get/get.dart';
-import '../modules/auth/forgot_otp_screen/forgot_otp_screen.dart';
-import '../modules/auth/forgot_otp_screen/forgot_otp_screen_binding.dart';
-import '../modules/auth/forgot_password/forgot_password_screen.dart';
-import '../modules/auth/forgot_password/forgot_password_screen_binding.dart';
-import '../modules/auth/otp_screen/otp_screen.dart';
-import '../modules/auth/otp_screen/otp_screen_binding.dart';
-import '../modules/auth/resate_password_screen/resate_password_screen.dart';
-import '../modules/auth/resate_password_screen/resate_password_screen_binding.dart';
-import '../modules/auth/sign_up_screen/sign_up_screen.dart';
-import '../modules/auth/sign_up_screen/sign_up_screen_binding.dart';
-import '../modules/cleaner app/booking screen/booking_screen.dart';
-import '../modules/cleaner app/booking screen/booking_screen_binding.dart';
-import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen.dart';
-import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen_binding.dart';
-import '../modules/cleaner app/edit profile/edit_profile_screen.dart';
-import '../modules/cleaner app/edit profile/edit_profile_screen_binding.dart';
-import '../modules/cleaner app/home screen/home_screen.dart';
-import '../modules/cleaner app/home screen/home_screen_binding.dart';
-import '../modules/cleaner app/inbox screen/inbox_screen.dart';
-import '../modules/cleaner app/inbox screen/inbox_screen_binding.dart';
-import '../modules/cleaner app/incentive/incentive_screen.dart';
-import '../modules/cleaner app/incentive/incentive_screen_binding.dart';
-import '../modules/delete account/delete_screen.dart';
-import '../modules/select_user_screen/select_user_screen.dart';
-import '../modules/select_user_screen/select_user_screen_binding.dart';
-import '../modules/splash_screen/splash_screen.dart';
-import '../modules/splash_screen/splash_screen_binding.dart';
-import '../modules/user app/sub_categories_screen/sub_categories_screen_binding.dart';
-import 'app_routes.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step2/book_service_step2_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step2/book_service_step2_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step3/book_service_step3_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step3/book_service_step3_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step_4/book_service_step4_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step_4/book_service_step4_screen_binding.dart';
+import 'package:cleaning_app/app/utils/app_export.dart';
 
 class AppPages {
   static const initial = AppRoutes.splash;
@@ -83,12 +46,6 @@ class AppPages {
       page: () => ForgotOtpScreen(),
       binding: ForgotOtpScreenBinding(),
     ),
-    GetPage(
-      name: AppRoutes.resatePassword,
-      page: () => ResatePasswordScreen(),
-      binding: ResatePasswordScreenBinding(),
-    ),
-
     GetPage(
       name: AppRoutes.cleanerHome,
       page: () => CleanerHomeScreen(),
@@ -155,9 +112,9 @@ class AppPages {
       binding: ForgotOtpScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.resatePassword,
-      page: () => ResatePasswordScreen(),
-      binding: ResatePasswordScreenBinding(),
+      name: AppRoutes.resetPassword,
+      page: () => ResetPassword(),
+      binding: ResetPasswordScreenBinding(),
     ),
     GetPage(
       name: AppRoutes.bottomNav,
@@ -170,9 +127,24 @@ class AppPages {
       binding: SubCategoriesScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.bookService,
-      page: () => BookServiceScreen(),
-      binding: BookServiceScreenBinding(),
+      name: AppRoutes.bookServiceStep1,
+      page: () => BookServiceStep1Screen(),
+      binding: BookServiceStep1ScreenBinding(),
+    ),
+   GetPage(
+      name: AppRoutes.bookServiceStep2,
+      page: () => BookServiceStep2Screen(),
+      binding: BookServiceStep2ScreenBinding(),
+    ),
+   GetPage(
+      name: AppRoutes.bookServiceStep3,
+      page: () => BookServiceStep3Screen(),
+      binding: BookServiceStep3ScreenBinding(),
+    ),
+   GetPage(
+      name: AppRoutes.bookServiceStep4,
+      page: () => BookServiceStep4Screen(),
+      binding: BookServiceStep4ScreenBinding(),
     ),
 
 

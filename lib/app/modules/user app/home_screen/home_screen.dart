@@ -1,6 +1,4 @@
-
 import 'package:cleaning_app/app/utils/app_bottombar.dart';
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'home_screen_controller.dart';
@@ -51,6 +49,7 @@ class HomeScreen extends StatelessWidget {
                               //   colors: [AppColours.appColor, AppColours.appColor2],
                               // ),
                               // color: AppColours.appColor
+                              borderRadius: BorderRadius.circular(30)
                             ),
                           ),
 
@@ -83,7 +82,8 @@ class HomeScreen extends StatelessWidget {
                                         size: 18,
                                       ),
                                       const SizedBox(width: 4),
-                                      Expanded(
+                                      SizedBox(
+                                        width:AppStyle.widthPercent(context, 60),
                                         child: Text(
                                           controller.location.value,
                                           style: const TextStyle(
@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       const Icon(
                                         Icons.keyboard_arrow_down,
-                                        size: 18,
+                                        size: 20,
                                         color: Colors.white,
                                       ),
                                     ],
@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                           Positioned(
                             left: 16,
                             right: 16,
-                            bottom: 10,
+                            bottom: 16,
                             child: Container(
                               height: 45,
                               decoration: BoxDecoration(

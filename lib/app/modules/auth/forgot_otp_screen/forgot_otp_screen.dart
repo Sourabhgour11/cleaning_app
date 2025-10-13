@@ -267,7 +267,7 @@ class ForgotOtpScreen extends StatelessWidget {
                       onCompleted: (pin) => () {},
                       onChanged: (value) {
                         if (value.length == 6) {
-                          Get.toNamed(AppRoutes.resatePassword);
+                          Get.toNamed(AppRoutes.resetPassword);
                         }
                       },
                     ),
@@ -277,7 +277,7 @@ class ForgotOtpScreen extends StatelessWidget {
                     Center(
                       child: AppButton(
                         onPressed: () {
-                          Get.toNamed(AppRoutes.resatePassword);
+                          Get.toNamed(AppRoutes.resetPassword);
                         },
                         title: AppStrings.verifyOtp,
                         icon: Icons.verified_user,

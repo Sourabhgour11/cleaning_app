@@ -1,16 +1,12 @@
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:flutter/material.dart';
+import 'book_service_step1_screen_controller.dart';
 
-import 'book_service_screen_controller.dart';
-
-class BookServiceScreen extends StatelessWidget {
-  const BookServiceScreen({super.key});
+class BookServiceStep1Screen extends StatelessWidget {
+  const BookServiceStep1Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final BookServiceScreenController controller = Get.put(BookServiceScreenController());
+    final BookServiceStep1ScreenController controller = Get.put(BookServiceStep1ScreenController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,13 +53,13 @@ class BookServiceScreen extends StatelessWidget {
           ),
           
           // Footer with Total and Next Button
-          _buildFooter(controller),
+          _buildFooter(controller,context),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(BookServiceScreenController controller) {
+  Widget _buildHeader(BookServiceStep1ScreenController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -92,7 +88,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExclusiveOffer(BookServiceScreenController controller) {
+  Widget _buildExclusiveOffer(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -166,7 +162,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceDuration(BookServiceScreenController controller) {
+  Widget _buildServiceDuration(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -244,7 +240,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfessionalsCount(BookServiceScreenController controller) {
+  Widget _buildProfessionalsCount(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -299,7 +295,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCleaningMaterials(BookServiceScreenController controller) {
+  Widget _buildCleaningMaterials(BookServiceStep1ScreenController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -420,7 +416,7 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSpecificInstructions(BookServiceScreenController controller) {
+  Widget _buildSpecificInstructions(BookServiceStep1ScreenController controller) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -457,9 +453,9 @@ class BookServiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFooter(BookServiceScreenController controller) {
+  Widget _buildFooter(BookServiceStep1ScreenController controller,BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -499,10 +495,15 @@ class BookServiceScreen extends StatelessWidget {
                       ),
                     )),
                     const SizedBox(width: 8),
-                    Icon(
-                      Icons.keyboard_arrow_up,
-                      color: Colors.grey[400],
-                      size: 20,
+                    GestureDetector(
+                      onTap: (){
+                        controller.showBookingSummaryBottomSheet(context);
+                      },
+                      child: Icon(
+                        Icons.keyboard_arrow_up,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ],
                 ),
@@ -510,28 +511,13 @@ class BookServiceScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          Expanded(
-            flex: 2,
-            child: Obx(() => ElevatedButton(
-              onPressed: controller.nextStep,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: Text(
-                controller.currentStep.value < controller.totalSteps.value ? 'Next' : 'Complete',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-            )),
-          ),
+          SizedBox(
+            height: AppStyle.heightPercent(context, 5),
+            width: AppStyle.widthPercent(context, 30),
+            child: AppButton(onPressed: (){
+              Get.toNamed(AppRoutes.bookServiceStep2,arguments: controller.appBarTitle);
+            }, title: "Next",),
+          )
         ],
       ),
     );
