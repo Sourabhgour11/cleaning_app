@@ -102,7 +102,6 @@ class AppStyle {
     automaticallyImplyLeading: isBackButton,
     backgroundColor: Colors.transparent,
     foregroundColor: AppColours.white,
-    foregroundColor: AppColours.appColor,
     elevation: 0,
     centerTitle: true,
     flexibleSpace: Container(

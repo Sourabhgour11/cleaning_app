@@ -67,7 +67,9 @@ class ProfileScreen extends StatelessWidget {
             ProfileOptionTile(
               icon: Icons.person_outline,
               title: 'Edit Profile',
-              onTap: () => Get.snackbar('Profile', 'Open profile settings'),
+              onTap: (){
+                Get.toNamed(AppRoutes.editProfile);
+              },
             ),
             ProfileOptionTile(
               icon: Icons.favorite_border,
@@ -105,15 +107,21 @@ class ProfileScreen extends StatelessWidget {
             ), ProfileOptionTile(
               icon: Icons.description_outlined,
               title: 'Terms & Condition',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.getContent);
+              },
             ), ProfileOptionTile(
               icon: Icons.privacy_tip_outlined,
               title: 'Privacy Policy',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.getContent);
+              },
             ), ProfileOptionTile(
               icon: Icons.help_outline,
               title: 'Help & Support',
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.helpAndSupport);
+              },
             ),
 
             // --- Logout ---

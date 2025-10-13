@@ -2,9 +2,6 @@
 import 'package:cleaning_app/app/utils/app_bottombar.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'home_screen_controller.dart';
 
@@ -47,12 +44,13 @@ class HomeScreen extends StatelessWidget {
                           // Gradient Background
                           Container(
                             decoration: BoxDecoration(
-                              // gradient: LinearGradient(
+                              gradient:AppColours.gradientColor,
+                              // LinearGradient(
                               //   begin: Alignment.topLeft,
                               //   end: Alignment.bottomRight,
                               //   colors: [AppColours.appColor, AppColours.appColor2],
                               // ),
-                              color: AppColours.appColor
+                              // color: AppColours.appColor
                             ),
                           ),
 

@@ -1,15 +1,16 @@
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen.dart';
 import 'package:cleaning_app/app/modules/auth/login_screen/login_screen_binding.dart';
+import 'package:cleaning_app/app/modules/delete%20account/delete_screen_binding.dart';
+import 'package:cleaning_app/app/modules/get%20content/get_content_binding.dart';
+import 'package:cleaning_app/app/modules/get%20content/get_content_screen.dart';
+import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen.dart';
+import 'package:cleaning_app/app/modules/help%20&%20support/help_and_support_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/delete_account_screen/delete_account_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/delete_account_screen/delete_accoutt_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/home_screen/home_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/sub_categories_screen/sub_categories_screen.dart';
 import 'package:get/get.dart';
 import '../modules/auth/forgot_otp_screen/forgot_otp_screen.dart';
@@ -28,22 +29,18 @@ import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen.dart';
 import '../modules/cleaner app/bottom_nav_screen/bottom_nav_screen_binding.dart';
 import '../modules/cleaner app/edit profile/edit_profile_screen.dart';
 import '../modules/cleaner app/edit profile/edit_profile_screen_binding.dart';
-import '../modules/cleaner app/delete account/delete_screen.dart';
-import '../modules/cleaner app/delete account/delete_screen_binding.dart';
-import '../modules/cleaner app/get content/get_content_binding.dart';
-import '../modules/cleaner app/get content/get_content_screen.dart';
-import '../modules/cleaner app/help & support/help_and_support_screen.dart';
-import '../modules/cleaner app/help & support/help_and_support_screen_binding.dart';
 import '../modules/cleaner app/home screen/home_screen.dart';
 import '../modules/cleaner app/home screen/home_screen_binding.dart';
 import '../modules/cleaner app/inbox screen/inbox_screen.dart';
 import '../modules/cleaner app/inbox screen/inbox_screen_binding.dart';
 import '../modules/cleaner app/incentive/incentive_screen.dart';
 import '../modules/cleaner app/incentive/incentive_screen_binding.dart';
+import '../modules/delete account/delete_screen.dart';
 import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
 import '../modules/splash_screen/splash_screen_binding.dart';
+import '../modules/user app/sub_categories_screen/sub_categories_screen_binding.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -206,8 +203,8 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.deleteAccount,
-      page: () => DeleteAccountScreen(),
-      binding: DeleteAccountScreenBinding(),
+      page: () => DeleteScreen(),
+      binding: DeleteScreenBinding(),
     ),
   ];
 }

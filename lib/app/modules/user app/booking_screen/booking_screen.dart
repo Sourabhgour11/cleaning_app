@@ -23,12 +23,8 @@ class BookingScreen extends StatelessWidget {
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
-              // gradient: LinearGradient(
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomRight,
-              //   colors: [AppColours.appColor, AppColours.appColor2],
-              // ),
-              color: AppColours.appColor,
+              gradient:AppColours.gradientColor,
+              // color: AppColours.appColor,
               boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,

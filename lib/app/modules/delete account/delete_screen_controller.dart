@@ -1,4 +1,5 @@
-import '../../../utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_export.dart';
+
 
 class DeleteScreenController extends GetxController {
   // Observable variables
