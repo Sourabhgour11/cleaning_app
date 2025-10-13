@@ -86,6 +86,12 @@ class AppPages {
       binding: ForgotOtpScreenBinding(),
     ),
     GetPage(
+      name: AppRoutes.resatePassword,
+      page: () => ResatePasswordScreen(),
+      binding: ResatePasswordScreenBinding(),
+    ),
+
+    GetPage(
       name: AppRoutes.cleanerHome,
       page: () => CleanerHomeScreen(),
       binding: CleanerHomeScreenBinding(),
@@ -99,6 +105,11 @@ class AppPages {
       name: AppRoutes.inbox,
       page: () => InboxScreen(),
       binding: InboxScreenBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.bottomNav,
+      page: () => BottomNavScreen(),
+      binding: BottomNavBinding(),
     ),
     GetPage(
       name: AppRoutes.editProfile,
@@ -161,10 +172,26 @@ class AppPages {
       binding: SubCategoriesScreenBinding(),
     ),
     GetPage(
-      name: AppRoutes.bookService,
+      name: AppRoutes.bookServiceStep1,
       page: () => BookServiceStep1Screen(),
       binding: BookServiceStep1ScreenBinding(),
     ),
+   GetPage(
+      name: AppRoutes.bookServiceStep2,
+      page: () => BookServiceStep2Screen(),
+      binding: BookServiceStep2ScreenBinding(),
+    ),
+   GetPage(
+      name: AppRoutes.bookServiceStep3,
+      page: () => BookServiceStep3Screen(),
+      binding: BookServiceStep3ScreenBinding(),
+    ),
+   GetPage(
+      name: AppRoutes.bookServiceStep4,
+      page: () => BookServiceStep4Screen(),
+      binding: BookServiceStep4ScreenBinding(),
+    ),
+
 
     GetPage(
       name: AppRoutes.cleanerHome,

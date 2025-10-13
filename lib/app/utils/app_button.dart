@@ -7,11 +7,11 @@ class AppButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.title,
-    required this.icon,
+     this.icon,
   });
   final Function() onPressed;
   final String title;
-  final IconData icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ class AppButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 20, color: AppColours.white),
-            const SizedBox(width: 8),
+           icon!=null ? Icon(icon, size: 20, color: AppColours.white):SizedBox(),
+            icon!=null ? SizedBox(width: 8):SizedBox(),
             Text(
               title,
               style: const TextStyle(

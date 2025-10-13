@@ -21,6 +21,9 @@ class AppRoutes {
   static const deleteAccount = '/deleteAccount';
   static const userBottomNav = '/userBottomNav';
   static const subCategory = '/subCategory';
-  static const bookService = '/bookService';
+  static const bookServiceStep1 = '/bookServiceStep1';
+  static const bookServiceStep2 = '/bookServiceStep2';
+  static const bookServiceStep3 = '/bookServiceStep3';
+  static const bookServiceStep4 = '/bookServiceStep4';
   static const favourite = '/favourite';
 }

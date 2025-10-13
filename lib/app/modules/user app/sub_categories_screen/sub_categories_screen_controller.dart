@@ -168,15 +168,7 @@ class SubCategoriesScreenController extends GetxController {
   void addServiceToCart(RxString appBarText) {
     final service = serviceDetails[selectedServiceIndex.value];
     // final totalPrice = service['discountedPrice'] * serviceQuantity.value;
-    
-    // Get.snackbar(
-    //   'Service Added!',
-    //   '${service['title']} x${serviceQuantity.value} added for AED ${totalPrice.toStringAsFixed(0)}',
-    //   snackPosition: SnackPosition.BOTTOM,
-    //   backgroundColor: AppColours.green,
-    //   colorText: Colors.white,
-    // );
-    Get.toNamed(AppRoutes.bookService,arguments:appBarText );
+    Get.toNamed(AppRoutes.bookServiceStep1,arguments:appBarText );
     hideServicePopup();
   }
 

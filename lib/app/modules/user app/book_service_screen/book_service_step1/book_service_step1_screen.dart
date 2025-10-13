@@ -53,7 +53,7 @@ class BookServiceStep1Screen extends StatelessWidget {
           ),
           
           // Footer with Total and Next Button
-          _buildFooter(controller),
+          _buildFooter(controller,context),
         ],
       ),
     );
@@ -453,9 +453,9 @@ class BookServiceStep1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildFooter(BookServiceStep1ScreenController controller) {
+  Widget _buildFooter(BookServiceStep1ScreenController controller,BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -495,10 +495,15 @@ class BookServiceStep1Screen extends StatelessWidget {
                       ),
                     )),
                     const SizedBox(width: 8),
-                    Icon(
-                      Icons.keyboard_arrow_up,
-                      color: Colors.grey[400],
-                      size: 20,
+                    GestureDetector(
+                      onTap: (){
+                        controller.showBookingSummaryBottomSheet(context);
+                      },
+                      child: Icon(
+                        Icons.keyboard_arrow_up,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ],
                 ),
@@ -506,28 +511,13 @@ class BookServiceStep1Screen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          Expanded(
-            flex: 2,
-            child: Obx(() => ElevatedButton(
-              onPressed: controller.nextStep,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: Text(
-                controller.currentStep.value < controller.totalSteps.value ? 'Next' : 'Complete',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-            )),
-          ),
+          SizedBox(
+            height: AppStyle.heightPercent(context, 5),
+            width: AppStyle.widthPercent(context, 30),
+            child: AppButton(onPressed: (){
+              Get.toNamed(AppRoutes.bookServiceStep2,arguments: controller.appBarTitle);
+            }, title: "Next",),
+          )
         ],
       ),
     );
