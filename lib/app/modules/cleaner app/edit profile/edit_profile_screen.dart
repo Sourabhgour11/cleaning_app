@@ -8,25 +8,25 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppStyle.appBarStyle("Edit Profile"),
       body: SafeArea(
-        child: Column(
-          children: [
-              Expanded(
-                child: _buildBody(context, height, width),
-              ),
-          ],
+        child: SizedBox(
+          width: AppStyle.widthPercent(context, 100),
+          height: AppStyle.heightPercent(context, 100),
+          child: Column(
+            children: [Expanded(child: _buildBody(context, height, width))],
           ),
+        ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context, double height, double width) {
     return Container(
-      width: width,
+      width: AppStyle.widthPercent(context, 90),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
@@ -35,28 +35,30 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
         ),
       ),
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            _buildProfileImage(),
-            const SizedBox(height: 30),
-            _buildNameField(),
-            const SizedBox(height: 20),
-            _buildEmailField(),
-            const SizedBox(height: 20),
-            _buildPhoneField(),
-            const SizedBox(height: 20),
-            _buildAddressField(),
-            const SizedBox(height: 20),
-            // _buildPasswordField(),
-            // const SizedBox(height: 20),
-            // _buildConfirmPasswordField(),
-            // const SizedBox(height: 30),
-            _buildUpdateButton(),
-            const SizedBox(height: 20),
-          ],
+        child: SizedBox(
+          width: AppStyle.widthPercent(context, 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              _buildProfileImage(),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
+              _buildNameField(),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              _buildEmailField(),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              _buildPhoneField(),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              _buildAddressField(),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              // _buildPasswordField(),
+              // const SizedBox(height: 20),
+              // _buildConfirmPasswordField(),
+              // const SizedBox(height: 30),
+              _buildUpdateButton(context),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+            ],
+          ),
         ),
       ),
     );
@@ -73,10 +75,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColours.white,
-                border: Border.all(
-                  color: AppColours.appColor,
-                  width: 3,
-                ),
+                border: Border.all(color: AppColours.appColor, width: 3),
                 boxShadow: [
                   BoxShadow(
                     color: AppColours.appColor.withOpacity(0.3),
@@ -104,10 +103,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                 decoration: BoxDecoration(
                   color: AppColours.appColor,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColours.white,
-                    width: 3,
-                  ),
+                  border: Border.all(color: AppColours.white, width: 3),
                   boxShadow: [
                     BoxShadow(
                       color: AppColours.black.withOpacity(0.2),
@@ -141,10 +137,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               size: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              AppStrings.name,
-              style: AppStyle.textfieldHeading,
-            ),
+            const Text(AppStrings.name, style: AppStyle.textfieldHeading),
           ],
         ),
         const SizedBox(height: 5),
@@ -176,11 +169,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                 horizontal: 20,
                 vertical: 18,
               ),
-              prefixIcon: Icon(
-                Icons.person,
-                color: AppColours.grey,
-                size: 20,
-              ),
+              prefixIcon: Icon(Icons.person, color: AppColours.grey, size: 20),
             ),
           ),
         ),
@@ -200,10 +189,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               size: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              AppStrings.email,
-              style: AppStyle.textfieldHeading,
-            ),
+            const Text(AppStrings.email, style: AppStyle.textfieldHeading),
           ],
         ),
         const SizedBox(height: 5),
@@ -235,11 +221,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                 horizontal: 20,
                 vertical: 18,
               ),
-              prefixIcon: Icon(
-                Icons.email,
-                color: AppColours.grey,
-                size: 20,
-              ),
+              prefixIcon: Icon(Icons.email, color: AppColours.grey, size: 20),
             ),
           ),
         ),
@@ -259,10 +241,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               size: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              AppStrings.phone,
-              style: AppStyle.textfieldHeading,
-            ),
+            const Text(AppStrings.phone, style: AppStyle.textfieldHeading),
           ],
         ),
         const SizedBox(height: 5),
@@ -294,11 +273,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                 horizontal: 20,
                 vertical: 18,
               ),
-              prefixIcon: Icon(
-                Icons.phone,
-                color: AppColours.grey,
-                size: 20,
-              ),
+              prefixIcon: Icon(Icons.phone, color: AppColours.grey, size: 20),
             ),
           ),
         ),
@@ -318,10 +293,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               size: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              AppStrings.address,
-              style: AppStyle.textfieldHeading,
-            ),
+            const Text(AppStrings.address, style: AppStyle.textfieldHeading),
           ],
         ),
         const SizedBox(height: 5),
@@ -378,10 +350,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               size: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              AppStrings.password,
-              style: AppStyle.textfieldHeading,
-            ),
+            const Text(AppStrings.password, style: AppStyle.textfieldHeading),
             const SizedBox(width: 5),
             const Text(
               '(Optional)',
@@ -526,18 +495,23 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     );
   }
 
-  Widget _buildUpdateButton() {
-    return Center(
-      child: Obx(
-        () => controller.isLoading.value
-            ? const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AppColours.appColor),
-              )
-            : AppButton(
-                onPressed: () => controller.updateProfile(),
-                title: 'Update Profile',
-                icon: Icons.check_circle,
-              ),
+  Widget _buildUpdateButton(BuildContext context) {
+    return SizedBox(
+      width: AppStyle.widthPercent(context, 90),
+      child: Center(
+        child: Obx(
+          () => controller.isLoading.value
+              ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColours.appColor,
+                  ),
+                )
+              : AppButton(
+                  onPressed: () => controller.updateProfile(),
+                  title: 'Update Profile',
+                  icon: Icons.check_circle,
+                ),
+        ),
       ),
     );
   }

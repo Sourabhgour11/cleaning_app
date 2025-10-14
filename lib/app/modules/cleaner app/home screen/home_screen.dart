@@ -14,7 +14,7 @@ class CleanerHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColours.white,
       body: CustomScrollView(
         slivers: [
           // SliverAppBar with greeting, location, search
@@ -175,7 +175,7 @@ class CleanerHomeScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: AppStyle.heightPercent(context, 2)),
                   Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -202,23 +202,23 @@ class CleanerHomeScreen extends StatelessWidget {
                       }).toList(),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                   // Cleaner Dashboard Section
-                  _buildCleanerDashboard(),
+                  _buildCleanerDashboard(context),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                   // Quick Stats Grid
-                  _buildQuickStatsGrid(),
+                  _buildQuickStatsGrid(context),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                   // Recent Jobs Section
-                  _buildRecentJobs(),
+                  _buildRecentJobs(context),
 
-                  const SizedBox(
-                    height: 100,
+                  SizedBox(
+                    height: AppStyle.heightPercent(context, 10),
                   ), // Extra space for floating tab bar
                 ],
               ),
@@ -230,15 +230,16 @@ class CleanerHomeScreen extends StatelessWidget {
   }
 
   // Cleaner Dashboard Section
-  Widget _buildCleanerDashboard() {
+  Widget _buildCleanerDashboard(BuildContext context) {
     return Container(
+      width: AppStyle.widthPercent(context, 90),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColours.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.3),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -332,7 +333,7 @@ class CleanerHomeScreen extends StatelessWidget {
   }
 
   // Quick Stats Grid - Better looking compact version
-  Widget _buildQuickStatsGrid() {
+  Widget _buildQuickStatsGrid(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -353,7 +354,7 @@ class CleanerHomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withOpacity(0.3),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -423,9 +424,16 @@ class CleanerHomeScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withOpacity(0.2), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -445,7 +453,7 @@ class CleanerHomeScreen extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 12,
-              color: AppColours.grey,
+              color: AppColours.black,
               fontFamily: AppFonts.fontFamily,
             ),
           ),
@@ -455,7 +463,7 @@ class CleanerHomeScreen extends StatelessWidget {
   }
 
   // Recent Jobs Section
-  Widget _buildRecentJobs() {
+  Widget _buildRecentJobs(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -478,7 +486,7 @@ class CleanerHomeScreen extends StatelessWidget {
                   itemCount: controller.completedJobsList.length,
                   itemBuilder: (context, index) {
                     final job = controller.completedJobsList[index];
-                    return _buildJobCard(job);
+                    return _buildJobCard(context, job);
                   },
                 ),
         ),
@@ -495,7 +503,7 @@ class CleanerHomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.2),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -530,8 +538,9 @@ class CleanerHomeScreen extends StatelessWidget {
   }
 
   // Job Card Widget
-  Widget _buildJobCard(Map<String, dynamic> job) {
+  Widget _buildJobCard(BuildContext context, Map<String, dynamic> job) {
     return Container(
+      width: AppStyle.widthPercent(context, 90),
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -539,7 +548,7 @@ class CleanerHomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.2),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -670,7 +679,12 @@ Widget simpleSalonGrid(
     children: [
       Text(
         titleName,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: AppColours.black,
+          fontFamily: AppFonts.fontFamily,
+        ),
       ),
       const SizedBox(height: 10),
       SizedBox(

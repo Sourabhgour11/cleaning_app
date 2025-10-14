@@ -4,6 +4,7 @@ class LoginScreenController extends GetxController {
   var userType = '';
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var isPasswordVisible = true.obs;
   @override
   void onInit() {
     super.onInit();
@@ -12,6 +13,13 @@ class LoginScreenController extends GetxController {
   }
 
   var isLoading = false.obs;
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 
   Future<void> login(String email, String password) async {
     isLoading.value = true;
@@ -36,5 +44,9 @@ class LoginScreenController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+  void togglePasswordVisibility(TextEditingController controller) {
+    isPasswordVisible.value = !isPasswordVisible.value;
   }
 }

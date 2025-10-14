@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/app_cleaner_bottom_bar.dart';
 import '../../../utils/app_partner_bottom_bar.dart';
 import 'bottom_nav_screen_controller.dart';
 

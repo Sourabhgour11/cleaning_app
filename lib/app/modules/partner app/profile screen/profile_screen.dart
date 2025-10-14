@@ -25,13 +25,13 @@ class ProfileScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
           // Statistics Cards
           _buildStatisticsCards(controller),
-          const SizedBox(height: 20),
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
           // Menu Items
           _buildMenuItems(controller),
-          const SizedBox(height: 100),
+          SizedBox(height: AppStyle.heightPercent(context, 15)),
         ],
       ),
     );
@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 80),
+          SizedBox(height: AppStyle.heightPercent(context, 6)),
           // Profile Image and Edit Button
           SizedBox(
             width: AppStyle.widthPercent(context, 90),

@@ -23,16 +23,19 @@ class ProfileScreen extends StatelessWidget {
     ProfileScreenController controller,
   ) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          // Statistics Cards
-          _buildStatisticsCards(controller),
-          const SizedBox(height: 20),
-          // Menu Items
-          _buildMenuItems(controller),
-          const SizedBox(height: 100),
-        ],
+      child: SizedBox(
+        width: AppStyle.widthPercent(context, 100),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            // Statistics Cards
+            _buildStatisticsCards(context, controller),
+            const SizedBox(height: 20),
+            // Menu Items
+            _buildMenuItems(context, controller),
+            const SizedBox(height: 100),
+          ],
+        ),
       ),
     );
   }
@@ -42,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
     ProfileScreenController controller,
   ) {
     return Container(
-      height: AppStyle.heightPercent(context, 22),
+      height: AppStyle.heightPercent(context, 20),
       width: AppStyle.widthPercent(context, 100),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -62,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 80),
+          SizedBox(height: AppStyle.heightPercent(context, 4)),
           // Profile Image and Edit Button
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
@@ -84,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 5),
+                      SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                       // Name and Verification
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                               fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: AppStyle.widthPercent(context, 2)),
                           if (controller.profileData['isVerified'] as bool)
                             Container(
                               padding: const EdgeInsets.all(4),
@@ -123,7 +126,7 @@ class ProfileScreen extends StatelessWidget {
                           fontFamily: AppFonts.fontFamily,
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                       // Rating and Experience
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -139,7 +142,7 @@ class ProfileScreen extends StatelessWidget {
                               fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: AppStyle.widthPercent(context, 2)),
                           const Icon(
                             Icons.work,
                             color: Colors.white70,
@@ -162,28 +165,33 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
         ],
       ),
     );
   }
 
-  Widget _buildStatisticsCards(ProfileScreenController controller) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+  Widget _buildStatisticsCards(
+    BuildContext context,
+    ProfileScreenController controller,
+  ) {
+    return SizedBox(
+      width: AppStyle.widthPercent(context, 90),
       child: Row(
         children: [
           Expanded(
             child: _buildStatCard(
+              context,
               'Total Jobs',
               '${controller.profileData['totalJobs']}',
               Icons.work,
               Colors.blue,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: AppStyle.widthPercent(context, 2)),
           Expanded(
             child: _buildStatCard(
+              context,
               'Completed',
               '${controller.profileData['completedJobs']}',
               Icons.check_circle,
@@ -196,13 +204,14 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildStatCard(
+    BuildContext context,
     String title,
     String value,
     IconData icon,
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: AppStyle.widthPercent(context, 90),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -217,6 +226,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -225,7 +235,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: AppStyle.heightPercent(context, 0.5)),
           Text(
             value,
             style: TextStyle(
@@ -235,7 +245,7 @@ class ProfileScreen extends StatelessWidget {
               fontFamily: AppFonts.fontFamily,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: AppStyle.heightPercent(context, 0.5)),
           Text(
             title,
             style: TextStyle(
@@ -245,14 +255,18 @@ class ProfileScreen extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
         ],
       ),
     );
   }
 
-  Widget _buildMenuItems(ProfileScreenController controller) {
+  Widget _buildMenuItems(
+    BuildContext context,
+    ProfileScreenController controller,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      width: AppStyle.widthPercent(context, 90),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -267,19 +281,20 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: controller.menuItems
-            .map((item) => _buildMenuItem(item, controller))
+            .map((item) => _buildMenuItem(context, item, controller))
             .toList(),
       ),
     );
   }
 
   Widget _buildMenuItem(
+    BuildContext context,
     Map<String, dynamic> item,
     ProfileScreenController controller,
   ) {
     return ListTile(
       leading: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(AppStyle.heightPercent(context, 0.5)),
         decoration: BoxDecoration(
           color: (item['color'] as Color).withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),

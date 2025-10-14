@@ -59,7 +59,7 @@ class BookingScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 80),
+          SizedBox(height: AppStyle.heightPercent(context, 4)),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Column(

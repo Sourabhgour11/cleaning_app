@@ -52,6 +52,12 @@ import '../modules/select_user_screen/select_user_screen.dart';
 import '../modules/select_user_screen/select_user_screen_binding.dart';
 import '../modules/splash_screen/splash_screen.dart';
 import '../modules/splash_screen/splash_screen_binding.dart';
+import '../modules/user app/book_service_screen/book_service_step2/book_service_step2_screen.dart';
+import '../modules/user app/book_service_screen/book_service_step2/book_service_step2_screen_binding.dart';
+import '../modules/user app/book_service_screen/book_service_step3/book_service_step3_screen.dart';
+import '../modules/user app/book_service_screen/book_service_step3/book_service_step3_screen_binding.dart';
+import '../modules/user app/book_service_screen/book_service_step_4/book_service_step4_screen.dart';
+import '../modules/user app/book_service_screen/book_service_step_4/book_service_step4_screen_binding.dart';
 import '../modules/user app/sub_categories_screen/sub_categories_screen_binding.dart';
 import 'app_routes.dart';
 
@@ -77,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.signUp,
-      page: () => const SignUpScreen(),
+      page: () => SignUpScreen(),
       binding: SignUpScreenBinding(),
     ),
     GetPage(
@@ -94,11 +100,6 @@ class AppPages {
       name: AppRoutes.forgotOtp,
       page: () => ForgotOtpScreen(),
       binding: ForgotOtpScreenBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.resetPassword,
-      page: () => ResetPassword(),
-      binding: ResetPasswordScreenBinding(),
     ),
 
     GetPage(

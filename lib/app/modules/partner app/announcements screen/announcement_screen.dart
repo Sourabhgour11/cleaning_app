@@ -36,7 +36,7 @@ class AnnouncementScreen extends StatelessWidget {
     AnnouncementScreenController controller,
   ) {
     return Container(
-      height: AppStyle.heightPercent(context, 22),
+      height: AppStyle.heightPercent(context, 20),
       width: AppStyle.widthPercent(context, 100),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -55,7 +55,7 @@ class AnnouncementScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 100),
+          SizedBox(height: AppStyle.heightPercent(context, 6)),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Row(

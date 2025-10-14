@@ -8,14 +8,10 @@ class ForgotOtpScreen extends StatelessWidget {
   final controller = Get.put(ForgotOtpScreenController());
   @override
   Widget build(BuildContext context) {
-    // Using AppStyle for responsive dimensions
-    double height = AppStyle.heightPercent(context, 100);
-    double width = AppStyle.widthPercent(context, 100);
-
     // Custom pin theme
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
+      width: AppStyle.widthPercent(context, 13),
+      height: AppStyle.widthPercent(context, 13),
       textStyle: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -60,8 +56,8 @@ class ForgotOtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColours.appColor,
       body: Container(
-        height: height * 100 / 100,
-        width: width * 100 / 100,
+        height: AppStyle.heightPercent(context, 100),
+        width: AppStyle.widthPercent(context, 100),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppImages.background),
@@ -71,7 +67,7 @@ class ForgotOtpScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
               Row(
                 children: [
                   SizedBox(width: AppStyle.widthPercent(context, 5)),
@@ -80,8 +76,8 @@ class ForgotOtpScreen extends StatelessWidget {
                       Get.back();
                     },
                     child: Container(
-                      width: AppStyle.widthPercent(context, 10),
-                      height: AppStyle.heightPercent(context, 10),
+                      width: AppStyle.widthPercent(context, 8),
+                      height: AppStyle.heightPercent(context, 8),
                       decoration: BoxDecoration(
                         color: AppColours.white.withOpacity(0.95),
                         shape: BoxShape.circle,
@@ -115,6 +111,7 @@ class ForgotOtpScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
               // App Logo with Animation
               TweenAnimationBuilder<double>(
                 duration: const Duration(milliseconds: 1000),
@@ -123,8 +120,8 @@ class ForgotOtpScreen extends StatelessWidget {
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: AppStyle.widthPercent(context, 25),
+                      height: AppStyle.widthPercent(context, 25),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppColours.white,
@@ -153,7 +150,7 @@ class ForgotOtpScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
 
               // App Title with Gradient
               ShaderMask(
@@ -165,7 +162,7 @@ class ForgotOtpScreen extends StatelessWidget {
                 child: const Text(
                   AppStrings.verifyOtp,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: AppColours.white,
                     fontFamily: AppFonts.fontFamily,
@@ -173,13 +170,13 @@ class ForgotOtpScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
 
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
+                width: AppStyle.widthPercent(context, 80),
+                height: AppStyle.heightPercent(context, 5),
+                alignment: Alignment.center,
+
                 decoration: BoxDecoration(
                   color: AppColours.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(25),
@@ -204,7 +201,7 @@ class ForgotOtpScreen extends StatelessWidget {
               // OTP Input Container
               Container(
                 width: AppStyle.widthPercent(context, 90),
-                padding: const EdgeInsets.all(20),
+                height: AppStyle.heightPercent(context, 40),
                 decoration: BoxDecoration(
                   color: AppColours.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(25),
@@ -224,60 +221,72 @@ class ForgotOtpScreen extends StatelessWidget {
                   ],
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    SizedBox(height: AppStyle.heightPercent(context, 2)),
                     // OTP Title
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppColours.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(12),
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColours.white.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.security,
+                              color: AppColours.appColor,
+                              size: 24,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.security,
-                            color: AppColours.appColor,
-                            size: 24,
+                          const SizedBox(width: 12),
+                          const Text(
+                            AppStrings.enterVerificationCode,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColours.black,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          AppStrings.enterVerificationCode,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: AppColours.black,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: AppStyle.heightPercent(context, 4)),
 
                     // OTP Pin Input
-                    Pinput(
-                      length: 6,
-                      controller: controller.otpController.value,
-                      focusNode: controller.otpFocusNode,
-                      defaultPinTheme: defaultPinTheme,
-                      focusedPinTheme: focusedPinTheme,
-                      submittedPinTheme: submittedPinTheme,
-                      pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                      showCursor: true,
-                      onCompleted: (pin) => () {},
-                      onChanged: (value) {
-                        if (value.length == 6) {
-                          Get.toNamed(AppRoutes.resetPassword);
-                        }
-                      },
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Pinput(
+                        length: 6,
+                        controller: controller.otpController.value,
+                        keyboardType: TextInputType.number,
+                        focusNode: controller.otpFocusNode,
+                        defaultPinTheme: defaultPinTheme,
+                        focusedPinTheme: focusedPinTheme,
+                        submittedPinTheme: submittedPinTheme,
+                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                        showCursor: true,
+                        onCompleted: (pin) => () {},
+                        onChanged: (value) {
+                          if (value.length == 6) {
+                            Get.toNamed(AppRoutes.resatePassword);
+                          }
+                        },
+                      ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: AppStyle.heightPercent(context, 4)),
 
                     // Verify Button
-                    Center(
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+
                       child: AppButton(
                         onPressed: () {
-                          Get.toNamed(AppRoutes.resetPassword);
+                          Get.toNamed(AppRoutes.resatePassword);
                         },
                         title: AppStrings.verifyOtp,
                         icon: Icons.verified_user,
@@ -285,43 +294,45 @@ class ForgotOtpScreen extends StatelessWidget {
                     ),
 
                     // Resend OTP
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          AppStrings.didntReceiveCode,
-                          style: TextStyle(
-                            color: AppColours.white,
-                            fontSize: 14,
-                            fontFamily: AppFonts.fontFamily,
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            AppStrings.didntReceiveCode,
+                            style: TextStyle(
+                              color: AppColours.white,
+                              fontSize: 14,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
                           ),
-                        ),
-                        TimerButton(
-                          label: AppStrings.resend,
-                          buttonType: ButtonType.textButton,
-                          color: Colors.transparent,
-                          disabledColor: Colors.transparent,
-                          activeTextStyle: const TextStyle(
-                            color: AppColours.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            fontFamily: AppFonts.fontFamily,
-                            decorationStyle: TextDecorationStyle.solid,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColours.white,
+                          TimerButton(
+                            label: AppStrings.resend,
+                            buttonType: ButtonType.textButton,
+                            color: Colors.transparent,
+                            disabledColor: Colors.transparent,
+                            activeTextStyle: const TextStyle(
+                              color: AppColours.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              fontFamily: AppFonts.fontFamily,
+                              decorationStyle: TextDecorationStyle.solid,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColours.white,
+                            ),
+                            disabledTextStyle: const TextStyle(
+                              color: AppColours.white,
+                            ),
+                            timeOutInSeconds: 30,
+                            onPressed: () {},
                           ),
-                          disabledTextStyle: const TextStyle(
-                            color: AppColours.white,
-                          ),
-                          timeOutInSeconds: 30,
-                          onPressed: () {},
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),

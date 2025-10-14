@@ -47,7 +47,7 @@ class InboxScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 60),
+          SizedBox(height: AppStyle.heightPercent(context, 4)),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Column(
@@ -68,7 +68,7 @@ class InboxScreen extends StatelessWidget {
                               fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: AppStyle.heightPercent(context, 1)),
                           Obx(
                             () => Row(
                               children: [
@@ -101,7 +101,7 @@ class InboxScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppStyle.heightPercent(context, 1)),
                 Row(
                   children: [
                     CircleAvatar(
@@ -117,7 +117,7 @@ class InboxScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: AppStyle.widthPercent(context, 2)),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +131,9 @@ class InboxScreen extends StatelessWidget {
                               fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          SizedBox(
+                            height: AppStyle.heightPercent(context, 0.5),
+                          ),
                           Obx(
                             () => Container(
                               padding: const EdgeInsets.symmetric(

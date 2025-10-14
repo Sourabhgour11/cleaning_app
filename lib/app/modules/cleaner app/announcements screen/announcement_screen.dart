@@ -15,14 +15,18 @@ class AnnouncementScreen extends StatelessWidget {
         child: _buildHeader(context, controller),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            // _buildHeader(context, controller),
-            const SizedBox(height: 15),
-            // Content
-            Expanded(child: Obx(() => _buildContent(controller, context))),
-          ],
+        child: SizedBox(
+          width: AppStyle.widthPercent(context, 100),
+          height: AppStyle.heightPercent(context, 100),
+          child: Column(
+            children: [
+              // Header
+              // _buildHeader(context, controller),
+              const SizedBox(height: 15),
+              // Content
+              Expanded(child: Obx(() => _buildContent(controller, context))),
+            ],
+          ),
         ),
       ),
     );
@@ -52,7 +56,7 @@ class AnnouncementScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 100),
+          SizedBox(height: AppStyle.heightPercent(context, 10)),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
             child: Row(
@@ -70,7 +74,7 @@ class AnnouncementScreen extends StatelessWidget {
                           fontFamily: AppFonts.fontFamily,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                       Obx(
                         () => Text(
                           '${controller.unreadCount} unread announcements',
@@ -102,8 +106,7 @@ class AnnouncementScreen extends StatelessWidget {
       return _buildEmptyState();
     }
 
-    return Container(
-      padding: const EdgeInsets.only(bottom: 80),
+    return SizedBox(
       width: AppStyle.widthPercent(context, 90),
 
       child: ListView.builder(
