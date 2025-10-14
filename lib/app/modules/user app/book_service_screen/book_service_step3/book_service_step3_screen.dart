@@ -1,12 +1,12 @@
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step1/book_service_step1_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:get/get.dart';
 import 'book_service_step3_screen_controller.dart';
 
 class BookServiceStep3Screen extends StatelessWidget {
-   BookServiceStep3Screen({super.key});
+  BookServiceStep3Screen({super.key});
 
-   final bookServiceStep1Controllerr = Get.find<BookServiceStep1ScreenController>();
+  final bookServiceStep1Controllerr =
+      Get.find<BookServiceStep1ScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,38 +22,42 @@ class BookServiceStep3Screen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  
+
                   // Professional Selection Section
                   // _buildProfessionalSection(controller),
-                  
+
                   // const SizedBox(height: 32),
-                  
+
                   // Date Selection Section
                   _buildDateSection(controller),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Time Selection Section
                   _buildTimeSection(controller),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Cancellation Policy
                   _buildCancellationPolicy(),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Specific Instructions
-                  _buildSpecificInstructions(controller,context),
-                  
+                  _buildSpecificInstructions(controller, context),
+
                   const SizedBox(height: 100), // Space for fixed footer
                 ],
               ),
             ),
           ),
-          
+
           // Fixed footer
-          bottomNavigationBar: _buildFooter(controller,context,bookServiceStep1Controllerr),
+          bottomNavigationBar: _buildFooter(
+            controller,
+            context,
+            bookServiceStep1Controllerr,
+          ),
         );
       },
     );
@@ -225,9 +229,9 @@ class BookServiceStep3Screen extends StatelessWidget {
             fontFamily: AppFonts.fontFamily,
           ),
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // Day names row
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -242,9 +246,9 @@ class BookServiceStep3Screen extends StatelessWidget {
             );
           }).toList(),
         ),
-        
+
         const SizedBox(height: 8),
-        
+
         // Date buttons row
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -252,7 +256,7 @@ class BookServiceStep3Screen extends StatelessWidget {
             final index = entry.key;
             final date = entry.value;
             final isSelected = controller.selectedDateIndex.value == index;
-            
+
             return GestureDetector(
               onTap: () => controller.selectDate(index),
               child: Container(
@@ -301,7 +305,7 @@ class BookServiceStep3Screen extends StatelessWidget {
                 fontFamily: AppFonts.fontFamily,
               ),
             ),
-            
+
             GestureDetector(
               onTap: () {
                 // TODO: Show all time slots
@@ -317,20 +321,24 @@ class BookServiceStep3Screen extends StatelessWidget {
             ),
           ],
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // Time slots
         Wrap(
           spacing: 12,
           runSpacing: 12,
           children: controller.timeSlots.map((timeSlot) {
-            final isSelected = controller.selectedTimeSlotId.value == timeSlot.id;
-            
+            final isSelected =
+                controller.selectedTimeSlotId.value == timeSlot.id;
+
             return GestureDetector(
               onTap: () => controller.selectTimeSlot(timeSlot.id),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColours.appColor : AppColours.white,
                   borderRadius: BorderRadius.circular(8),
@@ -378,9 +386,9 @@ class BookServiceStep3Screen extends StatelessWidget {
               size: 16,
             ),
           ),
-          
+
           const SizedBox(width: 12),
-          
+
           Expanded(
             child: Text(
               'Enjoy free cancellation up to 6 hours before your booking start time.',
@@ -391,7 +399,7 @@ class BookServiceStep3Screen extends StatelessWidget {
               ),
             ),
           ),
-          
+
           GestureDetector(
             onTap: () {
               // TODO: Show cancellation details
@@ -410,7 +418,10 @@ class BookServiceStep3Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildSpecificInstructions(BookServiceStep3ScreenController controller,BuildContext context) {
+  Widget _buildSpecificInstructions(
+    BookServiceStep3ScreenController controller,
+    BuildContext context,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -435,10 +446,10 @@ class BookServiceStep3Screen extends StatelessWidget {
 
               GestureDetector(
                 onTap: () {
-                controller.showAdditionalInstructionsBottomSheet(context);
+                  controller.showAdditionalInstructionsBottomSheet(context);
                 },
-                child: Text(controller.instructionsController.text == ""?
-                  'Add':'Edit',
+                child: Text(
+                  controller.instructionsController.text == "" ? 'Add' : 'Edit',
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColours.appColor,
@@ -448,15 +459,21 @@ class BookServiceStep3Screen extends StatelessWidget {
               ),
             ],
           ),
-          controller.instructionsController.text.isNotEmpty?  Text(controller.instructionsController.text):SizedBox(),
+          controller.instructionsController.text.isNotEmpty
+              ? Text(controller.instructionsController.text)
+              : SizedBox(),
         ],
       ),
     );
   }
 
-  Widget _buildFooter(BookServiceStep3ScreenController controller,BuildContext context,BookServiceStep1ScreenController bookServiceController) {
+  Widget _buildFooter(
+    BookServiceStep3ScreenController controller,
+    BuildContext context,
+    BookServiceStep1ScreenController bookServiceController,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.grey[50],
         boxShadow: [
@@ -486,19 +503,23 @@ class BookServiceStep3Screen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Obx(() => Text(
-                      'AED ${controller.baseServicePrice.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: AppFonts.fontFamily,
+                    Obx(
+                      () => Text(
+                        'AED ${controller.baseServicePrice.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: AppFonts.fontFamily,
+                        ),
                       ),
-                    )),
+                    ),
                     const SizedBox(width: 8),
                     GestureDetector(
-                      onTap: (){
-                        bookServiceController.showBookingSummaryBottomSheet(context);
+                      onTap: () {
+                        bookServiceController.showBookingSummaryBottomSheet(
+                          context,
+                        );
                       },
                       child: Icon(
                         Icons.keyboard_arrow_up,
@@ -518,13 +539,18 @@ class BookServiceStep3Screen extends StatelessWidget {
           SizedBox(
             height: AppStyle.heightPercent(context, 5),
             width: AppStyle.widthPercent(context, 30),
-            child: AppButton(onPressed: (){
-              Get.toNamed(AppRoutes.bookServiceStep4,arguments: controller.appBarTitle);
-            }, title: "Next",),
+            child: AppButton(
+              onPressed: () {
+                Get.toNamed(
+                  AppRoutes.bookServiceStep4,
+                  arguments: controller.appBarTitle,
+                );
+              },
+              title: "Next",
+            ),
           ),
         ],
       ),
     );
   }
-
 }

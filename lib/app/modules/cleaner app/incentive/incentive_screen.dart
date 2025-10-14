@@ -28,15 +28,21 @@ class IncentiveScreen extends StatelessWidget {
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            // Earnings Summary Cards
-            _buildEarningsSummary(context, controller),
-            const SizedBox(height: 20),
-            _buildRecentIncentives(controller),
-            const SizedBox(height: 100),
-          ],
+        child: SizedBox(
+          width: AppStyle.widthPercent(context, 100),
+          child: Column(
+            children: [
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              // Earnings Summary Cards
+              _buildEarningsSummary(context, controller),
+              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              SizedBox(
+                width: AppStyle.widthPercent(context, 90),
+                child: _buildRecentIncentives(context, controller),
+              ),
+              SizedBox(height: AppStyle.heightPercent(context, 10)),
+            ],
+          ),
         ),
       ),
     );
@@ -48,7 +54,7 @@ class IncentiveScreen extends StatelessWidget {
   ) {
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      height: AppStyle.heightPercent(context, 22),
+      height: AppStyle.heightPercent(context, 25),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -67,7 +73,7 @@ class IncentiveScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 60),
+          SizedBox(height: AppStyle.heightPercent(context, 5)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -103,7 +109,7 @@ class IncentiveScreen extends StatelessWidget {
               const SizedBox(width: 15),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: AppStyle.heightPercent(context, 1)),
           // Total Earnings
           const Text(
             'Total Earnings',
@@ -113,7 +119,7 @@ class IncentiveScreen extends StatelessWidget {
               fontFamily: AppFonts.fontFamily,
             ),
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: AppStyle.heightPercent(context, 0.5)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +133,7 @@ class IncentiveScreen extends StatelessWidget {
                   fontFamily: AppFonts.fontFamily,
                 ),
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: AppStyle.widthPercent(context, 0.5)),
               Text(
                 controller.totalEarnings.value.toStringAsFixed(2),
                 style: const TextStyle(
@@ -149,30 +155,35 @@ class IncentiveScreen extends StatelessWidget {
     BuildContext context,
     IncentiveScreenController controller,
   ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return SizedBox(
+      width: AppStyle.widthPercent(context, 90),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          SizedBox(
+            width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
+              context,
               'This Month',
               controller.monthlyEarnings.value,
               Icons.calendar_today,
               AppColours.appColor,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
+          SizedBox(
+            width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
+              context,
               'This Week',
               controller.weeklyEarnings.value,
               Icons.date_range,
               Colors.green,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
+          SizedBox(
+            width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
+              context,
               'Bonuses',
               controller.bonusEarnings.value,
               Icons.card_giftcard,
@@ -185,19 +196,20 @@ class IncentiveScreen extends StatelessWidget {
   }
 
   Widget _buildSummaryCard(
+    BuildContext context,
     String title,
     double amount,
     IconData icon,
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: AppStyle.widthPercent(context, 90),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColours.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.5),
             offset: const Offset(0, 2),
             blurRadius: 8,
             spreadRadius: 0,
@@ -206,6 +218,7 @@ class IncentiveScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -214,7 +227,7 @@ class IncentiveScreen extends StatelessWidget {
             ),
             child: Icon(icon, color: color, size: 24),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: AppStyle.heightPercent(context, 1.2)),
           Text(
             '\$${amount.toStringAsFixed(0)}',
             style: TextStyle(
@@ -224,52 +237,53 @@ class IncentiveScreen extends StatelessWidget {
               fontFamily: AppFonts.fontFamily,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: AppStyle.heightPercent(context, 0.4)),
           Text(
             title,
             style: TextStyle(
               fontSize: 11,
-              color: Colors.grey[600],
+              color: AppColours.grey,
               fontFamily: AppFonts.fontFamily,
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
         ],
       ),
     );
   }
 
-  Widget _buildIncentiveTypes(IncentiveScreenController controller) {
+  Widget _buildIncentiveTypes(
+    BuildContext context,
+    IncentiveScreenController controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Incentive Types',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Incentive Types',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColours.black,
+                fontFamily: AppFonts.fontFamily,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'View All',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColours.black,
+                  fontSize: 14,
+                  color: AppColours.appColor,
                   fontFamily: AppFonts.fontFamily,
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColours.appColor,
-                    fontFamily: AppFonts.fontFamily,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         const SizedBox(height: 12),
         SizedBox(
@@ -528,12 +542,15 @@ class IncentiveScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentIncentives(IncentiveScreenController controller) {
+  Widget _buildRecentIncentives(
+    BuildContext context,
+    IncentiveScreenController controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+        SizedBox(
+          width: AppStyle.widthPercent(context, 90),
           child: Text(
             'Recent Incentives',
             style: TextStyle(
@@ -544,15 +561,15 @@ class IncentiveScreen extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: AppStyle.heightPercent(context, 2)),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
+          width: AppStyle.widthPercent(context, 90),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withOpacity(0.5),
                 offset: const Offset(0, 2),
                 blurRadius: 8,
                 spreadRadius: 0,
@@ -561,7 +578,7 @@ class IncentiveScreen extends StatelessWidget {
           ),
           child: Column(
             children: controller.recentIncentives.map((incentive) {
-              return _buildIncentiveItem(incentive);
+              return _buildIncentiveItem(context, incentive);
             }).toList(),
           ),
         ),
@@ -569,94 +586,106 @@ class IncentiveScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIncentiveItem(Map<String, dynamic> incentive) {
+  Widget _buildIncentiveItem(
+    BuildContext context,
+    Map<String, dynamic> incentive,
+  ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: AppStyle.widthPercent(context, 80),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
         ),
       ),
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.check_circle,
-              color: Colors.green,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  incentive['title'] as String,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColours.black,
-                    fontFamily: AppFonts.fontFamily,
-                  ),
+          SizedBox(height: AppStyle.heightPercent(context, 1)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const SizedBox(height: 4),
-                Row(
+                child: const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 24,
+                ),
+              ),
+              SizedBox(
+                width: AppStyle.widthPercent(context, 48),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.calendar_today,
-                      size: 12,
-                      color: Colors.grey[600],
-                    ),
-                    const SizedBox(width: 4),
                     Text(
-                      incentive['date'] as String,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
+                      incentive['title'] as String,
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColours.black,
                         fontFamily: AppFonts.fontFamily,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        incentive['status'] as String,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: AppFonts.fontFamily,
+                    // const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 12,
+                          color: Colors.grey[600],
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        Text(
+                          incentive['date'] as String,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontFamily: AppFonts.fontFamily,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            incentive['status'] as String,
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    // const SizedBox(height: 4),
                   ],
                 ),
-              ],
-            ),
+              ),
+              Text(
+                '+\$${(incentive['amount'] as double).toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontFamily: AppFonts.fontFamily,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Text(
-            '+\$${(incentive['amount'] as double).toStringAsFixed(2)}',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-              fontFamily: AppFonts.fontFamily,
-            ),
-          ),
+          SizedBox(height: AppStyle.heightPercent(context, 1)),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_fonts.dart';
 
 class ProfileOptionTile extends StatelessWidget {

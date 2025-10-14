@@ -7,7 +7,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColours.white,
+      backgroundColor: AppColours.appColor,
       body: Container(
         height: AppStyle.heightPercent(context, 100),
         width: AppStyle.widthPercent(context, 100),
@@ -20,7 +20,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: AppStyle.heightPercent(context, 2)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
               Row(
                 children: [
                   SizedBox(width: AppStyle.widthPercent(context, 5)),
@@ -29,8 +29,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                       Get.back();
                     },
                     child: Container(
-                      width: AppStyle.widthPercent(context, 10),
-                      height: AppStyle.heightPercent(context, 10),
+                      width: AppStyle.widthPercent(context, 8),
+                      height: AppStyle.heightPercent(context, 8),
                       decoration: BoxDecoration(
                         color: AppColours.white.withOpacity(0.95),
                         shape: BoxShape.circle,
@@ -64,7 +64,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
               // App Logo with Animation
               TweenAnimationBuilder<double>(
                 duration: const Duration(milliseconds: 1000),
@@ -73,8 +73,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                   return Transform.scale(
                     scale: value,
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: AppStyle.widthPercent(context, 25),
+                      height: AppStyle.widthPercent(context, 25),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppColours.white,
@@ -115,7 +115,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 child: const Text(
                   AppStrings.forgotPassword,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: AppColours.white,
                     fontFamily: AppFonts.fontFamily,
@@ -126,10 +126,9 @@ class ForgotPasswordScreen extends StatelessWidget {
               SizedBox(height: AppStyle.heightPercent(context, 2)),
 
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
+                width: AppStyle.widthPercent(context, 80),
+                height: AppStyle.heightPercent(context, 5),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColours.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(25),
@@ -154,7 +153,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               // Main Form Container
               Container(
                 width: AppStyle.widthPercent(context, 90),
-                padding: const EdgeInsets.all(20),
+                height: AppStyle.heightPercent(context, 45),
                 decoration: BoxDecoration(
                   color: AppColours.white.withOpacity(0.95),
                   borderRadius: BorderRadius.circular(25),
@@ -174,58 +173,68 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ],
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    SizedBox(height: AppStyle.heightPercent(context, 2)),
                     // Form Title
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppColours.appColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColours.appColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.lock_reset,
+                              color: AppColours.appColor,
+                              size: 24,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.lock_reset,
-                            color: AppColours.appColor,
-                            size: 24,
+                          const SizedBox(width: 12),
+                          const Text(
+                            AppStrings.resetYourPassword,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColours.black,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          AppStrings.resetYourPassword,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: AppColours.black,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: AppStyle.heightPercent(context, 3)),
 
                     // Email Field
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.email_outlined,
-                          color: AppColours.appColor,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          AppStrings.emailAddress,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColours.black,
-                            fontFamily: AppFonts.fontFamily,
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.email_outlined,
+                            color: AppColours.appColor,
+                            size: 20,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          const Text(
+                            AppStrings.emailAddress,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColours.black,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: AppStyle.heightPercent(context, 2)),
                     Container(
+                      width: AppStyle.widthPercent(context, 80),
                       decoration: BoxDecoration(
                         color: AppColours.grey.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(15),
@@ -263,10 +272,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: AppStyle.heightPercent(context, 3)),
 
                     // Send Reset Email Button
-                    Center(
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
                       child: AppButton(
                         onPressed: controller.isLoading.value
                             ? () {}
@@ -275,37 +285,40 @@ class ForgotPasswordScreen extends StatelessWidget {
                         icon: Icons.send,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                     // Back to Login
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          AppStrings.rememberYourPassword,
-                          style: TextStyle(
-                            color: AppColours.grey,
-                            fontSize: 14,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: const Text(
-                            AppStrings.backToLogin,
+                    SizedBox(
+                      width: AppStyle.widthPercent(context, 80),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            AppStrings.rememberYourPassword,
                             style: TextStyle(
-                              color: AppColours.appColor,
-                              fontWeight: FontWeight.w600,
+                              color: AppColours.grey,
                               fontSize: 14,
                               fontFamily: AppFonts.fontFamily,
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColours.appColor,
                             ),
                           ),
-                        ),
-                      ],
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text(
+                              AppStrings.backToLogin,
+                              style: TextStyle(
+                                color: AppColours.appColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                fontFamily: AppFonts.fontFamily,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColours.appColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

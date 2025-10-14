@@ -69,6 +69,7 @@ class _CleanerModernBottomBarState extends State<CleanerModernBottomBar>
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: AppStyle.widthPercent(context, 100),
       margin: const EdgeInsets.all(15),
       // height: 85,
       decoration: BoxDecoration(
