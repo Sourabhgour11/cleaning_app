@@ -95,7 +95,14 @@ class HomeScreenController extends GetxController {
     },
   ];
 
-  final List<Map<String, dynamic>> AcCleaning = [
-    {'name': "AC Cleaning", 'image': "lib/assets/images/ac_cleaning.webp"},
+  final List<Map<String, dynamic>> fitness = [
+    {'name': "Personal Trainer", 'image': "lib/assets/images/fitness_img.jpg"},
+    {'name': "Yoga", 'image': "lib/assets/images/fitness2_img.jpg"},
+  ];
+
+  final List<Map<String, dynamic>> petCare = [
+    {'name': "Pet Grooming", 'image': "lib/assets/images/pet_care_img.png"},
+    {'name': "Vet at Home", 'image': "lib/assets/images/pet_care2_img.jpg"},
+    {'name': "Vet at Home", 'image': "lib/assets/images/pet_care3_img.webp"},
   ];
 }

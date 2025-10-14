@@ -26,4 +26,6 @@ class AppRoutes {
   static const bookServiceStep3 = '/bookServiceStep3';
   static const bookServiceStep4 = '/bookServiceStep4';
   static const favourite = '/favourite';
+  static const userBookingScreen = '/userBookingScreen';
+  static const bookingDetails = '/bookingDetails';
 }

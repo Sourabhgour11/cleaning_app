@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Home Cleaning User App',
       debugShowCheckedModeBanner: false,
-      initialBinding: InitialBinding(),
+      // initialBinding: InitialBinding(),
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       theme: ThemeData(primaryColor: AppColours.appColor),

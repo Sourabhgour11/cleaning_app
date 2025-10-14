@@ -1,25 +1,25 @@
-import 'package:cleaning_app/app/utils/app_colours.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:cleaning_app/app/utils/app_export.dart';
 import 'booking_screen_controller.dart';
 
-class BookingScreen extends StatelessWidget {
-  final BookingScreenController controller = Get.put(BookingScreenController());
+class UserBookingScreen extends StatelessWidget {
+  final UserBookingScreenController controller = Get.put(UserBookingScreenController());
 
-  BookingScreen({super.key});
+  UserBookingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments ?? {};
+    final showBack = args['showBack'] ?? false;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: AppColours.white,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false, // we’ll control leading manually
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
           centerTitle: true,
+          elevation: 0,
           flexibleSpace: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
@@ -27,7 +27,6 @@ class BookingScreen extends StatelessWidget {
                 bottomRight: Radius.circular(30),
               ),
               gradient: AppColours.gradientColor,
-              // color: AppColours.appColor,
               boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
@@ -38,7 +37,28 @@ class BookingScreen extends StatelessWidget {
               ],
             ),
           ),
-          elevation: 0,
+
+          // ✅ Conditional back arrow
+          leading: showBack
+              ? Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+              color: AppColours.white,
+            ),
+          )
+              : const SizedBox.shrink(), // 👈 use SizedBox.shrink() (safer)
+
+          // ✅ Title
           title: const Text(
             "Bookings",
             style: TextStyle(
@@ -47,28 +67,32 @@ class BookingScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+
+          // ✅ Actions
           actions: [
             IconButton(
               icon: const Icon(Icons.filter_list, color: Colors.white),
               onPressed: () {},
             ),
           ],
+
+          // ✅ Bottom tab bar with safe padding
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8,
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04,
+                vertical: MediaQuery.of(context).size.width * 0.02,
               ),
               child: Container(
-                height: 45,
+                height: AppStyle.heightPercent(context, 5),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: TabBar(
                   indicator: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [Colors.orangeAccent, Colors.deepOrangeAccent],
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -92,7 +116,8 @@ class BookingScreen extends StatelessWidget {
           ),
         ),
 
-        body: TabBarView(
+
+          body: TabBarView(
           children: [
             // Upcoming Tab
             Obx(() {
@@ -131,59 +156,66 @@ class BookingScreen extends StatelessWidget {
                 );
               }
               return ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(
+                  MediaQuery.of(context).size.width * 0.05,
+                ),
                 itemCount: controller.upcomingBookings.length,
                 itemBuilder: (context, index) {
                   final booking = controller.upcomingBookings[index];
-                  return Card(
-                    color: AppColours.white,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.orangeAccent.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
+                  return GestureDetector(
+                    onTap: (){
+                      Get.toNamed(AppRoutes.bookingDetails);
+                    },
+                    child: Card(
+                      color: AppColours.white,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0.5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.orangeAccent.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.cleaning_services,
+                                color: Colors.orangeAccent,
+                              ),
                             ),
-                            child: const Icon(
-                              Icons.cleaning_services,
-                              color: Colors.orangeAccent,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  booking['service']!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    booking['service']!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "${booking['date']} | ${booking['time']}",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "${booking['date']} | ${booking['time']}",
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 18,
-                            color: Colors.grey,
-                          ),
-                        ],
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -232,55 +264,60 @@ class BookingScreen extends StatelessWidget {
                 itemCount: controller.pastBookings.length,
                 itemBuilder: (context, index) {
                   final booking = controller.pastBookings[index];
-                  return Card(
-                    color: AppColours.white,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: AppColours.grey.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
+                  return GestureDetector(
+                    onTap: (){
+                      Get.toNamed(AppRoutes.bookingDetails);
+                    },
+                    child: Card(
+                      color: AppColours.white,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0.5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: AppColours.grey.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.check_circle,
+                                color: Colors.grey,
+                              ),
                             ),
-                            child: const Icon(
-                              Icons.check_circle,
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    booking['service']!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "${booking['date']} | ${booking['time']}",
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
                               color: Colors.grey,
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  booking['service']!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "${booking['date']} | ${booking['time']}",
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 18,
-                            color: Colors.grey,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );

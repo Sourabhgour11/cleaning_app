@@ -1,8 +1,6 @@
-import 'package:cleaning_app/app/utils/app_bottombar.dart';
-import 'package:cleaning_app/app/utils/app_user_bottom_bar.dart';
-import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cleaning_app/app/utils/app_user_bottom_bar.dart';
 import 'home_screen_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -52,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                               //   colors: [AppColours.appColor, AppColours.appColor2],
                               // ),
                               // color: AppColours.appColor
-                              borderRadius: BorderRadius.circular(30)
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30))
                             ),
                           ),
 
@@ -77,8 +75,8 @@ class HomeScreen extends StatelessWidget {
                                         color: Colors.white,
                                       ),
                                     ),
-                                  )),
-                                  const SizedBox(height: 4),
+                                  ),
+                                   SizedBox(height: 4),
                                   Obx(
                                     () => Row(
                                       children: [
@@ -107,33 +105,7 @@ class HomeScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Obx(() => Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      SizedBox(
-                                        width:AppStyle.widthPercent(context, 60),
-                                        child: Text(
-                                          controller.location.value,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: AppFonts.fontFamily,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  )),
+
                                 ],
                               ),
                             ),
@@ -181,14 +153,11 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-
-
-
                 // Carousel Slider
                 SliverToBoxAdapter(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -197,12 +166,15 @@ class HomeScreen extends StatelessWidget {
                             carouselController: carouselController,
                             itemCount: controller.images.length,
                             itemBuilder: (context, index, realIndex) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  controller.images[index],
-                                  fit: BoxFit.fill,
-                                  width: double.infinity,
+                              return Padding(
+                                padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(
+                                    controller.images[index],
+                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                  ),
                                 ),
                               );
                             },
@@ -210,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                               height: 170,
                               autoPlay: true,
                               enlargeCenterPage: true,
-                              // viewportFraction: 0.9,
+                               viewportFraction: 1.0,
                               onPageChanged: (index, reason) {
                                 controller.currentIndex.value = index;
                               },
@@ -245,6 +217,7 @@ class HomeScreen extends StatelessWidget {
                                           ? Colors.blueAccent
                                           : Colors.grey,
                                     ),
+
                                   ),
                                 );
                               }).toList(),
@@ -254,6 +227,7 @@ class HomeScreen extends StatelessWidget {
                           SizedBox(
                             height: 100, // enough height for icons + text
                             child: ListView.separated(
+                              padding: const EdgeInsets.only(right: 13),
                               scrollDirection : Axis.horizontal,
                               itemCount: controller.services.length,
                               separatorBuilder: (_, __) =>
@@ -306,6 +280,7 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+
                                       ],
                                     ),
                                   ),
@@ -322,16 +297,19 @@ class HomeScreen extends StatelessWidget {
                               fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          SizedBox(height: 20),
-                          // Text(),
-                          simpleSalonGrid("General Cleaning",controller.generalCleaning),
-                          SizedBox(height: 20),
-                          simpleSalonGrid("Salon & Spa at Home",controller.salonAndSpa),
-                          SizedBox(height: 20),
-                          simpleSalonGrid("Handyman & Maintainence",controller.handyMan),
-                          SizedBox(height: 20),
-                          simpleSalonGrid("Healthcare at Home",controller.healthCareAtHome),
-                          SizedBox(height: 110),
+                          SizedBox(height: AppStyle.heightPercent(context, 1)),
+                          simpleSalonGrid("General Cleaning",controller,context,controller.generalCleaning,),
+                          SizedBox(height: AppStyle.heightPercent(context, 2)),
+                          simpleSalonGrid("Salon & Spa at Home",controller,context,controller.salonAndSpa),
+                          SizedBox(height: AppStyle.heightPercent(context, 2)),
+                          simpleSalonGrid("Handyman & Maintainence",controller,context,controller.handyMan),
+                          SizedBox(height: AppStyle.heightPercent(context, 2)),
+                          simpleSalonGrid("Healthcare at Home",controller,context,controller.healthCareAtHome),
+                          SizedBox(height: AppStyle.heightPercent(context, 2)),
+                          simpleSalonGrid("Fitness at Home",controller,context,controller.fitness),
+                          SizedBox(height: AppStyle.heightPercent(context, 2)),
+                          simpleSalonGrid("Pet Care at Home",controller,context,controller.petCare),
+                          SizedBox(height: AppStyle.heightPercent(context, 14)),
                         ],
                       ),
                     ),
@@ -343,7 +321,7 @@ class HomeScreen extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: ModernBottomBar(),
+                child: AppUserBottomBar(),
                 ),
           ]
         ),
@@ -353,7 +331,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 // Simple version without colors
-Widget simpleSalonGrid(String titleName, List<Map<String, dynamic>> list,
+Widget simpleSalonGrid(String titleName,HomeScreenController controller,BuildContext context, List<Map<String, dynamic>> list,
     {Function(String)? onItemTap}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,7 +342,7 @@ Widget simpleSalonGrid(String titleName, List<Map<String, dynamic>> list,
       ),
       const SizedBox(height: 10),
       SizedBox(
-        height: 120, // height of the horizontal grid
+        height: AppStyle.heightPercent(context, 13), // height of the horizontal grid
         child: GridView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: list.length,
@@ -377,10 +355,14 @@ Widget simpleSalonGrid(String titleName, List<Map<String, dynamic>> list,
             final item = list[index];
             return InkWell(
               onTap: () {
-                if (onItemTap != null) {
-                  onItemTap("Item $index");
-                  print("Item $index");
-                }
+                // if (onItemTap != null) {
+                //   onItemTap("Item $index");
+                //   print("jjjjjj");
+                //   controller.appBarTitle.value = item['name'];
+                //   Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
+                // }
+                controller.appBarTitle.value = item['name'];
+                Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
               },
               child: Stack(
                 children: [

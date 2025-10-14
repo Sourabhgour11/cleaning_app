@@ -186,15 +186,6 @@ class BookServiceStep4ScreenController extends GetxController {
     return 'credit_card';
   }
 
-  void testLottieAsset() {
-    // Test if the asset can be loaded
-    try {
-      Lottie.asset('assets/lottie/success.lottie');
-      print('Lottie asset path is correct');
-    } catch (e) {
-      print('Lottie asset error: $e');
-    }
-  }
 
   void showLottiePopup(BuildContext context) {
     Get.dialog(
@@ -262,7 +253,7 @@ class BookServiceStep4ScreenController extends GetxController {
                   width: double.infinity,
                   height: AppStyle.heightPercent(context, 6),
                   child: AppButton(onPressed: (){
-                    Get.toNamed(AppRoutes.userBottomNav);
+                    Get.offAllNamed(AppRoutes.userBottomNav);
                   }, title: "OK")
                 ),
               ],

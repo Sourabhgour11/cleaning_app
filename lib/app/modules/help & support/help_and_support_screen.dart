@@ -38,9 +38,16 @@ class HelpAndSupportScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final width = AppStyle.widthPercent(context, 100);
+    final smallGap = AppStyle.heightPercent(context, 2); // adaptive spacing
+    final largeGap = AppStyle.heightPercent(context, 3.5);
+
     return Container(
-      width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: width,
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.03,
+        // vertical: AppStyle.heightPercent(context, 2.5),
+      ),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -56,9 +63,12 @@ class HelpAndSupportScreen extends StatelessWidget {
           ),
         ],
       ),
+      // important: don't let this Column try to expand infinitely
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 60),
+          SizedBox(height: largeGap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -81,23 +91,35 @@ class HelpAndSupportScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Text(
-                'Help & Support',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  fontFamily: AppFonts.fontFamily,
-                  letterSpacing: 0.5,
+
+              // Title - use Flexible so long text doesn't overflow the layout
+              Flexible(
+                child: Text(
+                  'Help & Support',
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontFamily: AppFonts.fontFamily,
+                    letterSpacing: 0.5,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
-              const SizedBox(width: 42),
+
+              // right spacer same visual width as leading button
+              SizedBox(width: 42),
             ],
           ),
-          const SizedBox(height: 24),
+
+          SizedBox(height: smallGap),
+
+          // Info card
           Container(
             width: AppStyle.widthPercent(context, 60),
-            height: AppStyle.heightPercent(context, 18),
+            height: AppStyle.heightPercent(context, 18), // bounded height
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
@@ -110,6 +132,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  padding: EdgeInsets.all(AppStyle.widthPercent(context, 2.5)),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
                     shape: BoxShape.circle,
@@ -120,7 +143,7 @@ class HelpAndSupportScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppStyle.heightPercent(context, 1.5)),
                 const Text(
                   'We\'re Here to Help!',
                   style: TextStyle(
@@ -130,7 +153,7 @@ class HelpAndSupportScreen extends StatelessWidget {
                     fontFamily: AppFonts.fontFamily,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: AppStyle.heightPercent(context, 1)),
                 Text(
                   'Get assistance with any questions or issues',
                   style: TextStyle(
@@ -139,14 +162,19 @@ class HelpAndSupportScreen extends StatelessWidget {
                     fontFamily: AppFonts.fontFamily,
                   ),
                   textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
+
+          SizedBox(height: smallGap),
         ],
       ),
     );
   }
+
 
   Widget _buildFaqSection(HelpAndSupportScreenController controller) {
     return Column(

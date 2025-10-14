@@ -11,80 +11,51 @@ class BookServiceStep1Screen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
-      body: Column(
-        children: [
-          // Header Section
-          // _buildHeader(controller),
-          
-          // Main Content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Exclusive Offer Section
-                  _buildExclusiveOffer(controller),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Service Duration Section
-                  _buildServiceDuration(controller),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Professionals Count Section
-                  _buildProfessionalsCount(controller),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Cleaning Materials Section
-                  _buildCleaningMaterials(controller),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Specific Instructions Section
-                  _buildSpecificInstructions(controller),
-                  
-                  const SizedBox(height: 100), // Bottom padding for footer
-                ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+        child: SingleChildScrollView(
+          // padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: AppStyle.heightPercent(context, 1.5)),
+              Text(
+                'Step 1 of 4',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                  fontFamily: AppFonts.fontFamily,
+                ),
               ),
-            ),
-          ),
-          
-          // Footer with Total and Next Button
-          _buildFooter(controller,context),
-        ],
-      ),
-    );
-  }
+              // Exclusive Offer Section
+              _buildExclusiveOffer(controller),
 
-  Widget _buildHeader(BookServiceStep1ScreenController controller) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(() => Text(
-            'Step ${controller.currentStep.value} of ${controller.totalSteps.value}',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-              fontFamily: AppFonts.fontFamily,
-            ),
-          )),
-          const SizedBox(height: 8),
-          Obx(() => Text(
-            controller.serviceTitle.value,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontFamily: AppFonts.fontFamily,
-            ),
-          )),
-        ],
+               SizedBox(height: AppStyle.heightPercent(context, 3)),
+
+              // Service Duration Section
+              _buildServiceDuration(controller),
+
+               SizedBox(height: AppStyle.heightPercent(context, 3)),
+
+              // Professionals Count Section
+              _buildProfessionalsCount(controller),
+
+               SizedBox(height: AppStyle.heightPercent(context, 3)),
+
+              // Cleaning Materials Section
+              _buildCleaningMaterials(controller),
+
+               SizedBox(height: AppStyle.heightPercent(context, 3)),
+
+              // Specific Instructions Section
+              _buildSpecificInstructions(controller),
+
+               SizedBox(height: AppStyle.heightPercent(context, 15)), // Bottom padding for footer
+            ],
+          ),
+        ),
       ),
+      bottomNavigationBar:  _buildFooter(controller,context),
     );
   }
 

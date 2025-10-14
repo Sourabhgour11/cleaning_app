@@ -41,9 +41,9 @@ class GetContentScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(
-    BuildContext context,
-    GetContentScreenController controller,
-  ) {
+      BuildContext context,
+      GetContentScreenController controller,
+      ) {
     IconData getHeaderIcon() {
       switch (controller.contentType.value) {
         case 'privacy':
@@ -57,9 +57,13 @@ class GetContentScreen extends StatelessWidget {
       }
     }
 
+    final width = AppStyle.widthPercent(context, 100);
+    final height = AppStyle.heightPercent(context, 70); // fixed % of screen
+
     return Container(
-      width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: width,
+      height: height, // bounded height to avoid RenderFlex issues
+      padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.05),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -76,8 +80,9 @@ class GetContentScreen extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -101,22 +106,26 @@ class GetContentScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Text(
-                  controller.title.value,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                    fontFamily: AppFonts.fontFamily,
-                    letterSpacing: 0.5,
+                child: Obx(
+                      () => Text(
+                    controller.title.value,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      fontFamily: AppFonts.fontFamily,
+                      letterSpacing: 0.5,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(width: 42),
+              const SizedBox(width: 42), // same width as back button
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: height * 0.015),
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -129,37 +138,40 @@ class GetContentScreen extends StatelessWidget {
             ),
             child: Icon(getHeaderIcon(), size: 40, color: Colors.white),
           ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3),
-                width: 1,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.update, color: Colors.white, size: 14),
-                const SizedBox(width: 6),
-                Text(
-                  'Last Updated: ${controller.lastUpdated.value}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontFamily: AppFonts.fontFamily,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(height: height * 0.03),
+          // Obx(
+          //       () => Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          //     decoration: BoxDecoration(
+          //       color: Colors.white.withOpacity(0.2),
+          //       borderRadius: BorderRadius.circular(20),
+          //       border: Border.all(
+          //         color: Colors.white.withOpacity(0.3),
+          //         width: 1,
+          //       ),
+          //     ),
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         const Icon(Icons.update, color: Colors.white, size: 14),
+          //         const SizedBox(width: 6),
+          //         Text(
+          //           'Last Updated: ${controller.lastUpdated.value}',
+          //           style: const TextStyle(
+          //             fontSize: 12,
+          //             color: Colors.white,
+          //             fontFamily: AppFonts.fontFamily,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
+
 
   Widget _buildContentBody(GetContentScreenController controller) {
     return Container(

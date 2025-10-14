@@ -1,6 +1,6 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-class BookingScreenController extends GetxController{
+class UserBookingScreenController extends GetxController{
 
   @override
   void onInit() {

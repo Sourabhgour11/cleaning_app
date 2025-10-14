@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 40)),
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 60)),
         child: _buildProfileHeader(context, controller),
       ),
       body: SafeArea(child: Obx(() => _buildContent(context, controller))),
@@ -40,12 +41,15 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileHeader(
-    BuildContext context,
-    ProfileController controller,
-  ) {
+      BuildContext context,
+      ProfileController controller,
+      ) {
+    final height = AppStyle.heightPercent(context, 30); // 20% of screen
+    final width = AppStyle.widthPercent(context, 100);
+
     return Container(
-      height: AppStyle.heightPercent(context, 30),
-      width: AppStyle.widthPercent(context, 100),
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -61,83 +65,81 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          const SizedBox(height: 80),
-          // Profile Image and Edit Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 47,
-                        backgroundColor: AppColours.appColor.withOpacity(0.1),
-                        child: Icon(
-                          Icons.person,
-                          color: AppColours.appColor,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    // Name and Verification
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Obx(
-                          () => Text(
-                            controller.userName.value,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontFamily: AppFonts.fontFamily,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.verified,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Obx(
-                      () => Text(
-                        controller.phoneNumber.value,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    // User Status
-                  ],
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: height * 0.15, // dynamic top spacing
+          left: width * 0.05,
+          right: width * 0.05,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Profile Image
+            CircleAvatar(
+              radius: height * 0.18, // responsive radius
+              backgroundColor: Colors.white,
+              child: CircleAvatar(
+                radius: height * 0.29,
+                backgroundColor: AppColours.appColor.withOpacity(0.1),
+                child: Icon(
+                  Icons.person,
+                  color: AppColours.appColor,
+                  size: height * 0.2,
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(height: height * 0.05),
+            // Name and Verification
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(
+                      () => Flexible(
+                    child: Text(
+                      controller.userName.value,
+                      style: TextStyle(
+                        fontSize: height * 0.12, // responsive font
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: AppFonts.fontFamily,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                SizedBox(width: width * 0.02),
+                Container(
+                  padding: EdgeInsets.all(height * 0.02),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.verified,
+                    color: Colors.white,
+                    size: height * 0.08,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: height * 0.02),
+            // Phone Number
+            Obx(
+                  () => Text(
+                controller.phoneNumber.value,
+                style: TextStyle(
+                  fontSize: height * 0.07,
+                  color: Colors.white70,
+                  fontFamily: AppFonts.fontFamily,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   Widget _buildStatisticsCards(ProfileController controller) {
     return Padding(
@@ -145,20 +147,28 @@ class ProfileScreen extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: _buildStatCard(
-              'Total Bookings',
-              '${controller.profileData['totalBookings']}',
-              Icons.calendar_today,
-              Colors.blue,
+            child: GestureDetector(onTap: (){
+              Get.toNamed(AppRoutes.userBookingScreen, arguments: {'showBack': true});
+            },
+              child: _buildStatCard(
+                'Total Bookings',
+                '${controller.profileData['totalBookings']}',
+                Icons.calendar_today,
+                Colors.blue,
+              ),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: _buildStatCard(
-              'Favorites',
-              '${controller.profileData['favorites']}',
-              Icons.favorite,
-              Colors.red,
+            child: GestureDetector(onTap: (){
+              Get.toNamed(AppRoutes.favourite);
+            },
+              child: _buildStatCard(
+                'Favorites',
+                '${controller.profileData['favorites']}',
+                Icons.favorite,
+                Colors.red,
+              ),
             ),
           ),
         ],

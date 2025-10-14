@@ -1,6 +1,5 @@
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step1/book_service_step1_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-
 import 'book_service_step2_screen_controller.dart';
 
 class BookServiceStep2Screen extends StatelessWidget {
@@ -16,42 +15,37 @@ class BookServiceStep2Screen extends StatelessWidget {
           backgroundColor: AppColours.white,
           appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
           body: SafeArea(
-            child: Column(
-              children: [
-                
-                // Main content
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 20),
-                        
-                        // Title
-                        _buildTitle(),
-                        
-                        const SizedBox(height: 8),
-                        
-                        // Subtitle
-                        _buildSubtitle(),
-                        
-                        const SizedBox(height: 24),
-                        
-                        // Add-ons grid
-                        _buildAddOnsGrid(controller),
-                        
-                        const SizedBox(height: 24),
-                        
-                        // Information banner
-                        _buildInfoBanner(),
-                        
-                        const SizedBox(height: 100), // Space for fixed footer
-                      ],
-                    ),
-                  ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+              child: SingleChildScrollView(
+                // padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AppStyle.heightPercent(context, 1.5)),
+
+                    // Title
+                    _buildTitle(),
+
+                    SizedBox(height: AppStyle.heightPercent(context, 0.5)),
+
+                    // Subtitle
+                    _buildSubtitle(),
+
+                    SizedBox(height: AppStyle.heightPercent(context, 1)),
+
+                    // Add-ons grid
+                    _buildAddOnsGrid(controller),
+
+                    SizedBox(height: AppStyle.heightPercent(context, 2)),
+
+                    // Information banner
+                    _buildInfoBanner(),
+
+                    SizedBox(height: AppStyle.heightPercent(context, 10)), // Space for fixed footer
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           
@@ -76,8 +70,8 @@ class BookServiceStep2Screen extends StatelessWidget {
             fontFamily: AppFonts.fontFamily,
           ),
         ),
-        
-        const SizedBox(height: 8),
+
+        SizedBox(height: 5),
         
         // Main title
         const Text(

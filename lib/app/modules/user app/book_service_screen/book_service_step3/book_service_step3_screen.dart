@@ -21,7 +21,16 @@ class BookServiceStep3Screen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
+                  Text(
+                    'Step 3 of 4',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                      fontFamily: AppFonts.fontFamily,
+                    ),
+                  ),
+                  SizedBox(height: AppStyle.heightPercent(context, 1)),
                   
                   // Professional Selection Section
                   // _buildProfessionalSection(controller),
@@ -31,22 +40,22 @@ class BookServiceStep3Screen extends StatelessWidget {
                   // Date Selection Section
                   _buildDateSection(controller),
                   
-                  const SizedBox(height: 32),
+                   SizedBox(height: AppStyle.heightPercent(context, 3)),
                   
                   // Time Selection Section
                   _buildTimeSection(controller),
                   
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 1.5)),
                   
                   // Cancellation Policy
-                  _buildCancellationPolicy(),
+                  _buildCancellationPolicy(context),
                   
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 1.5)),
                   
                   // Specific Instructions
                   _buildSpecificInstructions(controller,context),
                   
-                  const SizedBox(height: 100), // Space for fixed footer
+                   SizedBox(height: AppStyle.heightPercent(context, 15)), // Space for fixed footer
                 ],
               ),
             ),
@@ -292,15 +301,17 @@ class BookServiceStep3Screen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'What time would you like us to start?',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColours.black,
-                fontFamily: AppFonts.fontFamily,
+            // SizedBox(width: AppStyle.heightPercent(context, 30.5),
+               const Text(
+                'What time would you like us to start?',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColours.black,
+                  fontFamily: AppFonts.fontFamily,
+                ),
               ),
-            ),
+
             
             GestureDetector(
               onTap: () {
@@ -356,7 +367,7 @@ class BookServiceStep3Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildCancellationPolicy() {
+  Widget _buildCancellationPolicy(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -380,8 +391,8 @@ class BookServiceStep3Screen extends StatelessWidget {
           ),
           
           const SizedBox(width: 12),
-          
-          Expanded(
+
+          SizedBox(width: AppStyle.heightPercent(context, 35.5),
             child: Text(
               'Enjoy free cancellation up to 6 hours before your booking start time.',
               style: TextStyle(
@@ -391,6 +402,7 @@ class BookServiceStep3Screen extends StatelessWidget {
               ),
             ),
           ),
+          Spacer(),
           
           GestureDetector(
             onTap: () {

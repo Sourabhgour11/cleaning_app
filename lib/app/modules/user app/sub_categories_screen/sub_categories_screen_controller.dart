@@ -4,15 +4,6 @@ class SubCategoriesScreenController extends GetxController {
 
   RxString appBarTitle = ''.obs;
 
-  // @override
-  // void onInit() {
-  //   // TODO: implement onInit
-  //   super.onInit();
-  //   if (Get.arguments != null) {
-  //     appBarTitle.value = Get.arguments.toString();
-  //   }
-  // }
-
   final List<Map<String, dynamic>> generalCleaning = [
     {'name': 'Home Cleaning', 'image': "lib/assets/images/home_cleaning.jpg"},
     {'name': 'Furniture Cleaning', 'image': "lib/assets/images/furniture_cleaning.png"},

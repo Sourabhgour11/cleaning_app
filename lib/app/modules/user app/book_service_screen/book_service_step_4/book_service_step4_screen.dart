@@ -5,7 +5,8 @@ import 'book_service_step4_screen_controller.dart';
 class BookServiceStep4Screen extends StatelessWidget {
    BookServiceStep4Screen({super.key});
 
-   final bookServiceStep1Controllerr = Get.find<BookServiceStep1ScreenController>();
+   final BookServiceStep1ScreenController bookServiceStep1Controllerr = Get.put(BookServiceStep1ScreenController());
+   final BookServiceStep4ScreenController step4Controller = Get.put(BookServiceStep4ScreenController());
 
 
   @override
@@ -17,33 +18,33 @@ class BookServiceStep4Screen extends StatelessWidget {
           appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
 
                   // Payment Method Section
                   _buildPaymentMethodSection(controller),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
 
                   // Card Details Section
                   _buildCardDetailsSection(controller),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
 
                   // Voucher Code Section
                   _buildVoucherCodeSection(controller),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
 
                   // Payment Summary Section
                   _buildPaymentSummarySection(controller),
-                  
-                  const SizedBox(height: 24),
-                  
-                  const SizedBox(height: 20), // Space for fixed footer
+
+                  SizedBox(height: AppStyle.heightPercent(context, 1.5)),
+
+                  // Space for fixed footer
                 ],
               ),
             ),

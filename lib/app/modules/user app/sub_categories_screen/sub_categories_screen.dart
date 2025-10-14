@@ -511,32 +511,6 @@ class SubCategoriesScreen extends StatelessWidget {
               const Spacer(),
               
               // Add button
-              Expanded(
-                flex: 2,
-                child: Obx(
-                  () => ElevatedButton(
-                    onPressed: () {
-                      controller.addServiceToCart(controller.appBarTitle);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColours.appColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: Text(
-                      'Add for ${controller.getFormattedPrice(controller.totalServicePrice)}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppFonts.fontFamily,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
            SizedBox(
              height: AppStyle.heightPercent(context, 5),
              width: AppStyle.widthPercent(context, 55),

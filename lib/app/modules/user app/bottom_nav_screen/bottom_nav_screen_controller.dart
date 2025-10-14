@@ -13,7 +13,7 @@ class UserBottomNavController extends GetxController {
   // Screens list
   final List<Widget> screens = [
     HomeScreen(),
-    BookingScreen(),
+    UserBookingScreen(),
     WalletScreen(),
     ProfileScreen(),
   ];

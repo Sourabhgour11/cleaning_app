@@ -1,13 +1,13 @@
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step_4/book_service_step4_screen_controller.dart';
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-
-import '../../../rotes/app_routes.dart';
 
 class ProfileController extends GetxController {
   var userName = 'Sourabh'.obs;
   var phoneNumber = '+918120527453'.obs;
+  var appBarTitle = 'Payment Mehthod'.obs;
 
-  // Profile data
   var profileData = {
     'name': 'Sourabh',
     'email': 'sourabh@email.com',
@@ -97,7 +97,8 @@ class ProfileController extends GetxController {
         Get.toNamed(AppRoutes.favourite);
         break;
       case 'payment_methods':
-        Get.snackbar('Payment Methods', 'Payment methods screen coming soon!');
+        Get.delete<BookServiceStep4ScreenController>();
+        Get.toNamed(AppRoutes.bookServiceStep4,arguments: appBarTitle);
         break;
       case 'help':
         Get.toNamed(AppRoutes.helpAndSupport);
