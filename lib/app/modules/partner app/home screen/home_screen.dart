@@ -1,5 +1,7 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../../utils/app_location_popup.dart';
+import '../../../utils/app_greeting.dart';
 import 'home_screen_controller.dart';
 
 class PartnerHomeScreen extends StatelessWidget {
@@ -61,7 +63,7 @@ class PartnerHomeScreen extends StatelessWidget {
                             children: [
                               Obx(
                                 () => Text(
-                                  "😊 Good afternoon, ${controller.userName.value}",
+                                  "${AppGreeting().getGreetingMessage()}, ${controller.userName.value}",
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
@@ -70,7 +72,7 @@ class PartnerHomeScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 2),
                               Obx(
                                 () => Row(
                                   children: [
@@ -92,14 +94,20 @@ class PartnerHomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 20,
-                                      color: Colors.white,
+                                    InkWell(
+                                      onTap: () {
+                                        AppLocationPopup().getCurrentLocation();
+                                      },
+                                      child: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
+                              const SizedBox(height: 1),
                             ],
                           ),
                         ),

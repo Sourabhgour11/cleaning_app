@@ -1,6 +1,9 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cleaning_app/app/utils/app_user_bottom_bar.dart';
+import 'package:cleaning_app/app/utils/app_location_selection_popup.dart';
+import '../../../utils/app_greeting.dart';
+import '../../../utils/app_location_popup.dart';
 import 'home_screen_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,11 +18,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Stack(
-          children:[
+          children: [
             CustomScrollView(
               slivers: [
                 // SliverAppBar with greeting, location, search
@@ -35,7 +38,8 @@ class HomeScreen extends StatelessWidget {
                       double top = constraints.biggest.height;
 
                       // Detect if the appbar is collapsed
-                      bool isCollapsed = top < 120; // adjust threshold as needed
+                      bool isCollapsed =
+                          top < 120; // adjust threshold as needed
 
                       return Stack(
                         fit: StackFit.expand,
@@ -43,14 +47,17 @@ class HomeScreen extends StatelessWidget {
                           // Gradient Background
                           Container(
                             decoration: BoxDecoration(
-                              gradient:AppColours.gradientColor,
+                              gradient: AppColours.gradientColor,
                               // LinearGradient(
                               //   begin: Alignment.topLeft,
                               //   end: Alignment.bottomRight,
                               //   colors: [AppColours.appColor, AppColours.appColor2],
                               // ),
                               // color: AppColours.appColor
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30))
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                              ),
                             ),
                           ),
 
@@ -67,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      "😊 Good afternoon, ${controller.userName.value}",
+                                      "${AppGreeting().getGreetingMessage()}, ${controller.userName.value}",
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,
@@ -76,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                   SizedBox(height: 4),
+                                  const SizedBox(height: 2),
                                   Obx(
                                     () => Row(
                                       children: [
@@ -86,7 +93,11 @@ class HomeScreen extends StatelessWidget {
                                           size: 18,
                                         ),
                                         const SizedBox(width: 4),
-                                        Expanded(
+                                        SizedBox(
+                                          width: AppStyle.widthPercent(
+                                            context,
+                                            60,
+                                          ),
                                           child: Text(
                                             controller.location.value,
                                             style: const TextStyle(
@@ -97,15 +108,21 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        const Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 18,
-                                          color: Colors.white,
+                                        InkWell(
+                                          onTap: () {
+                                            AppLocationPopup()
+                                                .getCurrentLocation();
+                                          },
+                                          child: Icon(
+                                            Icons.keyboard_arrow_down,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-
+                                  const SizedBox(height: 1),
                                 ],
                               ),
                             ),
@@ -139,7 +156,9 @@ class HomeScreen extends StatelessWidget {
                                       decoration: InputDecoration(
                                         hintText: 'Search for "Home Cleaning"',
                                         border: InputBorder.none,
-                                        hintStyle: TextStyle(color: Colors.grey),
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -157,7 +176,9 @@ class HomeScreen extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.03,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -167,7 +188,10 @@ class HomeScreen extends StatelessWidget {
                             itemCount: controller.images.length,
                             itemBuilder: (context, index, realIndex) {
                               return Padding(
-                                padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03),
+                                padding: EdgeInsets.only(
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
@@ -182,7 +206,7 @@ class HomeScreen extends StatelessWidget {
                               height: 170,
                               autoPlay: true,
                               enlargeCenterPage: true,
-                               viewportFraction: 1.0,
+                              viewportFraction: 1.0,
                               onPageChanged: (index, reason) {
                                 controller.currentIndex.value = index;
                               },
@@ -190,21 +214,24 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Obx(
-                                () => Row(
+                            () => Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: controller.images.asMap().entries.map((
-                                  entry,
-                                  ) {
+                                entry,
+                              ) {
                                 return GestureDetector(
-                                  onTap: () =>
-                                      carouselController.animateToPage(entry.key),
+                                  onTap: () => carouselController.animateToPage(
+                                    entry.key,
+                                  ),
                                   child: Container(
                                     width:
-                                    controller.currentIndex.value == entry.key
+                                        controller.currentIndex.value ==
+                                            entry.key
                                         ? 8
                                         : 6,
                                     height:
-                                    controller.currentIndex.value == entry.key
+                                        controller.currentIndex.value ==
+                                            entry.key
                                         ? 8
                                         : 6,
                                     margin: const EdgeInsets.symmetric(
@@ -213,11 +240,11 @@ class HomeScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color:
-                                      controller.currentIndex.value == entry.key
+                                          controller.currentIndex.value ==
+                                              entry.key
                                           ? Colors.blueAccent
                                           : Colors.grey,
                                     ),
-
                                   ),
                                 );
                               }).toList(),
@@ -228,32 +255,38 @@ class HomeScreen extends StatelessWidget {
                             height: 100, // enough height for icons + text
                             child: ListView.separated(
                               padding: const EdgeInsets.only(right: 13),
-                              scrollDirection : Axis.horizontal,
+                              scrollDirection: Axis.horizontal,
                               itemCount: controller.services.length,
                               separatorBuilder: (_, __) =>
-                              const SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                               itemBuilder: (context, index) {
                                 final item = controller.services[index];
                                 return GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     controller.appBarTitle.value = item['name'];
-                                    Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
+                                    Get.toNamed(
+                                      AppRoutes.subCategory,
+                                      arguments: controller.appBarTitle,
+                                    );
                                   },
                                   child: SizedBox(
                                     width: 60,
                                     // fix width for all items (keeps alignment)
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 60,
                                           height: 60,
                                           decoration: BoxDecoration(
-                                            color: AppColours.appColor.withOpacity(
-                                              0.2,
+                                            color: AppColours.appColor
+                                                .withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
                                             ),
-                                            borderRadius: BorderRadius.circular(8),
                                           ),
                                           padding: const EdgeInsets.all(8),
                                           child: Image.asset(
@@ -280,7 +313,6 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-
                                       ],
                                     ),
                                   ),
@@ -298,17 +330,47 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 1)),
-                          simpleSalonGrid("General Cleaning",controller,context,controller.generalCleaning,),
+                          simpleSalonGrid(
+                            "General Cleaning",
+                            controller,
+                            context,
+                            controller.generalCleaning,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid("Salon & Spa at Home",controller,context,controller.salonAndSpa),
+                          simpleSalonGrid(
+                            "Salon & Spa at Home",
+                            controller,
+                            context,
+                            controller.salonAndSpa,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid("Handyman & Maintainence",controller,context,controller.handyMan),
+                          simpleSalonGrid(
+                            "Handyman & Maintainence",
+                            controller,
+                            context,
+                            controller.handyMan,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid("Healthcare at Home",controller,context,controller.healthCareAtHome),
+                          simpleSalonGrid(
+                            "Healthcare at Home",
+                            controller,
+                            context,
+                            controller.healthCareAtHome,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid("Fitness at Home",controller,context,controller.fitness),
+                          simpleSalonGrid(
+                            "Fitness at Home",
+                            controller,
+                            context,
+                            controller.fitness,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid("Pet Care at Home",controller,context,controller.petCare),
+                          simpleSalonGrid(
+                            "Pet Care at Home",
+                            controller,
+                            context,
+                            controller.petCare,
+                          ),
                           SizedBox(height: AppStyle.heightPercent(context, 14)),
                         ],
                       ),
@@ -317,13 +379,8 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: AppUserBottomBar(),
-                ),
-          ]
+            Positioned(bottom: 0, left: 0, right: 0, child: AppUserBottomBar()),
+          ],
         ),
       ),
     );
@@ -331,8 +388,13 @@ class HomeScreen extends StatelessWidget {
 }
 
 // Simple version without colors
-Widget simpleSalonGrid(String titleName,HomeScreenController controller,BuildContext context, List<Map<String, dynamic>> list,
-    {Function(String)? onItemTap}) {
+Widget simpleSalonGrid(
+  String titleName,
+  HomeScreenController controller,
+  BuildContext context,
+  List<Map<String, dynamic>> list, {
+  Function(String)? onItemTap,
+}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -342,7 +404,10 @@ Widget simpleSalonGrid(String titleName,HomeScreenController controller,BuildCon
       ),
       const SizedBox(height: 10),
       SizedBox(
-        height: AppStyle.heightPercent(context, 13), // height of the horizontal grid
+        height: AppStyle.heightPercent(
+          context,
+          13,
+        ), // height of the horizontal grid
         child: GridView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: list.length,
@@ -362,7 +427,10 @@ Widget simpleSalonGrid(String titleName,HomeScreenController controller,BuildCon
                 //   Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
                 // }
                 controller.appBarTitle.value = item['name'];
-                Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
+                Get.toNamed(
+                  AppRoutes.subCategory,
+                  arguments: controller.appBarTitle,
+                );
               },
               child: Stack(
                 children: [

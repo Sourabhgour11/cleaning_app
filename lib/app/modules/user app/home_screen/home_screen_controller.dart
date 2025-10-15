@@ -105,4 +105,9 @@ class HomeScreenController extends GetxController {
     {'name': "Vet at Home", 'image': "lib/assets/images/pet_care2_img.jpg"},
     {'name': "Vet at Home", 'image': "lib/assets/images/pet_care3_img.webp"},
   ];
+
+  // Method to update location
+  void updateLocation(String newLocation) {
+    location.value = newLocation;
+  }
 }
