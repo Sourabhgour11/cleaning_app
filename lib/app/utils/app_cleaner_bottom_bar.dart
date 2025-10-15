@@ -100,15 +100,16 @@ class _CleanerModernBottomBarState extends State<CleanerModernBottomBar>
               });
             },
             child: AnimatedContainer(
+              width: AppStyle.widthPercent(context, 16),
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: EdgeInsets.all(isSelected ? 10 : 8),
+                    padding: EdgeInsets.all(isSelected ? 8 : 6),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? colors[index].withOpacity(0.15)
@@ -117,13 +118,14 @@ class _CleanerModernBottomBarState extends State<CleanerModernBottomBar>
                     ),
                     child: Image.asset(
                       isSelected ? activeImages[index] : inactiveImages[index],
-                      width: isSelected ? 28 : 24,
-                      height: isSelected ? 28 : 24,
+                      width: isSelected ? 25 : 20,
+                      height: isSelected ? 25 : 20,
                       fit: BoxFit.contain,
                     ),
                   ),
                   Text(
                     labels[index],
+                    maxLines: 1,
                     style: TextStyle(
                       color: isSelected ? colors[index] : Colors.grey[600],
                       fontSize: 11,
@@ -131,6 +133,7 @@ class _CleanerModernBottomBarState extends State<CleanerModernBottomBar>
                           ? FontWeight.w700
                           : FontWeight.w500,
                       fontFamily: AppFonts.fontFamily,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

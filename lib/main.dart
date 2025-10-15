@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'app/modules/splash_screen/splash_screen.dart';
 import 'app/utils/app_colours.dart';
 import 'app/rotes/app_pages.dart';
-import 'app/bindings/initial_binding.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(const MyApp());
 }
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Home Cleaning User App',
       debugShowCheckedModeBanner: false,
       // initialBinding: InitialBinding(),
-      initialRoute: AppPages.initial,
+      home: const SplashScreen(), // ✅ start with splash
       getPages: AppPages.routes,
       theme: ThemeData(primaryColor: AppColours.appColor),
     );

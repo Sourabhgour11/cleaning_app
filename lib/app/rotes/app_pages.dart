@@ -167,11 +167,7 @@ class AppPages {
       page: () => ForgotOtpScreen(),
       binding: ForgotOtpScreenBinding(),
     ),
-    GetPage(
-      name: AppRoutes.resetPassword,
-      page: () => ResetPassword(),
-      binding: ResetPasswordScreenBinding(),
-    ),
+
     GetPage(
       name: AppRoutes.cleanerbottomNav,
       page: () => CleanerBottomNavScreen(),
@@ -187,22 +183,21 @@ class AppPages {
       page: () => BookServiceStep1Screen(),
       binding: BookServiceStep1ScreenBinding(),
     ),
-   GetPage(
+    GetPage(
       name: AppRoutes.bookServiceStep2,
       page: () => BookServiceStep2Screen(),
       binding: BookServiceStep2ScreenBinding(),
     ),
-   GetPage(
+    GetPage(
       name: AppRoutes.bookServiceStep3,
       page: () => BookServiceStep3Screen(),
       binding: BookServiceStep3ScreenBinding(),
     ),
-   GetPage(
+    GetPage(
       name: AppRoutes.bookServiceStep4,
       page: () => BookServiceStep4Screen(),
       binding: BookServiceStep4ScreenBinding(),
     ),
-
 
     GetPage(
       name: AppRoutes.cleanerHome,
