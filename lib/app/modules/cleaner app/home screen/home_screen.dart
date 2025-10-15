@@ -94,7 +94,7 @@ class CleanerHomeScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      AppLocationPopup().getCurrentLocation();
+                                      // AppLocationPopup().getCurrentLocation();
                                     },
                                     child: Icon(
                                       Icons.keyboard_arrow_down,
