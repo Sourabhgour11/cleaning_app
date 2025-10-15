@@ -226,7 +226,7 @@ class BookServiceStep3Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'When would you like your service?',
+          AppStrings.whenWouldYouLikeService,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -303,7 +303,7 @@ class BookServiceStep3Screen extends StatelessWidget {
           children: [
             // SizedBox(width: AppStyle.heightPercent(context, 30.5),
                const Text(
-                'What time would you like us to start?',
+                AppStrings.whatTimeWouldYouLikeUsToStart,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -318,7 +318,7 @@ class BookServiceStep3Screen extends StatelessWidget {
                 // TODO: Show all time slots
               },
               child: const Text(
-                'See all',
+                AppStrings.seeAll,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColours.appColor,
@@ -409,7 +409,7 @@ class BookServiceStep3Screen extends StatelessWidget {
               // TODO: Show cancellation details
             },
             child: const Text(
-              'Details',
+              AppStrings.details,
               style: TextStyle(
                 fontSize: 14,
                 color: AppColours.appColor,
@@ -436,7 +436,7 @@ class BookServiceStep3Screen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Any specific instructions?',
+                AppStrings.anySpecificInstructions,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -488,7 +488,7 @@ class BookServiceStep3Screen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total',
+                  AppStrings.total,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -532,7 +532,7 @@ class BookServiceStep3Screen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 30),
             child: AppButton(onPressed: (){
               Get.toNamed(AppRoutes.bookServiceStep4,arguments: controller.appBarTitle);
-            }, title: "Next",),
+            }, title: AppStrings.next,),
           ),
         ],
       ),

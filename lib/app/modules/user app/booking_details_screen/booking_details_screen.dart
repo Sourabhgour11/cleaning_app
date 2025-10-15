@@ -10,7 +10,7 @@ class BookingDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColours.white,
-      appBar: AppStyle.appBarStyle("Booking Details"),
+      appBar: AppStyle.appBarStyle(AppStrings.bookingDetails),
       body: Obx(() {
         return SingleChildScrollView(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
@@ -144,7 +144,7 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Service Details',
+                AppStrings.serviceDetails,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -155,10 +155,10 @@ class BookingDetailsScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildDetailRow('Service Type', controller.bookingData['service'] ?? 'Home Cleaning'),
-          _buildDetailRow('Duration', controller.bookingData['duration'] ?? '2 hours'),
-          _buildDetailRow('Frequency', controller.bookingData['frequency'] ?? 'One-time'),
-          _buildDetailRow('Special Instructions', controller.bookingData['instructions'] ?? 'Please clean all rooms thoroughly'),
+          _buildDetailRow(AppStrings.serviceType, controller.bookingData['service'] ?? 'Home Cleaning'),
+          _buildDetailRow(AppStrings.duration, controller.bookingData['duration'] ?? '2 hours'),
+          _buildDetailRow(AppStrings.frequency, controller.bookingData['frequency'] ?? 'One-time'),
+          _buildDetailRow(AppStrings.specialInstructions, controller.bookingData['instructions'] ?? 'Please clean all rooms thoroughly'),
         ],
       ),
     );
@@ -199,7 +199,7 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Service Provider',
+                AppStrings.serviceProvider,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -240,7 +240,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Professional Cleaner',
+                      AppStrings.professionalCleaner,
                       style: TextStyle(
                         fontSize: 14,
                         color: AppColours.grey,
@@ -317,7 +317,7 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Booking Information',
+                AppStrings.bookingInformation,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -328,10 +328,10 @@ class BookingDetailsScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildDetailRow('Date', controller.bookingData['date'] ?? '12 Oct 2025'),
-          _buildDetailRow('Time', controller.bookingData['time'] ?? '10:00 AM'),
-          _buildDetailRow('Booking ID', controller.bookingData['bookingId'] ?? 'BK123456789'),
-          _buildDetailRow('Address', controller.bookingData['address'] ?? '123 Main Street, City, State 12345'),
+          _buildDetailRow(AppStrings.date, controller.bookingData['date'] ?? '12 Oct 2025'),
+          _buildDetailRow(AppStrings.time, controller.bookingData['time'] ?? '10:00 AM'),
+          _buildDetailRow(AppStrings.bookingId, controller.bookingData['bookingId'] ?? 'BK123456789'),
+          _buildDetailRow(AppStrings.address, controller.bookingData['address'] ?? '123 Main Street, City, State 12345'),
         ],
       ),
     );
@@ -372,7 +372,7 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Pricing Details',
+                AppStrings.pricingDetails,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -383,11 +383,11 @@ class BookingDetailsScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildPricingRow('Base Service', '\$${controller.bookingData['basePrice'] ?? '50.00'}'),
-          _buildPricingRow('Additional Services', '\$${controller.bookingData['additionalPrice'] ?? '15.00'}'),
-          _buildPricingRow('Service Fee', '\$${controller.bookingData['serviceFee'] ?? '5.00'}'),
+          _buildPricingRow(AppStrings.baseServices, '\$${controller.bookingData['basePrice'] ?? '50.00'}'),
+          _buildPricingRow(AppStrings.additionalServices, '\$${controller.bookingData['additionalPrice'] ?? '15.00'}'),
+          _buildPricingRow(AppStrings.serviceFee, '\$${controller.bookingData['serviceFee'] ?? '5.00'}'),
           const Divider(height: 20),
-          _buildPricingRow('Total Amount', '\$${controller.bookingData['totalPrice'] ?? '70.00'}', isTotal: true),
+          _buildPricingRow(AppStrings.totalAmount, '\$${controller.bookingData['totalPrice'] ?? '70.00'}', isTotal: true),
         ],
       ),
     );
@@ -412,7 +412,7 @@ class BookingDetailsScreen extends StatelessWidget {
               elevation: 0,
             ),
             child: const Text(
-              'Reschedule Booking',
+              AppStrings.rescheduleBooking,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -439,7 +439,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'Contact Provider',
+                    AppStrings.contactProvider,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -465,7 +465,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'Cancel Booking',
+                    AppStrings.cancelBooking,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

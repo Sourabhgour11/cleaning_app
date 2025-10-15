@@ -175,7 +175,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Expanded(
             child: _buildStatCard(
-              'Total Jobs',
+              AppStrings.totalJobs,
               '${controller.profileData['totalJobs']}',
               Icons.work,
               Colors.blue,
@@ -184,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: _buildStatCard(
-              'Completed',
+              AppStrings.completed,
               '${controller.profileData['completedJobs']}',
               Icons.check_circle,
               Colors.green,

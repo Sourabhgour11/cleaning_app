@@ -110,12 +110,6 @@ class WalletScreenController extends GetxController{
     
     // Initialize quick actions
     quickActions.value = [
-      // {
-      //   'title': 'Withdraw Money',
-      //   'subtitle': 'Transfer to bank account',
-      //   'icon': Icons.account_balance_wallet,
-      //   'color': AppColours.appColor,
-      // },
       {
         'title': 'Add Payment Method',
         'subtitle': 'Link new bank account',
@@ -128,12 +122,6 @@ class WalletScreenController extends GetxController{
         'icon': Icons.history,
         'color': AppColours.orange,
       },
-      // {
-      //   'title': 'Earnings Report',
-      //   'subtitle': 'View detailed reports',
-      //   'icon': Icons.analytics,
-      //   'color': AppColours.blue,
-      // },
     ];
   }
 

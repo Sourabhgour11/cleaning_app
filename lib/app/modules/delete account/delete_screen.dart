@@ -43,13 +43,8 @@ class DeleteScreen extends StatelessWidget {
                 children: [
                   _buildWarningCard(),
                   const SizedBox(height: 24),
-                  // _buildAlternativeButton(controller),
-                  // const SizedBox(height: 24),
-                  // _buildReasonsSection(controller),
-                  // const SizedBox(height: 24),
                   _buildOtherReasonField(controller),
                   const SizedBox(height: 24),
-
                   _buildAgreementCheckbox(controller),
                   const SizedBox(height: 24),
                   _buildDeleteButton(controller),
@@ -113,7 +108,7 @@ class DeleteScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'Delete Account',
+                AppStrings.deleteAccount,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -144,7 +139,7 @@ class DeleteScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           const Text(
-            'We\'re Sorry to See You Go',
+            AppStrings.weAreSorryToSeeYouGo,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -174,7 +169,7 @@ class DeleteScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Warning!',
+                  AppStrings.warning,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -184,7 +179,7 @@ class DeleteScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'This action is permanent and cannot be undone',
+                  AppStrings.thisActionIsPermanentAndCannotBeUndone,
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.red[800],
@@ -195,190 +190,6 @@ class DeleteScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildAlternativeButton(DeleteScreenController controller) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue[400]!, Colors.blue[600]!],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
-            offset: const Offset(0, 4),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: controller.showAlternativeOptions,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.lightbulb_outline,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Consider Alternatives',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Explore other options before deleting',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white70,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildReasonsSection(DeleteScreenController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Why are you leaving?',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppColours.black,
-            fontFamily: AppFonts.fontFamily,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          'Select the main reason (required)',
-          style: TextStyle(
-            fontSize: 13,
-            color: Colors.grey[600],
-            fontFamily: AppFonts.fontFamily,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                offset: const Offset(0, 2),
-                blurRadius: 8,
-              ),
-            ],
-          ),
-          child: Column(
-            children: controller.deleteReasons.map((reason) {
-              return _buildReasonOption(reason, controller);
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildReasonOption(
-    Map<String, dynamic> reason,
-    DeleteScreenController controller,
-  ) {
-    final isSelected = controller.selectedReason.value == reason['value'];
-
-    return Material(
-      color: isSelected ? AppColours.appColor.withOpacity(0.1) : Colors.white,
-      child: InkWell(
-        onTap: () => controller.selectReason(reason['value'] as String),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Colors.grey.withOpacity(0.1), width: 1),
-            ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppColours.appColor.withOpacity(0.2)
-                      : Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  reason['icon'] as IconData,
-                  color: isSelected ? AppColours.appColor : Colors.grey[600],
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  reason['title'] as String,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                    color: isSelected ? AppColours.appColor : AppColours.black,
-                    fontFamily: AppFonts.fontFamily,
-                  ),
-                ),
-              ),
-              if (isSelected)
-                const Icon(
-                  Icons.check_circle,
-                  color: AppColours.appColor,
-                  size: 22,
-                )
-              else
-                Icon(
-                  Icons.radio_button_unchecked,
-                  color: Colors.grey[400],
-                  size: 22,
-                ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -401,7 +212,7 @@ class DeleteScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Please specify your reason',
+            AppStrings.pleaseSpecifyYourReason,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -431,112 +242,6 @@ class DeleteScreen extends StatelessWidget {
                 ),
               ),
               contentPadding: const EdgeInsets.all(16),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConsequencesSection() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.info_outline, color: Colors.orange[700], size: 24),
-              const SizedBox(width: 12),
-              const Text(
-                'What You\'ll Lose',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColours.black,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildConsequenceItem(
-            Icons.person_off,
-            'Profile & Identity',
-            'All personal information and verification',
-          ),
-          _buildConsequenceItem(
-            Icons.star_border,
-            'Ratings & Reviews',
-            'Your hard-earned reputation and feedback',
-          ),
-          _buildConsequenceItem(
-            Icons.history,
-            'Job History',
-            'Complete record of all completed jobs',
-          ),
-          _buildConsequenceItem(
-            Icons.attach_money,
-            'Earnings Data',
-            'Financial history and statistics',
-          ),
-          _buildConsequenceItem(
-            Icons.block,
-            'Account Access',
-            'Permanent loss of account access',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConsequenceItem(IconData icon, String title, String subtitle) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.red[50],
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: Colors.red[700], size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColours.black,
-                    fontFamily: AppFonts.fontFamily,
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontFamily: AppFonts.fontFamily,
-                  ),
-                ),
-              ],
             ),
           ),
         ],
@@ -652,7 +357,7 @@ class DeleteScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Delete My Account',
+                        AppStrings.deleteMyAccount,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

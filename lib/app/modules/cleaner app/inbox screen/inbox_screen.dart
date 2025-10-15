@@ -123,7 +123,7 @@ class InboxScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Admin Support',
+                            AppStrings.adminSupport,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

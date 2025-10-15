@@ -75,7 +75,7 @@ class BookServiceStep2Screen extends StatelessWidget {
         
         // Main title
         const Text(
-          'Popular Add-ons',
+          AppStrings.popularAddOns,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class BookServiceStep2Screen extends StatelessWidget {
 
   Widget _buildSubtitle() {
     return const Text(
-      'People also added',
+      AppStrings.peopleAlsoAdded,
       style: TextStyle(
         fontSize: 16,
         color: AppColours.black,
@@ -236,7 +236,7 @@ class BookServiceStep2Screen extends StatelessWidget {
                       // TODO: Show add-on details
                     },
                     child: const Text(
-                      'Learn More',
+                      AppStrings.learnMore,
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColours.appColor,
@@ -306,7 +306,7 @@ class BookServiceStep2Screen extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'The duration of the session may change based on your selection.',
+              AppStrings.theDurationOfTheSessionMayChangeBasedOnYourSelection,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[700],
@@ -341,7 +341,7 @@ class BookServiceStep2Screen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total',
+                  AppStrings.total,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -385,7 +385,7 @@ class BookServiceStep2Screen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 30),
             child: AppButton(onPressed: (){
               Get.toNamed(AppRoutes.bookServiceStep3,arguments: controller.appBarTitle);
-            }, title: "Next",),
+            }, title: AppStrings.next,),
           ),
         ],
       ),

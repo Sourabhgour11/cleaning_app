@@ -121,7 +121,7 @@ class ResetPassword extends StatelessWidget {
                       end: Alignment.bottomRight,
                     ).createShader(bounds),
                     child: const Text(
-                      'Reset Password',
+                      AppStrings.resetPassword,
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class ResetPassword extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      'Create a new password for your account',
+                      AppStrings.createANewPasswordForYourAccount,
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColours.white,
@@ -224,7 +224,7 @@ class ResetPassword extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 12),
                                 const Text(
-                                  'Create New Password',
+                                  AppStrings.createNewPassword,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -249,7 +249,7 @@ class ResetPassword extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 const Text(
-                                  'New Password',
+                                  AppStrings.newPassword,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -330,7 +330,7 @@ class ResetPassword extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 const Text(
-                                  'Confirm Password',
+                                  AppStrings.confirmPassword,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -419,7 +419,7 @@ class ResetPassword extends StatelessWidget {
                                 SizedBox(
                                   width: AppStyle.widthPercent(context, 80),
                                   child: const Text(
-                                    'Password Requirements:',
+                                    AppStrings.passwordRequirements,
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
@@ -460,7 +460,7 @@ class ResetPassword extends StatelessWidget {
                                       Get.toNamed(AppRoutes.login);
                                     }
                                   : controller.resetPassword,
-                              title: 'Reset Password',
+                              title: AppStrings.resetPassword,
                               icon: Icons.check_circle,
                             ),
                           ),
@@ -473,7 +473,7 @@ class ResetPassword extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
-                                  "Remember your password? ",
+                                  AppStrings.rememberYourPassword,
                                   style: TextStyle(
                                     color: AppColours.grey,
                                     fontSize: 14,
@@ -485,7 +485,7 @@ class ResetPassword extends StatelessWidget {
                                     Get.toNamed(AppRoutes.login);
                                   },
                                   child: const Text(
-                                    'Back to Login',
+                                    AppStrings.backToLogin,
                                     style: TextStyle(
                                       color: AppColours.appColor,
                                       fontWeight: FontWeight.w600,

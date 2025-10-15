@@ -39,14 +39,14 @@ class HelpAndSupportScreen extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     final width = AppStyle.widthPercent(context, 100);
-    final smallGap = AppStyle.heightPercent(context, 2); // adaptive spacing
-    final largeGap = AppStyle.heightPercent(context, 3.5);
+    final smallGap = AppStyle.heightPercent(context, 1); // adaptive spacing
+    final largeGap = AppStyle.heightPercent(context, 4);
 
     return Container(
       width: width,
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.03,
-        // vertical: AppStyle.heightPercent(context, 2.5),
+        vertical: AppStyle.heightPercent(context, 0.5),
       ),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
@@ -95,7 +95,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               // Title - use Flexible so long text doesn't overflow the layout
               Flexible(
                 child: Text(
-                  'Help & Support',
+                  AppStrings.helpAndSupport,
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -132,7 +132,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(AppStyle.widthPercent(context, 2.5)),
+                  padding: EdgeInsets.all(AppStyle.widthPercent(context, 1.5)),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
                     shape: BoxShape.circle,
@@ -143,19 +143,19 @@ class HelpAndSupportScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: AppStyle.heightPercent(context, 1.5)),
+                SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                 const Text(
-                  'We\'re Here to Help!',
+                  AppStrings.weAreHereToHelp,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontFamily: AppFonts.fontFamily,
                   ),
                 ),
-                SizedBox(height: AppStyle.heightPercent(context, 1)),
+                SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                 Text(
-                  'Get assistance with any questions or issues',
+                  AppStrings.getAssistanceWithAnyQuestionsOrIssues,
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.white.withOpacity(0.9),
@@ -187,7 +187,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               Icon(Icons.quiz, color: AppColours.appColor, size: 24),
               SizedBox(width: 8),
               Text(
-                'Frequently Asked Questions',
+                AppStrings.frequentlyAskedQuestions,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -306,7 +306,7 @@ class HelpAndSupportScreen extends StatelessWidget {
               Icon(Icons.contact_support, color: AppColours.appColor, size: 24),
               SizedBox(width: 8),
               Text(
-                'Contact Information',
+                AppStrings.contactInformation,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -423,137 +423,4 @@ class HelpAndSupportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAdditionalResources() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Icon(Icons.library_books, color: AppColours.appColor, size: 24),
-              SizedBox(width: 8),
-              Text(
-                'Additional Resources',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColours.black,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                offset: const Offset(0, 2),
-                blurRadius: 8,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildResourceItem(
-                'About Us',
-                'Learn about our platform',
-                Icons.info,
-                Colors.blue,
-              ),
-              _buildResourceItem(
-                'Terms & Conditions',
-                'Read our terms of service',
-                Icons.description,
-                Colors.orange,
-              ),
-              _buildResourceItem(
-                'Privacy Policy',
-                'Learn about data protection',
-                Icons.privacy_tip,
-                Colors.green,
-              ),
-              _buildResourceItem(
-                'Video Tutorials',
-                'Watch helpful video guides',
-                Icons.play_circle_outline,
-                Colors.red,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildResourceItem(
-    String title,
-    String subtitle,
-    IconData icon,
-    Color color,
-  ) {
-    String getContentType(String title) {
-      if (title.contains('Privacy')) return 'privacy';
-      if (title.contains('Terms')) return 'terms';
-      return 'about';
-    }
-
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Icon(icon, color: color, size: 24),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          color: AppColours.black,
-          fontFamily: AppFonts.fontFamily,
-        ),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey[600],
-          fontFamily: AppFonts.fontFamily,
-        ),
-      ),
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        size: 16,
-        color: Colors.grey[400],
-      ),
-      onTap: () {
-        // Navigate to GetContentScreen for Privacy Policy, Terms, and About
-        if (title.contains('Privacy') ||
-            title.contains('Terms') ||
-            title.contains('About')) {
-          Get.toNamed(
-            AppRoutes.getContent,
-            arguments: {'type': getContentType(title)},
-          );
-        } else {
-          Get.snackbar(
-            title,
-            'Opening $title...',
-            snackPosition: SnackPosition.BOTTOM,
-          );
-        }
-      },
-    );
-  }
 }

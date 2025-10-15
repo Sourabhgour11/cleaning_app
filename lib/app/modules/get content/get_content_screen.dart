@@ -58,7 +58,7 @@ class GetContentScreen extends StatelessWidget {
     }
 
     final width = AppStyle.widthPercent(context, 100);
-    final height = AppStyle.heightPercent(context, 70); // fixed % of screen
+    final height = AppStyle.heightPercent(context, 50); // fixed % of screen
 
     return Container(
       width: width,
@@ -83,6 +83,7 @@ class GetContentScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: AppStyle.heightPercent(context, 2)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -138,35 +139,6 @@ class GetContentScreen extends StatelessWidget {
             ),
             child: Icon(getHeaderIcon(), size: 40, color: Colors.white),
           ),
-          // SizedBox(height: height * 0.03),
-          // Obx(
-          //       () => Container(
-          //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          //     decoration: BoxDecoration(
-          //       color: Colors.white.withOpacity(0.2),
-          //       borderRadius: BorderRadius.circular(20),
-          //       border: Border.all(
-          //         color: Colors.white.withOpacity(0.3),
-          //         width: 1,
-          //       ),
-          //     ),
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.min,
-          //       children: [
-          //         const Icon(Icons.update, color: Colors.white, size: 14),
-          //         const SizedBox(width: 6),
-          //         Text(
-          //           'Last Updated: ${controller.lastUpdated.value}',
-          //           style: const TextStyle(
-          //             fontSize: 12,
-          //             color: Colors.white,
-          //             fontFamily: AppFonts.fontFamily,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

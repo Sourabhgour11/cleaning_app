@@ -69,7 +69,7 @@ class BookServiceStep4Screen extends StatelessWidget {
             Row(
               children: [
                 const Text(
-                  'Payment Method',
+                  AppStrings.paymentMethod,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -98,8 +98,8 @@ class BookServiceStep4Screen extends StatelessWidget {
               onTap: () {
                 // TODO: Show payment method selection
               },
-              child: const Text(
-                'Change',
+              child:  Text(
+                AppStrings.change,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColours.appColor,
@@ -381,7 +381,7 @@ class BookServiceStep4Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Add Voucher Code',
+          AppStrings.addVoucherCode,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -464,7 +464,7 @@ class BookServiceStep4Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Payment Summary',
+          AppStrings.paymentSummary,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -634,7 +634,7 @@ class BookServiceStep4Screen extends StatelessWidget {
               onPressed: () {
                 controller.showLottiePopup(context);
               },
-              title: "Next",
+              title: AppStrings.next,
             ),
           ),
         ],

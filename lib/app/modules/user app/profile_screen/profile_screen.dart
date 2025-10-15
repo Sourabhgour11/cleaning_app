@@ -1,10 +1,10 @@
 import 'package:cleaning_app/app/rotes/app_routes.dart';
+import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_fonts.dart';
-
 import 'profile_screen_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -151,7 +151,7 @@ class ProfileScreen extends StatelessWidget {
               Get.toNamed(AppRoutes.userBookingScreen, arguments: {'showBack': true});
             },
               child: _buildStatCard(
-                'Total Bookings',
+                AppStrings.totalBookings,
                 '${controller.profileData['totalBookings']}',
                 Icons.calendar_today,
                 Colors.blue,
@@ -164,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
               Get.toNamed(AppRoutes.favourite);
             },
               child: _buildStatCard(
-                'Favorites',
+                AppStrings.favourites,
                 '${controller.profileData['favorites']}',
                 Icons.favorite,
                 Colors.red,

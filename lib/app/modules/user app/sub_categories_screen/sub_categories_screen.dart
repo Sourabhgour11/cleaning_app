@@ -160,7 +160,7 @@ class SubCategoriesScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            'Customize',
+            AppStrings.customize,
             style: TextStyle(
               fontSize: 12,
               color: Colors.red[600],
@@ -177,7 +177,7 @@ class SubCategoriesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "What's Included:",
+                AppStrings.whatsInclude,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -359,7 +359,7 @@ class SubCategoriesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "What We Bring:",
+                AppStrings.whatWeBring,
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
@@ -405,7 +405,7 @@ class SubCategoriesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Know This Before You Book:",
+                AppStrings.knowThisBeforeYouBook,
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
@@ -516,7 +516,7 @@ class SubCategoriesScreen extends StatelessWidget {
              width: AppStyle.widthPercent(context, 55),
              child: AppButton(onPressed: (){
                controller.addServiceToCart(controller.appBarTitle);
-             }, title: "Add for ${controller.getFormattedPrice(controller.totalServicePrice)}",),
+             }, title: "${AppStrings.addFor} ${controller.getFormattedPrice(controller.totalServicePrice)}",),
            )
             ],
           ),

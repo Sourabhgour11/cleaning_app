@@ -149,7 +149,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.signUp,
-      page: () => const SignUpScreen(),
+      page: () => SignUpScreen(),
       binding: SignUpScreenBinding(),
     ),
     GetPage(

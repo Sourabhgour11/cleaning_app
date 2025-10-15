@@ -38,7 +38,7 @@ class UserBookingScreen extends StatelessWidget {
             ),
           ),
 
-          // ✅ Conditional back arrow
+          //  Conditional back arrow
           leading: showBack
               ? Container(
             margin: const EdgeInsets.all(8),
@@ -58,9 +58,9 @@ class UserBookingScreen extends StatelessWidget {
           )
               : const SizedBox.shrink(), // 👈 use SizedBox.shrink() (safer)
 
-          // ✅ Title
+          //  Title
           title: const Text(
-            "Bookings",
+            AppStrings.bookings,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class UserBookingScreen extends StatelessWidget {
             ),
           ),
 
-          // ✅ Actions
+          //  Actions
           actions: [
             IconButton(
               icon: const Icon(Icons.filter_list, color: Colors.white),
@@ -76,7 +76,7 @@ class UserBookingScreen extends StatelessWidget {
             ),
           ],
 
-          // ✅ Bottom tab bar with safe padding
+          //  Bottom tab bar with safe padding
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: Padding(
@@ -107,8 +107,8 @@ class UserBookingScreen extends StatelessWidget {
                     fontSize: 16,
                   ),
                   tabs: const [
-                    Tab(text: 'Upcoming'),
-                    Tab(text: 'Past'),
+                    Tab(text: AppStrings.upcoming),
+                    Tab(text: AppStrings.past),
                   ],
                 ),
               ),
@@ -133,7 +133,7 @@ class UserBookingScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "You don't have any upcoming bookings.",
+                        AppStrings.youDontHaveAnyUpcomingBookings,
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                       const SizedBox(height: 20),
@@ -149,7 +149,7 @@ class UserBookingScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {},
-                        child: const Text("Book Now"),
+                        child: const Text(AppStrings.bookNow),
                       ),
                     ],
                   ),
@@ -237,7 +237,7 @@ class UserBookingScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "You don't have any past bookings.",
+                        AppStrings.youDontHaveAnyPastBookings,
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                       const SizedBox(height: 20),
@@ -253,7 +253,7 @@ class UserBookingScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {},
-                        child: const Text("Book Now"),
+                        child: const Text(AppStrings.bookNow),
                       ),
                     ],
                   ),

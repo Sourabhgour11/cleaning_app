@@ -11,7 +11,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppStyle.appBarStyle("Edit Profile"),
+      appBar: AppStyle.appBarStyle(AppStrings.editProfile),
       body: SafeArea(
         child: SizedBox(
           width: AppStyle.widthPercent(context, 100),

@@ -28,4 +28,6 @@ class AppRoutes {
   static const favourite = '/favourite';
   static const userBookingScreen = '/userBookingScreen';
   static const bookingDetails = '/bookingDetails';
+  static const resetPassword = '/resetPassword';
+
 }

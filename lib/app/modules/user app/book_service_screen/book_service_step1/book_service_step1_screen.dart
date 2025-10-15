@@ -64,7 +64,7 @@ class BookServiceStep1Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Exclusive offer for you!',
+          AppStrings.exclusiveOfferForYou,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@ class BookServiceStep1Screen extends StatelessWidget {
           children: [
             Expanded(
               child: const Text(
-                'How many hours do you need your professional to stay?',
+                AppStrings.howManyHoursDoYouNeedYourProfessionalToStay,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
@@ -216,7 +216,7 @@ class BookServiceStep1Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'How many professionals do you need?',
+          AppStrings.howManyProfessionalsDoYouNeed,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -273,7 +273,7 @@ class BookServiceStep1Screen extends StatelessWidget {
         Row(
           children: [
             const Text(
-              'Need cleaning materials?',
+              AppStrings.needCleaningMaterials,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -297,7 +297,7 @@ class BookServiceStep1Screen extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Powered by',
+              AppStrings.poweredBy,
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey[600],
@@ -345,7 +345,7 @@ class BookServiceStep1Screen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'No, I have them',
+                      AppStrings.noIHaveThem,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -369,7 +369,7 @@ class BookServiceStep1Screen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Yes, please',
+                      AppStrings.yesPlease,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -400,7 +400,7 @@ class BookServiceStep1Screen extends StatelessWidget {
             child: Obx(() => Text(
               controller.hasInstructions.value 
                   ? controller.specificInstructions.value
-                  : 'Any specific instructions?',
+                  : AppStrings.anySpecificInstructions,
               style: TextStyle(
                 fontSize: 14,
                 color: controller.hasInstructions.value ? Colors.black : Colors.grey[600],
@@ -446,7 +446,7 @@ class BookServiceStep1Screen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total',
+                  AppStrings.total,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -487,7 +487,7 @@ class BookServiceStep1Screen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 30),
             child: AppButton(onPressed: (){
               Get.toNamed(AppRoutes.bookServiceStep2,arguments: controller.appBarTitle);
-            }, title: "Next",),
+            }, title: AppStrings.next,),
           )
         ],
       ),

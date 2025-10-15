@@ -97,7 +97,7 @@ class IncentiveScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'My Incentives',
+                AppStrings.myIncentive,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -112,7 +112,7 @@ class IncentiveScreen extends StatelessWidget {
           SizedBox(height: AppStyle.heightPercent(context, 1)),
           // Total Earnings
           const Text(
-            'Total Earnings',
+            AppStrings.totalEarnings,
             style: TextStyle(
               fontSize: 16,
               color: Colors.white70,
@@ -164,7 +164,7 @@ class IncentiveScreen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
               context,
-              'This Month',
+              AppStrings.thisMonth,
               controller.monthlyEarnings.value,
               Icons.calendar_today,
               AppColours.appColor,
@@ -174,7 +174,7 @@ class IncentiveScreen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
               context,
-              'This Week',
+              AppStrings.thisWeek,
               controller.weeklyEarnings.value,
               Icons.date_range,
               Colors.green,
@@ -184,7 +184,7 @@ class IncentiveScreen extends StatelessWidget {
             width: AppStyle.widthPercent(context, 26),
             child: _buildSummaryCard(
               context,
-              'Bonuses',
+              AppStrings.bonuses,
               controller.bonusEarnings.value,
               Icons.card_giftcard,
               Colors.orange,
@@ -264,7 +264,7 @@ class IncentiveScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Incentive Types',
+              AppStrings.incentiveTypes,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -275,7 +275,7 @@ class IncentiveScreen extends StatelessWidget {
             TextButton(
               onPressed: () {},
               child: const Text(
-                'View All',
+                AppStrings.viewAll,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColours.appColor,
@@ -427,7 +427,7 @@ class IncentiveScreen extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'Achievements Progress',
+            AppStrings.achievementsProgress,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -552,7 +552,7 @@ class IncentiveScreen extends StatelessWidget {
         SizedBox(
           width: AppStyle.widthPercent(context, 90),
           child: Text(
-            'Recent Incentives',
+            AppStrings.recentIncentives,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

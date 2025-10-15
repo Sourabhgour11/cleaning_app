@@ -255,7 +255,7 @@ class BookingScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'New bookings will appear here',
+            AppStrings.newBookingsWillAppearHere,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[500],
@@ -518,7 +518,7 @@ class BookingScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => controller.completeBooking(booking['id']),
                 icon: const Icon(Icons.check_circle, size: 18),
-                label: const Text('Complete'),
+                label: const Text(AppStrings.complete),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColours.appColor,
                   foregroundColor: Colors.white,
@@ -583,7 +583,7 @@ class BookingScreen extends StatelessWidget {
                   // View booking details or customer feedback
                 },
                 icon: const Icon(Icons.visibility, size: 18),
-                label: const Text('View Details'),
+                label: const Text(AppStrings.viewDetails),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColours.appColor,
                   side: BorderSide(color: AppColours.appColor),

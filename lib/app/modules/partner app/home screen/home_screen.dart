@@ -275,7 +275,7 @@ class PartnerHomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome back!',
+                      AppStrings.welcomeBack,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -285,7 +285,7 @@ class PartnerHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Ready to clean and earn?',
+                      AppStrings.readyToCleanAndEarn,
                       style: TextStyle(
                         fontSize: 14,
                         color: AppColours.grey,
@@ -321,7 +321,7 @@ class PartnerHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Online',
+                      AppStrings.online,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -345,7 +345,7 @@ class PartnerHomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Today\'s Performance',
+          AppStrings.todaysPerformance,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -374,7 +374,7 @@ class PartnerHomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildCompactStatCard(
-                      'Earnings',
+                      AppStrings.earnings,
                       '₹${controller.totalEarnings.value}',
                       Icons.currency_rupee,
                       Colors.green,
@@ -383,7 +383,7 @@ class PartnerHomeScreen extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildCompactStatCard(
-                      'Jobs Done',
+                      AppStrings.jobsDone,
                       '${controller.completedJobs.value}',
                       Icons.check_circle,
                       Colors.blue,
@@ -397,7 +397,7 @@ class PartnerHomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildCompactStatCard(
-                      'Rating',
+                      AppStrings.rating,
                       '${controller.rating.value} ⭐',
                       Icons.star,
                       Colors.orange,
@@ -406,7 +406,7 @@ class PartnerHomeScreen extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildCompactStatCard(
-                      'Upcoming',
+                      AppStrings.rating,
                       '${controller.upcomingBookings.value}',
                       Icons.schedule,
                       Colors.purple,
@@ -468,7 +468,7 @@ class PartnerHomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Recent Jobs',
+          AppStrings.recentJobs,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -514,7 +514,7 @@ class PartnerHomeScreen extends StatelessWidget {
           Icon(Icons.work_outline, size: 48, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No jobs completed yet',
+            AppStrings.noJobsCompletedYet,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -524,7 +524,7 @@ class PartnerHomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Complete your first cleaning job to see it here',
+            AppStrings.completeYourFirstCleaningJobToSeeItHere,
             style: TextStyle(
               fontSize: 12,
               color: AppColours.grey,
@@ -807,7 +807,7 @@ class PartnerHomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 const Text(
-                  'My Jobs',
+                  AppStrings.myJobs,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

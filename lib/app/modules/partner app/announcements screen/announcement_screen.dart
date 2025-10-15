@@ -65,7 +65,7 @@ class AnnouncementScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Announcements',
+                        AppStrings.announcements,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class AnnouncementScreen extends StatelessWidget {
           Icon(Icons.notifications_none, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No announcements',
+            AppStrings.noAnnouncements,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class AnnouncementScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'New announcements will appear here',
+            AppStrings.newAnnouncementsWillAppearHere,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[500],
@@ -231,7 +231,7 @@ class AnnouncementScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Text(
-                        'Mark Read Announcement',
+                        AppStrings.markReadAnnouncements,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,

@@ -11,31 +11,31 @@ class WalletScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppStyle.appBarStyle("My Wallet", isBackButton: false),
+      appBar: AppStyle.appBarStyle(AppStrings.myWallet, isBackButton: false),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            SizedBox(height: AppStyle.heightPercent(context, 2)),
 
             // Wallet Balance Card
             _buildWalletBalanceCard(controller),
 
-            const SizedBox(height: 20),
+            SizedBox(height: AppStyle.heightPercent(context, 2)),
 
             // Quick Actions Grid
             _buildQuickActionsGrid(controller),
 
-            const SizedBox(height: 20),
+            SizedBox(height: AppStyle.heightPercent(context, 2)),
 
             // Recent Transactions
             _buildRecentTransactions(controller),
 
-            const SizedBox(height: 20),
+            SizedBox(height: AppStyle.heightPercent(context, 2)),
 
             // Payment Methods
             _buildPaymentMethods(controller),
 
-            const SizedBox(height: 100), // Bottom padding for navigation
+            SizedBox(height: AppStyle.heightPercent(context, 18)),
           ],
         ),
       ),
@@ -69,7 +69,7 @@ class WalletScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Wallet Balance',
+                AppStrings.walletBalance,
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 16,
@@ -83,7 +83,7 @@ class WalletScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(
-                  'Active',
+                  AppStrings.active,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -111,7 +111,7 @@ class WalletScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: _buildBalanceInfo(
-                  'Total Earnings',
+                  AppStrings.totalEarnings,
                   '\$${controller.totalEarnings.value.toStringAsFixed(2)}',
                   Icons.trending_up,
                 ),
@@ -119,7 +119,7 @@ class WalletScreen extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildBalanceInfo(
-                  'Pending',
+                  AppStrings.pending,
                   '\$${controller.pendingAmount.value.toStringAsFixed(2)}',
                   Icons.schedule,
                 ),
@@ -173,7 +173,7 @@ class WalletScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Quick Actions',
+            AppStrings.quickActions,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -211,17 +211,11 @@ class WalletScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         switch (action['title']) {
-          case 'Withdraw Money':
-            controller.onWithdrawMoney();
-            break;
-          case 'Add Payment Method':
+          case AppStrings.addPaymentMethod:
             controller.onAddPaymentMethod();
             break;
-          case 'Transaction History':
+          case AppStrings.transactionHistory:
             controller.onViewTransactionHistory();
-            break;
-          case 'Earnings Report':
-            controller.onViewEarningsReport();
             break;
         }
       },
@@ -289,7 +283,7 @@ class WalletScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Recent Transactions',
+                AppStrings.recentTransactions,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -300,7 +294,7 @@ class WalletScreen extends StatelessWidget {
               TextButton(
                 onPressed: controller.onViewTransactionHistory,
                 child: const Text(
-                  'View All',
+                  AppStrings.viewAll,
                   style: TextStyle(
                     color: AppColours.appColor,
                     fontWeight: FontWeight.w600,
@@ -466,7 +460,7 @@ class WalletScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Payment Methods',
+                AppStrings.paymentMethods,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -474,17 +468,6 @@ class WalletScreen extends StatelessWidget {
                   color: AppColours.black,
                 ),
               ),
-              // TextButton(
-              //   onPressed: controller.onAddPaymentMethod,
-              //   child: const Text(
-              //     'Add New',
-              //     style: TextStyle(
-              //       color: AppColours.appColor,
-              //       fontWeight: FontWeight.w600,
-              //       fontFamily: AppFonts.fontFamily,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           const SizedBox(height: 12),
@@ -561,7 +544,7 @@ class WalletScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(
-                          'DEFAULT',
+                          AppStrings.defaultText,
                           style: TextStyle(
                             fontSize: 10,
                             color: AppColours.appColor,

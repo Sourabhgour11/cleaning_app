@@ -290,7 +290,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            "Top picks for you!",
+                            AppStrings.topPicksForYou,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
@@ -355,12 +355,6 @@ Widget simpleSalonGrid(String titleName,HomeScreenController controller,BuildCon
             final item = list[index];
             return InkWell(
               onTap: () {
-                // if (onItemTap != null) {
-                //   onItemTap("Item $index");
-                //   print("jjjjjj");
-                //   controller.appBarTitle.value = item['name'];
-                //   Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
-                // }
                 controller.appBarTitle.value = item['name'];
                 Get.toNamed(AppRoutes.subCategory,arguments: controller.appBarTitle);
               },
