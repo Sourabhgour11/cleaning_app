@@ -1,10 +1,15 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/map_controller.dart';
+import 'package:cleaning_app/app/utils/place_search_widget.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 import 'sign_up_screen_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
+
   final controller = Get.put(SignUpScreenController());
+  final MapController mapController = Get.put(MapController());
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +237,8 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: const TextField(
+                            child: TextField(
+                              controller: controller.nameController,
                               keyboardType: TextInputType.name,
                               decoration: InputDecoration(
                                 hintText: 'Enter your name',
@@ -289,7 +295,8 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: const TextField(
+                            child: TextField(
+                              controller: controller.emailController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 hintText: 'Enter your email address',
@@ -329,12 +336,15 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
                           Container(
                             width: AppStyle.widthPercent(context, 90),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 12,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColours.white,
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
+                                color: AppColours.grey.withOpacity(0.3),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -345,22 +355,61 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: const TextField(
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your phone number',
-                                hintStyle: TextStyle(color: AppColours.grey),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 18,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 90,
+                                  child: CountryCodePicker(
+                                    onChanged: (country) {
+                                      // Map dial code to country code statically
+                                      final countryCode = controller
+                                          .getCountryCodeFromDialCode(
+                                            country.dialCode ?? '+1',
+                                          );
+                                      mapController.updateCountryCode(
+                                        countryCode,
+                                      );
+                                      controller.selectedCountryCode.value = countryCode;
+                                    },
+                                    initialSelection: 'IN',
+                                    favorite: [
+                                      'IN',
+                                      'US',
+                                      'GB',
+                                      'CA',
+                                      'AU',
+                                      'AE',
+                                    ],
+                                    // Country codes
+                                    showFlag: true,
+                                    flagWidth: 24,
+                                    textStyle: const TextStyle(fontSize: 16),
+                                    padding: EdgeInsets.zero,
+                                  ),
                                 ),
-                                prefixIcon: Icon(
-                                  Icons.phone,
-                                  color: AppColours.grey,
-                                  size: 20,
+                                const SizedBox(width: 8),
+                                // space between picker and input
+                                Expanded(
+                                  child: TextField(maxLength: 10,
+                                    controller: controller.phoneController,
+                                    keyboardType: TextInputType.phone,
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter your phone number',
+                                      counterText: '',
+                                      hintStyle: const TextStyle(
+                                        color: AppColours.grey,
+                                      ),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            horizontal: 0,
+                                            // already have outer padding
+                                            vertical: 14,
+                                          ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
@@ -382,43 +431,47 @@ class SignUpScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: const TextField(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your address',
-                                hintStyle: TextStyle(color: AppColours.grey),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 18,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.location_on,
-                                  color: AppColours.grey,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
+                          SizedBox(
+                            height: AppStyle.heightPercent(context, 1.7),
                           ),
+                          // Container(
+                          //   width: AppStyle.widthPercent(context, 90),
+                          //   decoration: BoxDecoration(
+                          //     color: AppColours.white,
+                          //     borderRadius: BorderRadius.circular(15),
+                          //     border: Border.all(
+                          //       color: AppColours.grey.withOpacity(0.2),
+                          //       width: 1.5,
+                          //     ),
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //         color: AppColours.grey.withOpacity(0.1),
+                          //         spreadRadius: 1,
+                          //         blurRadius: 3,
+                          //         offset: const Offset(0, 1),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   child: TextField(
+                          //     controller: controller.addressController,
+                          //     keyboardType: TextInputType.text,
+                          //     decoration: InputDecoration(
+                          //       hintText: 'Enter your address',
+                          //       hintStyle: TextStyle(color: AppColours.grey),
+                          //       border: InputBorder.none,
+                          //       contentPadding: EdgeInsets.symmetric(
+                          //         horizontal: 20,
+                          //         vertical: 18,
+                          //       ),
+                          //       prefixIcon: Icon(
+                          //         Icons.location_on,
+                          //         color: AppColours.grey,
+                          //         size: 20,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          PlaceSearchWidget(),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
                           // Password Field
                           SizedBox(
@@ -460,6 +513,7 @@ class SignUpScreen extends StatelessWidget {
                             child: Obx(
                               () => TextField(
                                 obscureText: controller.isPasswordVisible.value,
+                                controller: controller.passwordController,
                                 decoration: InputDecoration(
                                   hintText: 'Enter your confirm password',
                                   hintStyle: TextStyle(color: AppColours.grey),
@@ -532,6 +586,8 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             child: Obx(
                               () => TextField(
+                                controller:
+                                    controller.confirmPasswordController,
                                 obscureText:
                                     controller.isConfirmPasswordVisible.value,
                                 decoration: InputDecoration(
@@ -573,15 +629,25 @@ class SignUpScreen extends StatelessWidget {
                           // Sign Up Button
                           SizedBox(
                             width: AppStyle.widthPercent(context, 90),
-                            child: AppButton(
-                              onPressed: () {
-                                Get.toNamed(
-                                  AppRoutes.otp,
-                                  arguments: controller.userType,
-                                );
-                              },
-                              title: AppStrings.signUp,
-                              icon: Icons.login,
+                            child: Obx(
+                              () => AppButton(
+                                onPressed: () {
+                                  controller.signUpValidation(
+                                    controller.nameController.text,
+                                    controller.emailController.text,
+                                    controller.phoneController.text,
+                                    controller.addressController.text,
+                                    controller.passwordController.text,
+                                    controller.confirmPasswordController.text
+                                  );
+                                },
+                                title: controller.isLoading.value == true
+                                    ? AppStrings.pleaseWait
+                                    : AppStrings.signUp,
+                                icon: controller.isLoading.value == true
+                                    ? Icons.refresh_rounded
+                                    : Icons.login,
+                              ),
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),

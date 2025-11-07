@@ -1,0 +1,597 @@
+{
+	"info": {
+		"_postman_id": "bd95fcac-bb9e-4d0e-be56-aceca20af65b",
+		"name": "CleanPro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49540173",
+		"_collection_link": "https://yaminternational19-7336592.postman.co/workspace/John-Charles's-Workspace~739d67ee-3453-46e7-8a7b-063991c207fe/collection/49540173-bd95fcac-bb9e-4d0e-be56-aceca20af65b?action=share&source=collection_link&creator=49540173"
+	},
+	"item": [
+		{
+			"name": "get_content",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/get_content",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"get_content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_notification",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/get_notification?user_id=48",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"get_notification"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "48"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_all_notification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/delete_all_notification",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"delete_all_notification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_single_notification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						},
+						{
+							"key": "notification_message_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/delete_single_notification",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"delete_single_notification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_notification_count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoianRpY2hvdWhhbkBnbWFpbC5jb20iLCJpYXQiOjE3NjEzNzcyMDMsImV4cCI6MTc2MTk4MjAwM30.hc2V5BSvMG2uKQJJxUbuwcImvr6fo-HGDoYldzyN2Vc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/get_notification_count?user_id=3",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"get_notification_count"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "reason",
+							"value": "fdsfd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/delete_account",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"delete_account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign_up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Jayanti Rajput",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jtichouhan@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "phone_code",
+							"value": "971",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "98867585944",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "indore",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "23.5544",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "78.5644",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "user_type",
+							"value": "1",
+							"description": "1 = user, 2 = driver,3 = cleaner, 4 = partner ",
+							"type": "text"
+						},
+						{
+							"key": "login_type",
+							"value": "google",
+							"description": "app,apple,google",
+							"type": "text"
+						},
+						{
+							"key": "social_id",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "device_type",
+							"value": "ios",
+							"type": "text"
+						},
+						{
+							"key": "player_id",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "olbp15LMP/dream.jpg",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/sign_up",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"sign_up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resend_otp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/resend_otp",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"resend_otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otp_verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						},
+						{
+							"key": "otp",
+							"value": "758811",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/otp_verify",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"otp_verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "jtichouhan@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "player_id",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "device_type",
+							"value": "ios",
+							"type": "text"
+						},
+						{
+							"key": "user_type",
+							"value": "1",
+							"description": "1 = user, 2 = driver,3 = cleaner, 4 = partner ",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/login",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit_profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "9876789098",
+							"type": "text"
+						},
+						{
+							"key": "phone_code",
+							"value": "+971",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "indore mp",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "45.34634",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "54.64688",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jtichouhan@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Jayanti Rajput",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "9bjAhRQAz/radha rani.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/edit_profile",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"edit_profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contact_us",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "48",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Jayanti Rajput",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jtichouhan@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "msgBody",
+							"value": "fkdfgdfg",
+							"type": "text"
+						},
+						{
+							"key": "user_type",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/contact_us",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"contact_us"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_help_center_questions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{API_URL}}/get_help_center_questions?user_id=48&user_type=1",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"get_help_center_questions"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "48"
+						},
+						{
+							"key": "user_type",
+							"value": "1",
+							"description": "1 = user, 2 = driver,3 = cleaner, 4 = partner "
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_home_page_api",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{API_URL}}/get_home_page_api?user_id=48",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"get_home_page_api"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "48"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJqdGljaG91aGFuQGdtYWlsLmNvbSIsImlhdCI6MTc2MTM3OTEyMywiZXhwIjoxNzYxNDY1NTIzfQ.q8bs90U6c7pWFSWswMn7uensu0-v1o-E7PbzBGDdUF8",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": ""
+		}
+	]
+}

@@ -2,6 +2,8 @@ import '../../../utils/app_export.dart';
 import 'forgot_password_screen_controller.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
+  TextEditingController emailTextEditingController = TextEditingController();
+
   ForgotPasswordScreen({super.key});
   final controller = Get.put(ForgotPasswordScreenController());
   @override
@@ -140,7 +142,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 child: const Text(
                   AppStrings.enterEmailToReceiveResetInstructions,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     color: AppColours.white,
                     fontWeight: FontWeight.w400,
                     fontFamily: AppFonts.fontFamily,
@@ -252,7 +254,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ],
                       ),
                       child: TextField(
-                        controller: controller.emailController.value,
+                        controller: emailTextEditingController,
                         focusNode: controller.emailFocusNode,
 
                         keyboardType: TextInputType.emailAddress,
@@ -277,14 +279,44 @@ class ForgotPasswordScreen extends StatelessWidget {
                     // Send Reset Email Button
                     SizedBox(
                       width: AppStyle.widthPercent(context, 80),
-                      child: AppButton(
-                        onPressed: controller.isLoading.value
-                            ? () {}
-                            : controller.sendResetEmail,
-                        title: AppStrings.sendResetEmail,
-                        icon: Icons.send,
+                      child: Obx(
+                        () => controller.isLoading.value
+                            ? Container(
+                                height: AppStyle.heightPercent(context, 7),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: AppColours.gradientColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColours.appColor.withOpacity(
+                                        0.3,
+                                      ),
+                                      spreadRadius: 2,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColours.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : AppButton(
+                                onPressed: () {
+                                  controller.sendResetEmail(
+                                    emailTextEditingController.text,
+                                  );
+                                },
+                                title: AppStrings.sendResetEmail,
+                                icon: Icons.send,
+                              ),
                       ),
                     ),
+
                     SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                     // Back to Login

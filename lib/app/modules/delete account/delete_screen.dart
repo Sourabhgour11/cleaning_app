@@ -1,3 +1,5 @@
+import 'package:cleaning_app/app/utils/custom_textformfield.dart';
+
 import 'delete_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 
@@ -14,12 +16,17 @@ class DeleteScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
         child: _buildHeader(context, controller),
       ),
-      body: SafeArea(
-        child: Obx(
-          () => SizedBox(
-            height: AppStyle.heightPercent(context, 100),
-            width: AppStyle.widthPercent(context, 100),
-            child: _buildContent(context, controller),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: Obx(
+            () => SizedBox(
+              height: AppStyle.heightPercent(context, 100),
+              width: AppStyle.widthPercent(context, 100),
+              child: _buildContent(context, controller),
+            ),
           ),
         ),
       ),
@@ -243,6 +250,10 @@ class DeleteScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.all(16),
             ),
+          ),
+          CustomTextFormField(
+            hintText: "Tell us more about why you're leaving.",
+            controller: controller.deleteController,
           ),
         ],
       ),

@@ -1,9 +1,5 @@
 import 'package:cleaning_app/app/modules/user%20app/favourites_screen/favourites_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
-import 'package:cleaning_app/app/utils/app_style.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class FavouritesScreen extends StatelessWidget {
   FavouritesScreen({super.key});

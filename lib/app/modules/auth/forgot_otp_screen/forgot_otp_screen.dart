@@ -188,7 +188,7 @@ class ForgotOtpScreen extends StatelessWidget {
                 child: const Text(
                   AppStrings.enterThe6DigitCodeSentToYourPhone,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     color: AppColours.white,
                     fontWeight: FontWeight.w400,
                     fontFamily: AppFonts.fontFamily,
@@ -273,7 +273,9 @@ class ForgotOtpScreen extends StatelessWidget {
                         onCompleted: (pin) => () {},
                         onChanged: (value) {
                           if (value.length == 6) {
-                            Get.toNamed(AppRoutes.resatePassword);
+                            controller.verifyOtp(
+                              controller.otpController.value.text,
+                            );
                           }
                         },
                       ),
@@ -283,13 +285,41 @@ class ForgotOtpScreen extends StatelessWidget {
                     // Verify Button
                     SizedBox(
                       width: AppStyle.widthPercent(context, 80),
-
-                      child: AppButton(
-                        onPressed: () {
-                          Get.toNamed(AppRoutes.resatePassword);
-                        },
-                        title: AppStrings.verifyOtp,
-                        icon: Icons.verified_user,
+                      child: Obx(
+                        () => controller.isLoading.value
+                            ? Container(
+                                height: AppStyle.heightPercent(context, 7),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: AppColours.gradientColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColours.appColor.withOpacity(
+                                        0.3,
+                                      ),
+                                      spreadRadius: 2,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColours.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : AppButton(
+                                onPressed: () {
+                                  controller.verifyOtp(
+                                    controller.otpController.value.text,
+                                  );
+                                },
+                                title: AppStrings.verifyOtp,
+                                icon: Icons.verified_user,
+                              ),
                       ),
                     ),
 
@@ -325,7 +355,9 @@ class ForgotOtpScreen extends StatelessWidget {
                               color: AppColours.white,
                             ),
                             timeOutInSeconds: 30,
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.forgotResentOtpApi();
+                            },
                           ),
                         ],
                       ),
@@ -333,6 +365,7 @@ class ForgotOtpScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: AppStyle.heightPercent(context, 4)),
             ],
           ),
         ),

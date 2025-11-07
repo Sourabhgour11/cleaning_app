@@ -1,4 +1,7 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
+import 'package:dio/dio.dart';
 
 class DeleteScreenController extends GetxController {
   // Observable variables
@@ -6,6 +9,8 @@ class DeleteScreenController extends GetxController {
   var otherReason = ''.obs;
   var isAgreed = false.obs;
   var isProcessing = false.obs;
+
+  final TextEditingController deleteController = TextEditingController();
 
   // Delete reasons
   var deleteReasons = <Map<String, dynamic>>[].obs;
@@ -15,6 +20,65 @@ class DeleteScreenController extends GetxController {
     super.onInit();
     _initializeReasons();
   }
+
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: AppUrl.baseUrl,
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      headers: {'Accept': 'application/json'},
+    ),
+  );
+
+  Future<void> deleteAccountAPI() async {
+
+    try {
+      String? userId = AppLocalStorage.getUserId();
+      String? token = AppLocalStorage.getToken();
+
+      final response = await dio.post(
+        AppUrl.deleteAccount,
+        data: {
+          'user_id': userId,
+          'reason': "reas",
+        },
+        options: Options(headers: {
+          'Authorization': token,
+          'Accept': 'application/json',
+        }),
+      );
+
+      print('📩 RESPONSE: ${response.data}');
+
+      final rawMsg = response.data['msg'];
+      final rawMessage = response.data['errors'];
+      final msg = (rawMsg is List) ? rawMsg.join(', ') : rawMsg?.toString() ?? 'Message sent successfully!';
+      final errorMessage = (rawMessage is List) ? rawMessage.join(', ') : rawMessage?.toString() ?? 'Validation failed!';
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        Get.back();
+        Get.snackbar('Success', msg);
+        // clearFields();
+      } else {
+        Get.snackbar('Error', errorMessage);
+      }
+    } on DioException catch (e) {
+      print('❌ DIO ERROR: ${e.response?.data}');
+      String message = 'Failed to send message';
+      final data = e.response?.data;
+      if (data is Map && data.containsKey('msg')) {
+        final msg = data['msg'];
+        message = (msg is List) ? msg.join(', ') : msg.toString();
+      }
+      Get.snackbar('Error', message);
+    } catch (e) {
+      print('❌ Unexpected error: $e');
+      Get.snackbar('Error', 'Unexpected error occurred');
+    } finally {
+      // isLoading(false);
+    }
+  }
+
 
   void _initializeReasons() {
     deleteReasons.value = [

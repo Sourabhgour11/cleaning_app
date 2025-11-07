@@ -33,12 +33,6 @@ class ResetPasswordScreenController extends GetxController {
     isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
   }
 
-  // Validate password
-  bool _validatePassword(String password) {
-    if (password.length < 8) return false;
-    return true;
-  }
-
   // Reset password function
   void resetPassword() {
     final newPassword = newPasswordController.value.text;

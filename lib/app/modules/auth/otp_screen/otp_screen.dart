@@ -74,6 +74,7 @@ class OtpScreenScreen extends StatelessWidget {
                   SizedBox(width: AppStyle.widthPercent(context, 5)),
                   GestureDetector(
                     onTap: () {
+                      print("On TTap");
                       Get.back();
                     },
                     child: Container(
@@ -188,7 +189,7 @@ class OtpScreenScreen extends StatelessWidget {
                 child: const Text(
                   AppStrings.enterThe6DigitCodeSentToYourPhone,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     color: AppColours.white,
                     fontWeight: FontWeight.w400,
                     fontFamily: AppFonts.fontFamily,
@@ -270,24 +271,59 @@ class OtpScreenScreen extends StatelessWidget {
                         submittedPinTheme: submittedPinTheme,
                         pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                         showCursor: true,
-                        onCompleted: (pin) => () {},
+                        onCompleted: (pin) {
+                          controller.verifyOtp(pin);
+                        },
                         onChanged: (value) {
+                          // Optional: Auto-verify when 6 digits are entered
                           if (value.length == 6) {
-                            controller.showLottiePopup(context);
+                            controller.verifyOtp(
+                              controller.otpController.value.text,
+                            );
                           }
                         },
                       ),
                     ),
                     SizedBox(height: AppStyle.heightPercent(context, 4)),
 
+                    // Verify OTP Button with Loading State
                     SizedBox(
                       width: AppStyle.widthPercent(context, 80),
-                      child: AppButton(
-                        onPressed: () {
-                          controller.showLottiePopup(context);
-                        },
-                        title: AppStrings.verifyOtp,
-                        icon: Icons.verified_user,
+                      child: Obx(
+                        () => controller.isLoading.value
+                            ? Container(
+                                height: AppStyle.heightPercent(context, 7),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: AppColours.gradientColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColours.appColor.withOpacity(
+                                        0.3,
+                                      ),
+                                      spreadRadius: 2,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColours.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : AppButton(
+                                onPressed: () {
+                                  controller.verifyOtp(
+                                    controller.otpController.value.text,
+                                  );
+                                },
+                                title: AppStrings.verifyOtp,
+                                icon: Icons.verified_user,
+                              ),
                       ),
                     ),
                     // Resend OTP
@@ -322,7 +358,9 @@ class OtpScreenScreen extends StatelessWidget {
                               color: AppColours.white,
                             ),
                             timeOutInSeconds: 30,
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.resentOtpApi();
+                            },
                           ),
                         ],
                       ),

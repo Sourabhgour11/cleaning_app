@@ -6,14 +6,12 @@ class AppRoutes {
   static const otp = '/otp';
   static const forgotPassword = '/forgotPassword';
   static const forgotOtp = '/forgotOtp';
-  static const resatePassword = '/resetPassword';
+  static const resetPassword = '/resetPassword';
   static const selectUserScreen = '/selectUserScreen';
   static const splash = '/splash';
   static const onboarding = '/onboarding';
   static const booking = '/booking';
   static const inbox = '/inbox';
-  static const cleanerbottomNav = '/cleanerbottomNav';
-  static const partnerbottomNav = '/partnerbottomNav';
   static const editProfile = '/editProfile';
   static const incentive = '/incentive';
   static const helpAndSupport = '/helpAndSupport';
@@ -28,6 +26,7 @@ class AppRoutes {
   static const favourite = '/favourite';
   static const userBookingScreen = '/userBookingScreen';
   static const bookingDetails = '/bookingDetails';
-  static const resetPassword = '/resetPassword';
+  static const changePassword = '/changePassword';
+  static const contactUs = '/contactUs';
 
 }

@@ -23,7 +23,7 @@ class WalletScreen extends StatelessWidget {
             SizedBox(height: AppStyle.heightPercent(context, 2)),
 
             // Quick Actions Grid
-            _buildQuickActionsGrid(controller),
+            _buildQuickActionsGrid(controller,context),
 
             SizedBox(height: AppStyle.heightPercent(context, 2)),
 
@@ -166,9 +166,10 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionsGrid(WalletScreenController controller) {
+  Widget _buildQuickActionsGrid(WalletScreenController controller,context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
+      // height: AppStyle.heightPercent(context, 33),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -220,7 +221,7 @@ class WalletScreen extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),

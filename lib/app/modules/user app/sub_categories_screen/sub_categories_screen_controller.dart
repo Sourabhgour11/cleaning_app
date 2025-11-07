@@ -1,15 +1,26 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
 class SubCategoriesScreenController extends GetxController {
-
   RxString appBarTitle = ''.obs;
 
   final List<Map<String, dynamic>> generalCleaning = [
     {'name': 'Home Cleaning', 'image': "lib/assets/images/home_cleaning.jpg"},
-    {'name': 'Furniture Cleaning', 'image': "lib/assets/images/furniture_cleaning.png"},
-    {'name': 'Home Deep Cleaning', 'image': "lib/assets/images/home_deep_cleaning.webp"},
-    {'name': 'Kitchen & Bathroom Deep Cleaning', 'image': "lib/assets/images/kitchen_bathroom_cleaning.webp"},
-    {'name': 'Laundry & Deep Cleaning', 'image': "lib/assets/images/laundry_drycleaning.png"},
+    {
+      'name': 'Furniture Cleaning',
+      'image': "lib/assets/images/furniture_cleaning.png",
+    },
+    {
+      'name': 'Home Deep Cleaning',
+      'image': "lib/assets/images/home_deep_cleaning.webp",
+    },
+    {
+      'name': 'Kitchen & Bathroom Deep Cleaning',
+      'image': "lib/assets/images/kitchen_bathroom_cleaning.webp",
+    },
+    {
+      'name': 'Laundry & Deep Cleaning',
+      'image': "lib/assets/images/laundry_drycleaning.png",
+    },
     {'name': 'AC Cleaning', 'image': "lib/assets/images/ac_cleaning.webp"},
     {'name': 'Car Wash', 'image': "lib/assets/images/car_wash.webp"},
   ];
@@ -21,7 +32,8 @@ class SubCategoriesScreenController extends GetxController {
   final RxBool isServiceFavorited = false.obs;
 
   // Service details data
-  final RxList<Map<String, dynamic>> serviceDetails = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> serviceDetails =
+      <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
@@ -39,8 +51,10 @@ class SubCategoriesScreenController extends GetxController {
         'title': 'Home Cleaning',
         'subtitle': 'Single - 90 mins (25% off)',
         'duration': '90 min.',
-        'description': 'A gentle cleaning to increased home hygiene and cleanliness.',
-        'fullDescription': 'Relax, unwind & feel balanced with a rejuvenating cleaning experience.',
+        'description':
+            'A gentle cleaning to increased home hygiene and cleanliness.',
+        'fullDescription':
+            'Relax, unwind & feel balanced with a rejuvenating cleaning experience.',
         'originalPrice': 300.0,
         'discountedPrice': 229.0,
         'discountPercentage': 25,
@@ -69,8 +83,10 @@ class SubCategoriesScreenController extends GetxController {
         'title': 'Furniture Cleaning',
         'subtitle': 'Single - 60 mins (20% off)',
         'duration': '60 min.',
-        'description': 'Professional furniture cleaning for upholstery and fabric care.',
-        'fullDescription': 'Restore your furniture to its original beauty with professional cleaning.',
+        'description':
+            'Professional furniture cleaning for upholstery and fabric care.',
+        'fullDescription':
+            'Restore your furniture to its original beauty with professional cleaning.',
         'originalPrice': 250.0,
         'discountedPrice': 200.0,
         'discountPercentage': 20,
@@ -100,7 +116,8 @@ class SubCategoriesScreenController extends GetxController {
         'subtitle': 'Single - 120 mins (30% off)',
         'duration': '120 min.',
         'description': 'Comprehensive deep cleaning for your entire home.',
-        'fullDescription': 'Transform your home with our thorough deep cleaning service.',
+        'fullDescription':
+            'Transform your home with our thorough deep cleaning service.',
         'originalPrice': 400.0,
         'discountedPrice': 280.0,
         'discountPercentage': 30,
@@ -143,23 +160,22 @@ class SubCategoriesScreenController extends GetxController {
     isServiceFavorited.value = !isServiceFavorited.value;
   }
 
-  // Increase service quantity
-  void increaseQuantity() {
-    serviceQuantity.value++;
-  }
+  // // Increase service quantity
+  // void increaseQuantity() {
+  //   serviceQuantity.value++;
+  // }
 
-  // Decrease service quantity
-  void decreaseQuantity() {
-    if (serviceQuantity.value > 1) {
-      serviceQuantity.value--;
-    }
-  }
+  // // Decrease service quantity
+  // void decreaseQuantity() {
+  //   if (serviceQuantity.value > 1) {
+  //     serviceQuantity.value--;
+  //   }
+  // }
 
   // Add service to cart
   void addServiceToCart(RxString appBarText) {
-    final service = serviceDetails[selectedServiceIndex.value];
     // final totalPrice = service['discountedPrice'] * serviceQuantity.value;
-    Get.toNamed(AppRoutes.bookServiceStep1,arguments:appBarText );
+    Get.toNamed(AppRoutes.bookServiceStep1, arguments: appBarText);
     hideServicePopup();
   }
 

@@ -14,7 +14,7 @@ class SubCategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           controller.hideServicePopup();
         },
         child: Stack(
@@ -101,9 +101,10 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
 
             // Service Details Popup
-            Obx(() => controller.isServicePopupVisible.value
-              ? _buildServicePopup(controller)
-              : const SizedBox.shrink()
+            Obx(
+              () => controller.isServicePopupVisible.value
+                  ? _buildServicePopup(controller)
+                  : const SizedBox.shrink(),
             ),
           ],
         ),
@@ -129,7 +130,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               controller: scrollController,
-              child: Obx(() => _buildServiceContent(controller,context)),
+              child: Obx(() => _buildServiceContent(controller, context)),
             ),
           );
         },
@@ -137,9 +138,12 @@ class SubCategoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceContent(SubCategoriesScreenController controller,BuildContext context) {
+  Widget _buildServiceContent(
+    SubCategoriesScreenController controller,
+    BuildContext context,
+  ) {
     final service = controller.currentService;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,7 +159,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Customize label
         Padding(
           padding: const EdgeInsets.all(16),
@@ -169,7 +173,7 @@ class SubCategoriesScreen extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // What's Included section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -269,9 +273,9 @@ class SubCategoriesScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // Service details and pricing
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -349,9 +353,9 @@ class SubCategoriesScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // What We Bring section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -369,35 +373,39 @@ class SubCategoriesScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              ...service['whatWeBring'].map<Widget>((item) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle,
-                      color: Colors.green[600],
-                      size: 16,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black87,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
+              ...service['whatWeBring']
+                  .map<Widget>(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check_circle,
+                            color: Colors.green[600],
+                            size: 16,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black87,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              )).toList(),
+                  )
+                  .toList(),
             ],
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // Know This Before You Book section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -449,76 +457,21 @@ class SubCategoriesScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 30),
-        
+
         // Quantity selector and Add button
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              // Quantity selector
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: controller.decreaseQuantity,
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.remove,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Obx(
-                    () => Text(
-                      controller.serviceQuantity.value.toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontFamily: AppFonts.fontFamily,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: controller.increaseQuantity,
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: AppColours.appColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              const Spacer(),
-              
-              // Add button
-           SizedBox(
-             height: AppStyle.heightPercent(context, 5),
-             width: AppStyle.widthPercent(context, 55),
-             child: AppButton(onPressed: (){
-               controller.addServiceToCart(controller.appBarTitle);
-             }, title: "${AppStrings.addFor} ${controller.getFormattedPrice(controller.totalServicePrice)}",),
-           )
-            ],
+        Center(
+          child: SizedBox(
+            height: AppStyle.heightPercent(context, 5),
+            width: AppStyle.widthPercent(context, 80),
+            child: AppButton(
+              onPressed: () {
+                controller.addServiceToCart(controller.appBarTitle);
+              },
+              title:
+                  "${AppStrings.addFor} ${controller.getFormattedPrice(controller.totalServicePrice)}",
+            ),
           ),
         ),
 

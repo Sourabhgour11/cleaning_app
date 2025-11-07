@@ -1,10 +1,4 @@
-import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
-import 'package:cleaning_app/app/utils/app_style.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:cleaning_app/app/utils/app_colours.dart';
-import 'package:cleaning_app/app/utils/app_fonts.dart';
 import 'profile_screen_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 60)),
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 40)),
         child: _buildProfileHeader(context, controller),
       ),
       body: SafeArea(child: Obx(() => _buildContent(context, controller))),
@@ -34,17 +28,17 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 20),
           // Menu Items
           _buildMenuItems(controller),
-          const SizedBox(height: 100),
+           SizedBox(height: AppStyle.heightPercent(context, 14)),
         ],
       ),
     );
   }
 
   Widget _buildProfileHeader(
-      BuildContext context,
-      ProfileController controller,
-      ) {
-    final height = AppStyle.heightPercent(context, 30); // 20% of screen
+    BuildContext context,
+    ProfileController controller,
+  ) {
+    final height = AppStyle.heightPercent(context, 25); // 20% of screen
     final width = AppStyle.widthPercent(context, 100);
 
     return Container(
@@ -75,6 +69,7 @@ class ProfileScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Profile Image
+            SizedBox(height: AppStyle.heightPercent(context, 2),),
             CircleAvatar(
               radius: height * 0.18, // responsive radius
               backgroundColor: Colors.white,
@@ -94,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(
-                      () => Flexible(
+                  () => Flexible(
                     child: Text(
                       controller.userName.value,
                       style: TextStyle(
@@ -125,7 +120,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: height * 0.02),
             // Phone Number
             Obx(
-                  () => Text(
+              () => Text(
                 controller.phoneNumber.value,
                 style: TextStyle(
                   fontSize: height * 0.07,
@@ -140,16 +135,19 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildStatisticsCards(ProfileController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
           Expanded(
-            child: GestureDetector(onTap: (){
-              Get.toNamed(AppRoutes.userBookingScreen, arguments: {'showBack': true});
-            },
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(
+                  AppRoutes.userBookingScreen,
+                  arguments: {'showBack': true},
+                );
+              },
               child: _buildStatCard(
                 AppStrings.totalBookings,
                 '${controller.profileData['totalBookings']}',
@@ -160,9 +158,10 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: GestureDetector(onTap: (){
-              Get.toNamed(AppRoutes.favourite);
-            },
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.favourite);
+              },
               child: _buildStatCard(
                 AppStrings.favourites,
                 '${controller.profileData['favorites']}',

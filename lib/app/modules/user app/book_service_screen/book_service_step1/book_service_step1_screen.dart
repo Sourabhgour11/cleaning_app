@@ -6,13 +6,17 @@ class BookServiceStep1Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BookServiceStep1ScreenController controller = Get.put(BookServiceStep1ScreenController());
+    final BookServiceStep1ScreenController controller = Get.put(
+      BookServiceStep1ScreenController(),
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppStyle.appBarStyle(controller.appBarTitle.value),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+        ),
         child: SingleChildScrollView(
           // padding: const EdgeInsets.all(16),
           child: Column(
@@ -20,7 +24,7 @@ class BookServiceStep1Screen extends StatelessWidget {
             children: [
               SizedBox(height: AppStyle.heightPercent(context, 1.5)),
               Text(
-                'Step 1 of 4',
+                'Step 1 of 3',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[600],
@@ -30,32 +34,34 @@ class BookServiceStep1Screen extends StatelessWidget {
               // Exclusive Offer Section
               _buildExclusiveOffer(controller),
 
-               SizedBox(height: AppStyle.heightPercent(context, 3)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
 
               // Service Duration Section
               _buildServiceDuration(controller),
 
-               SizedBox(height: AppStyle.heightPercent(context, 3)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
 
               // Professionals Count Section
               _buildProfessionalsCount(controller),
 
-               SizedBox(height: AppStyle.heightPercent(context, 3)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
 
               // Cleaning Materials Section
               _buildCleaningMaterials(controller),
 
-               SizedBox(height: AppStyle.heightPercent(context, 3)),
+              SizedBox(height: AppStyle.heightPercent(context, 3)),
 
               // Specific Instructions Section
               _buildSpecificInstructions(controller),
 
-               SizedBox(height: AppStyle.heightPercent(context, 15)), // Bottom padding for footer
+              SizedBox(
+                height: AppStyle.heightPercent(context, 15),
+              ), // Bottom padding for footer
             ],
           ),
         ),
       ),
-      bottomNavigationBar:  _buildFooter(controller,context),
+      bottomNavigationBar: _buildFooter(controller, context),
     );
   }
 
@@ -86,46 +92,57 @@ class BookServiceStep1Screen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => Text(
-                    controller.offerAmount.value,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: AppFonts.fontFamily,
+                  Obx(
+                    () => Text(
+                      controller.offerAmount.value,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: AppFonts.fontFamily,
+                      ),
                     ),
-                  )),
+                  ),
                   const SizedBox(height: 4),
-                  Obx(() => Text(
-                    'Code: ${controller.offerCode.value}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                      fontFamily: AppFonts.fontFamily,
+                  Obx(
+                    () => Text(
+                      'Code: ${controller.offerCode.value}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                        fontFamily: AppFonts.fontFamily,
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
               const Spacer(),
-              Obx(() => ElevatedButton(
-                onPressed: controller.applyOffer,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: controller.isOfferActive ? Colors.green : AppColours.appColor,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Obx(
+                () => ElevatedButton(
+                  onPressed: controller.applyOffer,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: controller.isOfferActive
+                        ? Colors.green
+                        : AppColours.appColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-                child: Text(
-                  controller.offerDisplayText,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: AppFonts.fontFamily,
+                  child: Text(
+                    controller.offerDisplayText,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: AppFonts.fontFamily,
+                    ),
                   ),
                 ),
-              )),
+              ),
             ],
           ),
         ),
@@ -170,43 +187,49 @@ class BookServiceStep1Screen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        Obx(() => SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: controller.availableHours.map((hours) {
-              final isSelected = controller.selectedHours.value == hours;
-              return Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: GestureDetector(
-                  onTap: () => controller.selectHours(hours),
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColours.appColor : Colors.transparent,
-                      border: Border.all(
-                        color: isSelected ? AppColours.appColor : Colors.grey[300]!,
-                        width: 2,
+        Obx(
+          () => SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: controller.availableHours.map((hours) {
+                final isSelected = controller.selectedHours.value == hours;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: GestureDetector(
+                    onTap: () => controller.selectHours(hours),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColours.appColor
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColours.appColor
+                              : Colors.grey[300]!,
+                          width: 2,
+                        ),
+                        shape: BoxShape.circle,
                       ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        hours.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.white : Colors.black,
-                          fontFamily: AppFonts.fontFamily,
+                      child: Center(
+                        child: Text(
+                          hours.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontFamily: AppFonts.fontFamily,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
@@ -225,43 +248,50 @@ class BookServiceStep1Screen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Obx(() => SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: controller.availableProfessionals.map((count) {
-              final isSelected = controller.selectedProfessionals.value == count;
-              return Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: GestureDetector(
-                  onTap: () => controller.selectProfessionals(count),
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColours.appColor : Colors.transparent,
-                      border: Border.all(
-                        color: isSelected ? AppColours.appColor : Colors.grey[300]!,
-                        width: 2,
+        Obx(
+          () => SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: controller.availableProfessionals.map((count) {
+                final isSelected =
+                    controller.selectedProfessionals.value == count;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: GestureDetector(
+                    onTap: () => controller.selectProfessionals(count),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColours.appColor
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColours.appColor
+                              : Colors.grey[300]!,
+                          width: 2,
+                        ),
+                        shape: BoxShape.circle,
                       ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        count.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.white : Colors.black,
-                          fontFamily: AppFonts.fontFamily,
+                      child: Center(
+                        child: Text(
+                          count.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontFamily: AppFonts.fontFamily,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
@@ -335,51 +365,63 @@ class BookServiceStep1Screen extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Obx(() => GestureDetector(
-                onTap: () => controller.toggleCleaningMaterials(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: !controller.needsCleaningMaterials.value ? AppColours.appColor : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppStrings.noIHaveThem,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: !controller.needsCleaningMaterials.value ? Colors.white : Colors.grey[600],
-                        fontFamily: AppFonts.fontFamily,
+              child: Obx(
+                () => GestureDetector(
+                  onTap: () => controller.toggleCleaningMaterials(),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: !controller.needsCleaningMaterials.value
+                          ? AppColours.appColor
+                          : Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppStrings.noIHaveThem,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: !controller.needsCleaningMaterials.value
+                              ? Colors.white
+                              : Colors.grey[600],
+                          fontFamily: AppFonts.fontFamily,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Obx(() => GestureDetector(
-                onTap: () => controller.toggleCleaningMaterials(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: controller.needsCleaningMaterials.value ? AppColours.appColor : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppStrings.yesPlease,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: controller.needsCleaningMaterials.value ? Colors.white : Colors.grey[600],
-                        fontFamily: AppFonts.fontFamily,
+              child: Obx(
+                () => GestureDetector(
+                  onTap: () => controller.toggleCleaningMaterials(),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: controller.needsCleaningMaterials.value
+                          ? AppColours.appColor
+                          : Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppStrings.yesPlease,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: controller.needsCleaningMaterials.value
+                              ? Colors.white
+                              : Colors.grey[600],
+                          fontFamily: AppFonts.fontFamily,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )),
+              ),
             ),
           ],
         ),
@@ -387,7 +429,9 @@ class BookServiceStep1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildSpecificInstructions(BookServiceStep1ScreenController controller) {
+  Widget _buildSpecificInstructions(
+    BookServiceStep1ScreenController controller,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -397,16 +441,20 @@ class BookServiceStep1Screen extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Obx(() => Text(
-              controller.hasInstructions.value 
-                  ? controller.specificInstructions.value
-                  : AppStrings.anySpecificInstructions,
-              style: TextStyle(
-                fontSize: 14,
-                color: controller.hasInstructions.value ? Colors.black : Colors.grey[600],
-                fontFamily: AppFonts.fontFamily,
+            child: Obx(
+              () => Text(
+                controller.hasInstructions.value
+                    ? controller.specificInstructions.value
+                    : AppStrings.anySpecificInstructions,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: controller.hasInstructions.value
+                      ? Colors.black
+                      : Colors.grey[600],
+                  fontFamily: AppFonts.fontFamily,
+                ),
               ),
-            )),
+            ),
           ),
           TextButton(
             onPressed: controller.addInstructions,
@@ -424,9 +472,12 @@ class BookServiceStep1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildFooter(BookServiceStep1ScreenController controller,BuildContext context) {
+  Widget _buildFooter(
+    BookServiceStep1ScreenController controller,
+    BuildContext context,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -456,18 +507,20 @@ class BookServiceStep1Screen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Obx(() => Text(
-                      controller.getFormattedPrice(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: AppFonts.fontFamily,
+                    Obx(
+                      () => Text(
+                        controller.getFormattedPrice(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: AppFonts.fontFamily,
+                        ),
                       ),
-                    )),
+                    ),
                     const SizedBox(width: 8),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         controller.showBookingSummaryBottomSheet(context);
                       },
                       child: Icon(
@@ -485,10 +538,16 @@ class BookServiceStep1Screen extends StatelessWidget {
           SizedBox(
             height: AppStyle.heightPercent(context, 5),
             width: AppStyle.widthPercent(context, 30),
-            child: AppButton(onPressed: (){
-              Get.toNamed(AppRoutes.bookServiceStep2,arguments: controller.appBarTitle);
-            }, title: AppStrings.next,),
-          )
+            child: AppButton(
+              onPressed: () {
+                Get.toNamed(
+                  AppRoutes.bookServiceStep3,
+                  arguments: controller.appBarTitle,
+                );
+              },
+              title: AppStrings.next,
+            ),
+          ),
         ],
       ),
     );

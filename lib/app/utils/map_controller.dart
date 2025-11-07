@@ -1,0 +1,230 @@
+import 'dart:convert';
+import 'package:cleaning_app/app/utils/app_constants.dart';
+import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:http/http.dart' as http;
+
+class PlacePrediction {
+  final String placeId;
+  final String mainText;
+  final String secondaryText;
+
+  PlacePrediction({
+    required this.placeId,
+    required this.mainText,
+    required this.secondaryText,
+  });
+
+  factory PlacePrediction.fromJson(Map<String, dynamic> json) {
+    return PlacePrediction(
+      placeId: json['place_id'],
+      mainText: json['structured_formatting']['main_text'],
+      secondaryText: json['structured_formatting']['secondary_text'] ?? '',
+    );
+  }
+}
+
+class PlaceDetail {
+  final String address;
+  final double lat;
+  final double lng;
+
+  PlaceDetail({
+    required this.address,
+    required this.lat,
+    required this.lng,
+  });
+}
+
+class MapController extends GetxController {
+  final String apiKey = AppConstants.mapApiKey; // Replace with your API key
+  var selectedCountryCode = 'IN'.obs; // Store only country code
+  var predictions = <PlacePrediction>[].obs;
+  var selectedPlace = Rx<PlaceDetail?>(null);
+  var isLoading = false.obs;
+  var searchQuery = ''.obs;
+
+  // final signUpController = Get.find<>();
+
+  // Static list of supported country codes
+  final List<String> supportedCountries = ['IN', 'US', 'GB', 'AU', 'CA', 'AE', 'SA', 'SG', 'MY', 'JP', 'KR'];
+
+  void updateCountryCode(String countryCode) {
+    print("${countryCode}countryrytrytyr" );
+
+    // Validate if the country code is supported, otherwise default to IN
+    if (supportedCountries.contains(countryCode)) {
+      selectedCountryCode.value = countryCode;
+      print("${selectedCountryCode.value}idfffffff" );
+    } else {
+      print("${selectedCountryCode.value}elseeee" );
+      selectedCountryCode.value = 'IN'; // Default to India
+      Get.snackbar(
+        '⚠️ Country Not Supported',
+        'Defaulting to India (IN)',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+    }
+
+    // Re-search if there's a current query
+    if (searchQuery.value.length > 2) {
+      searchPlaces(searchQuery.value);
+    }
+
+    // Show feedback
+    // Get.snackbar(
+    //   '🌍 Country Changed',
+    //   'Now searching in ${getCoun(selectedCountryCode.value)}',
+    //   snackPosition: SnackPosition.BOTTOM,
+    //   duration: const Duration(seconds: 1),
+    // );
+  }
+
+  // Search for places
+  // Future<void> searchPlaces(String input) async {
+  //   if (input.isEmpty) {
+  //     predictions.clear();
+  //     return;
+  //   }
+  //
+  //   isLoading.value = true;
+  //
+  //   try {
+  //     final url = Uri.parse(
+  //         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:IN'
+  //     );
+  //
+  //     final response = await http.get(url);
+  //
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //
+  //       if (data['status'] == 'OK') {
+  //         predictions.value = (data['predictions'] as List)
+  //             .map((json) => PlacePrediction.fromJson(json))
+  //             .toList();
+  //       } else {
+  //         predictions.clear();
+  //         Get.snackbar('Error', 'Failed to fetch predictions: ${data['status']}');
+  //       }
+  //     } else {
+  //       throw Exception('Failed to load predictions');
+  //     }
+  //   } catch (e) {
+  //     predictions.clear();
+  //     Get.snackbar('Error', 'Failed to search places: $e');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
+  Future<void> searchPlaces(String input) async {
+    if (input.isEmpty) {
+      predictions.clear();
+      return;
+    }
+
+    isLoading.value = true;
+
+    try {
+      // Ensure country code is valid, otherwise default to IN
+      final validCountryCode = supportedCountries.contains(selectedCountryCode.value)
+          ? selectedCountryCode.value
+          : 'IN';
+
+      final url = Uri.parse(
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:$validCountryCode'
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['status'] == 'OK') {
+          predictions.value = (data['predictions'] as List)
+              .map((json) => PlacePrediction.fromJson(json))
+              .toList();
+        } else {
+          predictions.clear();
+          if (data['status'] != 'ZERO_RESULTS') {
+            Get.snackbar('Error', 'API Error: ${data['status']}');
+          }
+        }
+      } else {
+        throw Exception('Failed to load predictions');
+      }
+    } catch (e) {
+      predictions.clear();
+      Get.snackbar('Error', 'Failed to search places: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  String getCountryName(String countryCode) {
+    final countryNames = {
+      'IN': 'India',
+      'US': 'United States',
+      'GB': 'United Kingdom',
+      'AU': 'Australia',
+      'CA': 'Canada',
+      'AE': 'United Arab Emirates',
+      'SA': 'Saudi Arabia',
+      'SG': 'Singapore',
+      'MY': 'Malaysia',
+      'JP': 'Japan',
+      'KR': 'South Korea',
+    };
+    return countryNames[countryCode] ?? 'India';
+  }
+
+  // Get current country info for display
+  String getCurrentCountryInfo() {
+    return '${getCountryName(selectedCountryCode.value)} (${selectedCountryCode.value})';
+  }
+
+  // Get place details
+  Future<void> getPlaceDetails(String placeId) async {
+    isLoading.value = true;
+
+    try {
+      final url = Uri.parse(
+          'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey&fields=name,formatted_address,geometry'
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['status'] == 'OK') {
+          final result = data['result'];
+          selectedPlace.value = PlaceDetail(
+            address: result['formatted_address'],
+            lat: result['geometry']['location']['lat'],
+            lng: result['geometry']['location']['lng'],
+          );
+
+          // Clear predictions after selection
+          predictions.clear();
+          searchQuery.value = '';
+        } else {
+          Get.snackbar('Error', 'Failed to get place details: ${data['status']}');
+        }
+      } else {
+        throw Exception('Failed to load place details');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to get place details: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Clear search
+  void clearSearch() {
+    searchQuery.value = '';
+    predictions.clear();
+  }
+}

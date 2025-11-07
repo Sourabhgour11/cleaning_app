@@ -1,8 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cleaning_app/app/data/models/get_homepage_data_model.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:cleaning_app/app/utils/app_user_bottom_bar.dart';
+import 'package:cleaning_app/app/utils/custom_shimmer_effect.dart';
+import 'package:cleaning_app/app/utils/map_controller.dart';
+import 'package:cleaning_app/app/utils/place_search_widget.dart';
 import '../../../utils/app_greeting.dart';
-import '../../../utils/app_location_popup.dart';
 import 'home_screen_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,314 +16,11 @@ class HomeScreen extends StatelessWidget {
 
   final HomeScreenController controller = Get.put(HomeScreenController());
   final CarouselSliderController carouselController =
-      CarouselSliderController();
+  CarouselSliderController();
+
+  final MapController mapController = Get.put(MapController());
 
   // Location selection popup
-  Future<void> _showLocationSelectionDialog() async {
-    return showDialog<void>(
-      context: Get.context!,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Header
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.blue,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Text(
-                        'Select Your Location',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Description
-                const Text(
-                  'Choose how you\'d like to set your location',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-
-                // Current Location Button
-                _buildLocationOption(
-                  context: context,
-                  icon: Icons.my_location,
-                  title: 'Use Current Location',
-                  subtitle: 'Get your location automatically',
-                  color: Colors.green,
-                  onTap: () async {
-                    Navigator.of(context).pop(); // Close dialog first
-                    await _getCurrentLocation(context);
-                  },
-                ),
-
-                const SizedBox(height: 16),
-
-                // Manual Entry Button
-                _buildLocationOption(
-                  context: context,
-                  icon: Icons.edit_location,
-                  title: 'Enter Manually',
-                  subtitle: 'Type your city or address',
-                  color: Colors.blue,
-                  onTap: () async {
-                    Navigator.of(context).pop(); // Close dialog first
-                    await _showManualLocationDialog(context);
-                  },
-                ),
-
-                const SizedBox(height: 20),
-
-                // Cancel Button
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLocationOption({
-    required BuildContext context,
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border.all(color: color.withOpacity(0.3)),
-            borderRadius: BorderRadius.circular(12),
-            color: color.withOpacity(0.05),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, color: color, size: 20),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _getCurrentLocation(BuildContext context) async {
-    // Show loading dialog
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      final locationPopup = AppLocationPopup();
-      final location = await locationPopup.getCurrentLocation();
-
-      // Close loading dialog
-      Navigator.of(context).pop();
-
-      if (location.isNotEmpty && location != "Unknown Location") {
-        // Show success and return location
-        Get.snackbar(
-          'Location Found',
-          'Your location: $location',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
-        );
-
-        // Update the home screen location
-        controller.updateLocation(location);
-      } else {
-        // Show error and fallback to manual entry
-        Get.snackbar(
-          'Location Error',
-          'Could not get current location. Please try manual entry.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
-          colorText: Colors.white,
-        );
-
-        // Show manual entry dialog as fallback
-        await _showManualLocationDialog(context);
-      }
-    } catch (e) {
-      // Close loading dialog
-      Navigator.of(context).pop();
-
-      Get.snackbar(
-        'Error',
-        'Failed to get location: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  }
-
-  Future<void> _showManualLocationDialog(BuildContext context) async {
-    final TextEditingController locationController = TextEditingController();
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Row(
-            children: [
-              const Icon(Icons.edit_location, color: Colors.blue),
-              const SizedBox(width: 10),
-              const Text('Enter Location'),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Please enter your city or address',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: locationController,
-                decoration: InputDecoration(
-                  hintText: 'e.g., New York, NY',
-                  prefixIcon: const Icon(Icons.location_city),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.blue),
-                  ),
-                ),
-                autofocus: true,
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                final location = locationController.text.trim();
-                if (location.isNotEmpty) {
-                  Navigator.of(context).pop();
-                  Get.snackbar(
-                    'Location Set',
-                    'Your location: $location',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.green,
-                    colorText: Colors.white,
-                  );
-
-                  // Update the home screen location
-                  controller.updateLocation(location);
-                } else {
-                  Get.snackbar(
-                    'Error',
-                    'Please enter a valid location',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white,
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Set Location'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +74,10 @@ class HomeScreen extends StatelessWidget {
                           Positioned(
                             left: 16,
                             right: 16,
-                            top: MediaQuery.of(context).padding.top + 20,
+                            top: MediaQuery
+                                .of(context)
+                                .padding
+                                .top + 20,
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 200),
                               opacity: isCollapsed ? 0.0 : 1.0,
@@ -379,53 +85,59 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Obx(
-                                    () => Text(
-                                      "${AppGreeting().getGreetingMessage()}, ${controller.userName.value}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: AppFonts.fontFamily,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Obx(
-                                    () => Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.location_on_outlined,
-                                          color: Colors.white,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        SizedBox(
-                                          width: AppStyle.widthPercent(
-                                            context,
-                                            60,
-                                          ),
-                                          child: Text(
-                                            controller.location.value,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontFamily: AppFonts.fontFamily,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () async {
-                                            // await _showLocationSelectionDialog();
-                                          },
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down,
-                                            size: 20,
+                                        () =>
+                                        Text(
+                                          "${AppGreeting()
+                                              .getGreetingMessage()}, ${controller
+                                              .userName.value}",
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: AppFonts.fontFamily,
                                             color: Colors.white,
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Obx(
+                                        () =>
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.location_on_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            SizedBox(
+                                              width: AppStyle.widthPercent(
+                                                context,
+                                                60,
+                                              ),
+                                              child: Text(
+                                                controller.location.value,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontFamily: AppFonts
+                                                      .fontFamily,
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                // await _showLocationSelectionDialog();
+                                              },
+                                              child: Icon(
+                                                Icons.keyboard_arrow_down,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                   ),
                                   const SizedBox(height: 1),
                                 ],
@@ -482,200 +194,255 @@ class HomeScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.03,
+                        left: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.03,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 6),
-                          CarouselSlider.builder(
-                            carouselController: carouselController,
-                            itemCount: controller.images.length,
-                            itemBuilder: (context, index, realIndex) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  right:
-                                      MediaQuery.of(context).size.width * 0.03,
+                          const SizedBox(height: 10),
+                          Obx(() =>
+                              CarouselSlider.builder(
+                                carouselController: carouselController,
+                                itemCount: controller.homeDetailsModel.value
+                                    ?.data?.first.bannerArr?.length ?? 0,
+                                itemBuilder: (context, index, realIndex) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      right:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.03,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: AppUrl.imageUrl +
+                                            (controller.homeDetailsModel.value
+                                                ?.data?.firstOrNull
+                                                ?.bannerArr?[index].image ??
+                                                ''),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        placeholder: (context, url) =>
+                                         CustomShimmer(
+                                          width: double.infinity,
+                                          height: AppStyle.widthPercent(context, 40),
+                                          borderRadius: 10,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                              color: Colors.grey[300],
+                                              child: const Center(
+                                                child: Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                options: CarouselOptions(
+                                  height: AppStyle.widthPercent(context, 40),
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 1.0,
+                                  onPageChanged: (index, reason) {
+                                    controller.currentIndex.value = index;
+                                  },
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    controller.images[index],
-                                    fit: BoxFit.fill,
-                                    width: double.infinity,
-                                  ),
-                                ),
-                              );
-                            },
-                            options: CarouselOptions(
-                              height: 170,
-                              autoPlay: true,
-                              enlargeCenterPage: true,
-                              viewportFraction: 1.0,
-                              onPageChanged: (index, reason) {
-                                controller.currentIndex.value = index;
-                              },
-                            ),
+                              ),
                           ),
                           const SizedBox(height: 10),
-                          Obx(
-                            () => Row(
+                          Obx(() {
+                            // Check if data is still loading
+                            if (controller.isLoading.value) {
+                              // Show shimmer placeholders for indicators
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(5, (index) {
+                                  return const CustomShimmer(
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: 4,
+                                    margin: EdgeInsets.symmetric(horizontal: 4),
+                                  );
+                                }),
+                              );
+                            }
+
+                            // Get the dynamic banner count from API data
+                            final bannerCount = controller.homeDetailsModel.value?.data?.firstOrNull?.bannerArr?.length ?? 0;
+
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: controller.images.asMap().entries.map((
-                                entry,
-                              ) {
+                              children: List.generate(bannerCount, (index) {
                                 return GestureDetector(
-                                  onTap: () => carouselController.animateToPage(
-                                    entry.key,
-                                  ),
+                                  onTap: () => carouselController.animateToPage(index),
                                   child: Container(
-                                    width:
-                                        controller.currentIndex.value ==
-                                            entry.key
-                                        ? 8
-                                        : 6,
-                                    height:
-                                        controller.currentIndex.value ==
-                                            entry.key
-                                        ? 8
-                                        : 6,
-                                    margin: const EdgeInsets.symmetric(
-                                      horizontal: 4,
-                                    ),
+                                    width: controller.currentIndex.value == index ? 8 : 6,
+                                    height: controller.currentIndex.value == index ? 8 : 6,
+                                    margin: const EdgeInsets.symmetric(horizontal: 4),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color:
-                                          controller.currentIndex.value ==
-                                              entry.key
+                                      color: controller.currentIndex.value == index
                                           ? Colors.blueAccent
                                           : Colors.grey,
                                     ),
                                   ),
                                 );
-                              }).toList(),
-                            ),
-                          ),
+                              }),
+                            );
+                          }),
+
                           const SizedBox(height: 20),
-                          SizedBox(
-                            height: 100, // enough height for icons + text
-                            child: ListView.separated(
-                              padding: const EdgeInsets.only(right: 13),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: controller.services.length,
-                              separatorBuilder: (_, __) =>
-                                  const SizedBox(width: 16),
-                              itemBuilder: (context, index) {
-                                final item = controller.services[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    controller.appBarTitle.value = item['name'];
-                                    Get.toNamed(
-                                      AppRoutes.subCategory,
-                                      arguments: controller.appBarTitle,
-                                    );
-                                  },
-                                  child: SizedBox(
-                                    width: 60,
-                                    // fix width for all items (keeps alignment)
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 60,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                            color: AppColours.appColor
-                                                .withOpacity(0.2),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
+                          Obx(() {
+                            final homeData = controller.homeDetailsModel.value;
+                            final categoryList = homeData?.data?.isNotEmpty ==
+                                true
+                                ? homeData!.data!.first.categoryArr ?? []
+                                : [];
+
+                            if (controller.isLoading.value) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+
+                            if (categoryList.isEmpty) {
+                              return const Center(
+                                child: Text(
+                                  "No categories found",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              );
+                            }
+
+                            return SizedBox(
+                              height: 100, // enough height for icons + text
+                              child: ListView.separated(
+                                padding: const EdgeInsets.only(right: 13),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: categoryList.length,
+                                separatorBuilder: (_, __) =>
+                                const SizedBox(width: 16),
+                                itemBuilder: (context, index) {
+                                  final item = categoryList[index];
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      controller.appBarTitle.value =
+                                          item.name ?? "";
+                                      Get.toNamed(
+                                        AppRoutes.subCategory,
+                                        arguments: controller.appBarTitle,
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      width: 70,
+                                      // slightly wider for better proportion
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          // Circular icon container
+                                          Container(
+                                            width: AppStyle.widthPercent(
+                                                context, 14),
+                                            height: AppStyle.widthPercent(
+                                                context, 14),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.2),
+                                                  blurRadius: 5,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: Image.asset(
-                                            item['icon'],
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                        // const SizedBox(height: 6),
-                                        Expanded(
-                                          child: Center(
-                                            child: Text(
-                                              item['name'],
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: AppFonts.fontFamily,
-                                                wordSpacing: 0.5,
-                                                letterSpacing: 0.1,
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl: AppUrl.imageUrl +
+                                                    (item.image ?? ''),
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    Container(
+                                                      color: Colors.grey[300],
+                                                      child: const Center(
+                                                        child: CircularProgressIndicator(
+                                                            strokeWidth: 2),
+                                                      ),
+                                                    ),
+                                                errorWidget: (context, url,
+                                                    error) =>
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      child: const Icon(Icons
+                                                          .image_not_supported,
+                                                          color: Colors.grey),
+                                                    ),
                                               ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                        ),
-                                      ],
+
+                                          const SizedBox(height: 6),
+
+                                          // Category name text
+                                          Text(
+                                            item.name ?? "",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: AppFonts.fontFamily,
+                                              height: 1.2,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                                  );
+                                },
+                              ),
+                            );
+                          }),
                           SizedBox(height: 10),
                           Text(
                             AppStrings.topPicksForYou,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              fontFamily: AppFonts.fontFamily,
+                              fontSize: 23, fontFamily: AppFonts.fontFamily,
                             ),
                           ),
-                          SizedBox(height: AppStyle.heightPercent(context, 1)),
-                          simpleSalonGrid(
-                            "General Cleaning",
-                            controller,
-                            context,
-                            controller.generalCleaning,
+
+                          // SizedBox(height: AppStyle.heightPercent(context, 1)),
+                          Column(
+                            children: controller.homeDetailsModel.value?.data
+                                ?.first.subCategoryArr
+                                ?.map((category) {
+                              final List<dynamic> subList = category
+                                  .subcategories ?? [];
+                              if (subList.isEmpty)
+                                return const SizedBox.shrink();
+                              return simpleSalonGrid(
+                                  category.categoryName ?? "Category", subList,
+                                  controller, context);
+                            }).toList() ??
+                                [],
                           ),
-                          SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid(
-                            "Salon & Spa at Home",
-                            controller,
-                            context,
-                            controller.salonAndSpa,
-                          ),
-                          SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid(
-                            "Handyman & Maintainence",
-                            controller,
-                            context,
-                            controller.handyMan,
-                          ),
-                          SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid(
-                            "Healthcare at Home",
-                            controller,
-                            context,
-                            controller.healthCareAtHome,
-                          ),
-                          SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid(
-                            "Fitness at Home",
-                            controller,
-                            context,
-                            controller.fitness,
-                          ),
-                          SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          simpleSalonGrid(
-                            "Pet Care at Home",
-                            controller,
-                            context,
-                            controller.petCare,
-                          ),
+
                           SizedBox(height: AppStyle.heightPercent(context, 14)),
                         ],
                       ),
@@ -694,88 +461,135 @@ class HomeScreen extends StatelessWidget {
 
 // Simple version without colors
 Widget simpleSalonGrid(
-  String titleName,
-  HomeScreenController controller,
-  BuildContext context,
-  List<Map<String, dynamic>> list, {
-  Function(String)? onItemTap,
-}) {
+    String titleName,
+    List<dynamic> itemList,
+    HomeScreenController controller,
+    BuildContext context,
+    ) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(
-        titleName,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      SizedBox(
-        height: AppStyle.heightPercent(
-          context,
-          13,
-        ), // height of the horizontal grid
-        child: GridView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: list.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1,
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+        child: Text(
+          titleName,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
-          itemBuilder: (context, index) {
-            final item = list[index];
-            return InkWell(
-              onTap: () {
-                controller.appBarTitle.value = item['name'];
-                Get.toNamed(
-                  AppRoutes.subCategory,
-                  arguments: controller.appBarTitle,
-                );
-              },
-              child: Stack(
-                children: [
-                  // Image with dark overlay
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(6), // smaller radius
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          item['image'],
-                          width: 200,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          width: 200,
-                          height: double.infinity,
-                          color: Colors.black.withOpacity(0.4), // dark overlay
-                        ),
-                        Positioned(
-                          bottom: 6,
-                          left: 6,
-                          child: SizedBox(
-                            width: 110,
-                            child: Text(
-                              item['name'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontFamily: AppFonts.fontFamily,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
         ),
       ),
+      Obx(() {
+        // Use ternary operator instead of 'if' directly
+        return controller.isLoading.value
+            ? SizedBox(
+          height: AppStyle.heightPercent(context, 13),
+          child: GridView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5, // number of shimmer boxes
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (context, index) {
+              return const CustomShimmer(
+                width: 120,
+                height: 100,
+                borderRadius: 8,
+                margin: EdgeInsets.symmetric(horizontal: 8),
+              );
+            },
+          ),
+        )
+            : SizedBox(
+          height: AppStyle.heightPercent(context, 12),
+          child: GridView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: itemList.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              mainAxisSpacing: 2,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (context, index) {
+              final SubCategory item = itemList[index];
+              final imageUrl = AppUrl.imageUrl + (item.image ?? '');
+              final name = item.name ?? 'Unnamed';
+              return InkWell(
+                onTap: () {
+                  controller.appBarTitle.value = name;
+                  Get.toNamed(AppRoutes.subCategory, arguments: item);
+                },
+                child: Container(
+                  width: AppStyle.widthPercent(context, 20),
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.grey[200],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              Container(color: Colors.grey[300]),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.image_not_supported),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.4),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                        child: Text(
+                          name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            height: 1.3,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }),
     ],
   );
 }
+
+
+

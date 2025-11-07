@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 90 / 100,
-      height: MediaQuery.of(context).size.height * 7 / 100,
+      height: MediaQuery.of(context).size.height * 6.3 / 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: AppColours.gradientColor,

@@ -335,15 +335,40 @@ class LoginScreen extends StatelessWidget {
                           // Login Button
                           SizedBox(
                             width: AppStyle.widthPercent(context, 90),
-                            child: AppButton(
-                              onPressed: () {
-                                controller.login(
-                                  controller.emailController.text,
-                                  controller.passwordController.text,
-                                );
-                              },
-                              title: AppStrings.login,
-                              icon: Icons.login,
+                            child: Obx(
+                              () => controller.isLoading.value
+                                  ? Container(
+                                      height: AppStyle.heightPercent(context, 7),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: AppColours.gradientColor,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColours.appColor.withOpacity(0.3),
+                                            spreadRadius: 2,
+                                            blurRadius: 8,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                            AppColours.white,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : AppButton(
+                                      onPressed: () {
+                                        controller.login(
+                                          controller.emailController.text,
+                                          controller.passwordController.text,
+                                        );
+                                      },
+                                      title: AppStrings.login,
+                                      icon: Icons.login,
+                                    ),
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
@@ -483,7 +508,6 @@ class LoginScreen extends StatelessWidget {
                                   onTap: () {
                                     Get.toNamed(
                                       AppRoutes.signUp,
-                                      arguments: controller.userType,
                                     );
                                   },
                                   child: Text(

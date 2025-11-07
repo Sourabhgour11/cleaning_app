@@ -1,5 +1,6 @@
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step_4/book_service_step4_screen_controller.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen_controller.dart';
 import 'package:cleaning_app/app/rotes/app_routes.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -44,11 +45,17 @@ class ProfileController extends GetxController {
       'color': Colors.green,
       'action': 'payment_methods',
     },
+    // {
+    //   'title': 'Help & Support',
+    //   'icon': Icons.help_outline,
+    //   'color': Colors.orange,
+    //   'action': 'help',
+    // },
     {
-      'title': 'Help & Support',
-      'icon': Icons.help_outline,
+      'title': 'Contact Us',
+      'icon': Icons.phone,
       'color': Colors.orange,
-      'action': 'help',
+      'action': 'contact_us',
     },
     {
       'title': 'Privacy Policy',
@@ -69,6 +76,12 @@ class ProfileController extends GetxController {
       'action': 'about',
     },
     {
+      'title': 'Change Password',
+      'icon': Icons.lock_person_sharp,
+      'color': Colors.yellowAccent,
+      'action': 'change password',
+    },
+    {
       'title': 'Delete Account',
       'icon': Icons.delete_forever,
       'color': Colors.red,
@@ -82,9 +95,11 @@ class ProfileController extends GetxController {
     },
   ].obs;
 
-  void onLogout() {
+  void onLogout() async{
     // Handle logout logic here
-    Get.offAllNamed(AppRoutes.selectUserScreen);
+    await AppLocalStorage.clearUserData();
+    Get.offAllNamed(AppRoutes.login);
+
     Get.snackbar('Logout', 'You have logged out successfully');
   }
 
@@ -98,10 +113,13 @@ class ProfileController extends GetxController {
         break;
       case 'payment_methods':
         Get.delete<BookServiceStep4ScreenController>();
-        Get.toNamed(AppRoutes.bookServiceStep4,arguments: appBarTitle);
+        Get.toNamed(AppRoutes.bookServiceStep4, arguments: appBarTitle);
         break;
-      case 'help':
-        Get.toNamed(AppRoutes.helpAndSupport);
+      // case 'help':
+      //   Get.toNamed(AppRoutes.helpAndSupport);
+      //   break;
+        case 'contact_us':
+        Get.toNamed(AppRoutes.contactUs);
         break;
       case 'privacy':
         Get.toNamed(AppRoutes.getContent, arguments: {'type': 'privacy'});
@@ -111,6 +129,9 @@ class ProfileController extends GetxController {
         break;
       case 'about':
         Get.toNamed(AppRoutes.getContent, arguments: {'type': 'about'});
+        break;
+      case 'change password':
+        Get.toNamed(AppRoutes.changePassword);
         break;
       case 'delete_account':
         Get.toNamed(AppRoutes.deleteAccount);
@@ -220,9 +241,10 @@ class ProfileController extends GetxController {
     );
   }
 
-  void logoutUser() {
+  void logoutUser() async{
     // Add your logout logic here (e.g. clearing storage, navigating to login)
-    Get.offAllNamed(AppRoutes.selectUserScreen);
+    await AppLocalStorage.clearUserData();
+    Get.offAllNamed(AppRoutes.login);
     Get.snackbar(
       "Logged out",
       "You have been successfully logged out.",

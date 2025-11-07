@@ -222,7 +222,7 @@ class SelectUserScreen extends StatelessWidget {
                         icon: Icons.person,
                         iconColor: const Color(0xFF4CAF50),
                         onTap: () {
-                          Get.toNamed(AppRoutes.login, arguments: 'User');
+                          Get.toNamed(AppRoutes.login, arguments: '1');
                         },
                       ),
                       // Login as Cleaner
@@ -233,7 +233,7 @@ class SelectUserScreen extends StatelessWidget {
                         icon: Icons.cleaning_services,
                         iconColor: const Color(0xFF2196F3),
                         onTap: () {
-                          Get.toNamed(AppRoutes.login, arguments: 'Cleaner');
+                          Get.toNamed(AppRoutes.login, arguments: '3');
                         },
                       ),
                       // Login as Partner
@@ -243,7 +243,7 @@ class SelectUserScreen extends StatelessWidget {
                         icon: Icons.business,
                         iconColor: const Color(0xFFFF9800),
                         onTap: () {
-                          Get.toNamed(AppRoutes.login, arguments: 'Partner');
+                          Get.toNamed(AppRoutes.login, arguments: '4');
                         },
                       ),
                       const SizedBox(height: 40),
