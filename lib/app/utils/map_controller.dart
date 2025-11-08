@@ -132,8 +132,10 @@ class MapController extends GetxController {
           ? selectedCountryCode.value
           : 'IN';
 
+      // Properly encode the input to handle special characters
+      final encodedInput = Uri.encodeComponent(input);
       final url = Uri.parse(
-          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:$validCountryCode'
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$encodedInput&key=$apiKey&components=country:$validCountryCode'
       );
 
       final response = await http.get(url);
@@ -189,8 +191,10 @@ class MapController extends GetxController {
     isLoading.value = true;
 
     try {
+      // Properly encode the placeId to handle any special characters
+      final encodedPlaceId = Uri.encodeComponent(placeId);
       final url = Uri.parse(
-          'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey&fields=name,formatted_address,geometry'
+          'https://maps.googleapis.com/maps/api/place/details/json?place_id=$encodedPlaceId&key=$apiKey&fields=name,formatted_address,geometry'
       );
 
       final response = await http.get(url);

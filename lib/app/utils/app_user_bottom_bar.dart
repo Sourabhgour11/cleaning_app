@@ -25,15 +25,17 @@ class _AppUserBottomBarState extends State<AppUserBottomBar>
     AppColours.appColor,
     Colors.orange,
     Colors.green,
+    Colors.deepPurple,
     Colors.blue,
   ];
 
-  final List<String> labels = ['Home', 'Bookings', 'Wallet', 'Profile'];
+  final List<String> labels = ['Home', 'Bookings', 'Wallet', 'Announcement', 'Profile'];
 
   final List<String> activeImages = [
     AppImages.homeActiveIcon,
     AppImages.bookingActiveIcon,
     AppImages.walletActiveIcon,
+    AppImages.announcementActiveIcon,
     AppImages.profileActiveIcon,
   ];
 
@@ -41,6 +43,7 @@ class _AppUserBottomBarState extends State<AppUserBottomBar>
     AppImages.homeInactiveIcon,
     AppImages.bookingInactiveIcon,
     AppImages.walletInactiveIcon,
+    AppImages.announcementInactiveIcon,
     AppImages.profileInactiveIcon,
   ];
 
@@ -64,7 +67,7 @@ class _AppUserBottomBarState extends State<AppUserBottomBar>
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(15),
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        // padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: AppColours.white,
           borderRadius: BorderRadius.circular(35),

@@ -130,19 +130,16 @@ class HomeScreenController extends GetxController {
 
   final Rx<GetHomeScreenDataModel?> homeDetailsModel = Rx<GetHomeScreenDataModel?>(null);
 
-
-
-
   var bannerArreyModel = <BannerArr>[].obs; // ✅ RxList<BannerArr>
 
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: AppUrl.baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      headers: {'Accept': 'application/json'},
-    ),
-  );
+  // final dio = Dio(
+  //   BaseOptions(
+  //     baseUrl: AppUrl.baseUrl,
+  //     connectTimeout: const Duration(seconds: 15),
+  //     receiveTimeout: const Duration(seconds: 15),
+  //     headers: {'Accept': 'application/json'},
+  //   ),
+  // );
 
 
   Future<void> getHomeDetailsApi() async {

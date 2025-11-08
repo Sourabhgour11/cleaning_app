@@ -40,7 +40,7 @@ class DeleteScreenController extends GetxController {
         AppUrl.deleteAccount,
         data: {
           'user_id': userId,
-          'reason': "reas",
+          'reason': deleteController.text,
         },
         options: Options(headers: {
           'Authorization': token,

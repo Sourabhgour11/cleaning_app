@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/modules/user%20app/announcement_screen/announcement_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cleaning_app/app/modules/user app/home_screen/home_screen.dart';
@@ -14,6 +15,7 @@ class UserBottomNavController extends GetxController {
     HomeScreen(),
     UserBookingScreen(),
     const WalletScreen(),
+    AnnouncementScreen(),
     const ProfileScreen(),
   ];
 

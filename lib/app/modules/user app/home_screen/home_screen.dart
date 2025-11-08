@@ -428,20 +428,24 @@ class HomeScreen extends StatelessWidget {
                           ),
 
                           // SizedBox(height: AppStyle.heightPercent(context, 1)),
-                          Column(
-                            children: controller.homeDetailsModel.value?.data
-                                ?.first.subCategoryArr
-                                ?.map((category) {
-                              final List<dynamic> subList = category
-                                  .subcategories ?? [];
-                              if (subList.isEmpty)
-                                return const SizedBox.shrink();
-                              return simpleSalonGrid(
-                                  category.categoryName ?? "Category", subList,
-                                  controller, context);
-                            }).toList() ??
-                                [],
-                          ),
+                          Obx(() {
+                            return Column(
+                              children: controller.homeDetailsModel.value?.data
+                                  ?.first.subCategoryArr
+                                  ?.map((category) {
+                                final List<dynamic> subList = category.subcategories ?? [];
+                                if (subList.isEmpty) return const SizedBox.shrink();
+                                return simpleSalonGrid(
+                                  category.categoryName ?? "Category",
+                                  subList,
+                                  controller,
+                                  context,
+                                );
+                              }).toList() ??
+                                  [],
+                            );
+                          }),
+
 
                           SizedBox(height: AppStyle.heightPercent(context, 14)),
                         ],

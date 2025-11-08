@@ -21,6 +21,8 @@ class AppUrl {
   static const String changePassword = '$baseUrl/change_password';
   static const String contactUs = '$baseUrl/contact_us';
   static const String deleteAccount = '$baseUrl/delete_account';
+  static const String getNotification = '$baseUrl/get_notification';
+  static const String deleteSingleNotification = '$baseUrl/delete_single_notification';
 
   static const String getContent = '$baseUrl/getContent';
 
