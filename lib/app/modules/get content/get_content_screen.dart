@@ -1,3 +1,5 @@
+import 'package:cleaning_app/app/modules/user%20app/profile_screen/profile_screen_controller.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'get_content_screen_controller.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 
@@ -7,31 +9,32 @@ class GetContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(GetContentScreenController());
+    final profileController = Get.put(ProfileController());
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 20)),
+        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 18)),
         child: _buildHeader(context, controller),
       ),
-      body: SafeArea(child: Obx(() => _buildContent(context, controller))),
+      body: SafeArea(child: Obx(() => _buildContent(context, profileController))),
     );
   }
 
   Widget _buildContent(
     BuildContext context,
-    GetContentScreenController controller,
+      ProfileController controller,
   ) {
-    if (controller.isLoading.value) {
-      return _buildLoadingState(context, controller);
-    }
+    // if (controller.isLoading.value) {
+    //   return _buildLoadingState(context, profileController);
+    // }
 
     return Column(children: [Expanded(child: _buildContentBody(controller))]);
   }
 
   Widget _buildLoadingState(
     BuildContext context,
-    GetContentScreenController controller,
+    ProfileController profileController,
   ) {
     return Column(
       children: [
@@ -63,7 +66,7 @@ class GetContentScreen extends StatelessWidget {
     return Container(
       width: width,
       height: height, // bounded height to avoid RenderFlex issues
-      padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.05),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.07),
       decoration: BoxDecoration(
         gradient: AppColours.gradientColor,
         borderRadius: const BorderRadius.only(
@@ -145,7 +148,7 @@ class GetContentScreen extends StatelessWidget {
   }
 
 
-  Widget _buildContentBody(GetContentScreenController controller) {
+  Widget _buildContentBody(ProfileController controller) {
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -162,7 +165,25 @@ class GetContentScreen extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-        child: _buildFormattedContent(controller.content.value),
+        // child: _buildFormattedContent(controller.content.value),
+        child: Html(
+          data: controller.htmlContent.value,
+          style: {
+            "body": Style(
+              fontSize: FontSize(14),
+              color: Colors.black87,
+              lineHeight: LineHeight.number(1.5),
+            ),
+            "h2": Style(
+              fontSize: FontSize(18),
+              fontWeight: FontWeight.bold,
+              color: AppColours.appColor,
+            ),
+            "p": Style(
+              margin: Margins.only(bottom: 10),
+            ),
+          },
+        ),
       ),
     );
   }

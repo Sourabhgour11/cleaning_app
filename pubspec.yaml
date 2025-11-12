@@ -55,6 +55,8 @@ dependencies:
   flutter_google_places_sdk: ^0.4.2+1
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
+  flutter_html: ^3.0.0
+  image_picker: ^1.2.1
 
 
 dev_dependencies:

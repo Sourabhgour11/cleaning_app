@@ -14,6 +14,10 @@ import 'package:cleaning_app/app/modules/user%20app/change_password_screen/chang
 import 'package:cleaning_app/app/modules/user%20app/change_password_screen/change_password_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/edit_profile_screen/edit_profile_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/edit_profile_screen/edit_profile_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_subCategory_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_subCategory_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/transaction_history_screen/transaction_history_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/transaction_history_screen/transaction_history_screen_binding.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 
 class AppPages {
@@ -24,11 +28,6 @@ class AppPages {
       name: AppRoutes.splash,
       page: () => const SplashScreen(),
       binding: SplashScreenBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.selectUserScreen,
-      page: () => const SelectUserScreen(),
-      binding: SelectUserScreenBinding(),
     ),
 
     GetPage(
@@ -68,11 +67,6 @@ class AppPages {
       binding: UserBookingScreenBinding(),
     ),
 
-    GetPage(
-      name: AppRoutes.helpAndSupport,
-      page: () => HelpAndSupportScreen(),
-      binding: HelpAndSupportScreenBinding(),
-    ),
     GetPage(
       name: AppRoutes.getContent,
       page: () => GetContentScreen(),
@@ -169,6 +163,18 @@ class AppPages {
       name: AppRoutes.contactUs,
       page: () => ContactUsScreen(),
       binding: ContactUsBinding(),
+    ),
+
+    GetPage(
+      name: AppRoutes.transactionsHistoryScreen,
+      page: () => TransactionHistoryScreen(),
+      binding: TransactionHistoryScreenBinding(),
+    ),
+
+    GetPage(
+      name: AppRoutes.subSubCategoryScreen,
+      page: () => SubSubCategoryScreen(),
+      binding: SubSubCategoryBinding(),
     ),
   ];
 }

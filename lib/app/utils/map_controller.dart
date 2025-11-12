@@ -71,52 +71,7 @@ class MapController extends GetxController {
       searchPlaces(searchQuery.value);
     }
 
-    // Show feedback
-    // Get.snackbar(
-    //   '🌍 Country Changed',
-    //   'Now searching in ${getCoun(selectedCountryCode.value)}',
-    //   snackPosition: SnackPosition.BOTTOM,
-    //   duration: const Duration(seconds: 1),
-    // );
   }
-
-  // Search for places
-  // Future<void> searchPlaces(String input) async {
-  //   if (input.isEmpty) {
-  //     predictions.clear();
-  //     return;
-  //   }
-  //
-  //   isLoading.value = true;
-  //
-  //   try {
-  //     final url = Uri.parse(
-  //         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:IN'
-  //     );
-  //
-  //     final response = await http.get(url);
-  //
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //
-  //       if (data['status'] == 'OK') {
-  //         predictions.value = (data['predictions'] as List)
-  //             .map((json) => PlacePrediction.fromJson(json))
-  //             .toList();
-  //       } else {
-  //         predictions.clear();
-  //         Get.snackbar('Error', 'Failed to fetch predictions: ${data['status']}');
-  //       }
-  //     } else {
-  //       throw Exception('Failed to load predictions');
-  //     }
-  //   } catch (e) {
-  //     predictions.clear();
-  //     Get.snackbar('Error', 'Failed to search places: $e');
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
 
   Future<void> searchPlaces(String input) async {
     if (input.isEmpty) {

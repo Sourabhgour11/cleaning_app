@@ -24,35 +24,40 @@ class AppStyle {
   );
 
   //-------------------------------- AppBar Style --------------------------------
-  static AppBar appBarStyle(String title, {bool isBackButton = true}) => AppBar(
-    automaticallyImplyLeading: isBackButton,
-    backgroundColor: Colors.transparent,
-    foregroundColor: AppColours.appColor,
-    elevation: 0,
-    centerTitle: true,
-    flexibleSpace: Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        gradient: AppColours.gradientColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, 2),
-            blurRadius: 8,
-            spreadRadius: 0,
+  static PreferredSize appBarStyle(String title, {bool isBackButton = true}) =>
+      PreferredSize(
+        preferredSize: const Size.fromHeight(80), // 👈 Set your custom height here
+        child: AppBar(
+          toolbarHeight: 80,
+          automaticallyImplyLeading: isBackButton,
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColours.appColor,
+          elevation: 0,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              gradient: AppColours.gradientColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 2),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-    ),
-    leading: isBackButton
-        ? Container(
+          leading: isBackButton
+              ? Container(
+            width: 40, // 👈 make sure width and height are equal
+            height: 40,
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
+              shape: BoxShape.circle, // 👈 makes it perfectly round
               color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(25),
               border: Border.all(
                 color: Colors.white.withOpacity(0.3),
                 width: 1,
@@ -64,36 +69,24 @@ class AppStyle {
               icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
             ),
           )
-        : null,
-    title: Text(
-      title,
-      style: const TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-        color: AppColours.white,
-        fontFamily: AppFonts.fontFamily,
-        letterSpacing: 0.5,
-        shadows: [
-          Shadow(color: Colors.black26, offset: Offset(0, 1), blurRadius: 2),
-        ],
-      ),
-    ),
-    actions: [
-      // Container(
-      //   margin: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-      //   decoration: BoxDecoration(
-      //     color: Colors.white.withOpacity(0.2),
-      //     borderRadius: BorderRadius.circular(12),
-      //     border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-      //   ),
-      //   child: IconButton(
-      //     onPressed: () {
-      //       // Add notification or menu action here
-      //     },
-      //     color: AppColours.white,
-      //     icon: const Icon(Icons.notifications_outlined, size: 22),
-      //   ),
-      // ),
-    ],
-  );
+              : null,
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              color: AppColours.white,
+              fontFamily: AppFonts.fontFamily,
+              letterSpacing: 0.5,
+              shadows: [
+                Shadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 1),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }

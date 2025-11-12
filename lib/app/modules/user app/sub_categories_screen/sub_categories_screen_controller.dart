@@ -1,7 +1,29 @@
+import 'dart:convert';
+
+import 'package:cleaning_app/app/data/models/get_subcategory_by_categoryId_model.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
+import 'package:http/http.dart' as http;
 
 class SubCategoriesScreenController extends GetxController {
   RxString appBarTitle = ''.obs;
+  int? categoryId;
+  RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments != null) {
+      final args = Get.arguments as Map<String, dynamic>;
+      // appBarTitle.value = Get.arguments.toString();
+      appBarTitle.value = args['title'];
+      categoryId = args['categoryId'];
+    }
+    getSubCatIdApi();
+  }
+
+  final Rx<GetSubCategoryByCategoryIdModel?> getSubCatModel = Rx<GetSubCategoryByCategoryIdModel?>(null);
 
   final List<Map<String, dynamic>> generalCleaning = [
     {'name': 'Home Cleaning', 'image': "lib/assets/images/home_cleaning.jpg"},
@@ -25,127 +47,61 @@ class SubCategoriesScreenController extends GetxController {
     {'name': 'Car Wash', 'image': "lib/assets/images/car_wash.webp"},
   ];
 
+  Future<void> getSubCatIdApi() async {
+    isLoading.value = true;
+
+    try {
+      final token = AppLocalStorage.getToken();
+      // Replace this with your actual API endpoint
+      final url = Uri.parse(AppUrl.getSubCatByCatId(categoryId ?? 0));
+
+      // Optional headers (e.g., if you have token authentication)
+      final headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${token}', // if needed
+      };
+
+      final response = await http.get(url, headers: headers);
+
+      print("📡 Home API URL: $url");
+      print("📩 Status Code: ${response.statusCode}");
+      print("📨 Response: ${response.body}");
+      final data = json.decode(response.body);
+      print("data data is here :${data}");
+      if (response.statusCode == 200) {
+
+        if (data['status'] == true || data['success'] == true) {
+          final responseBody = jsonDecode(response.body);
+          final GetSubCategoryByCategoryIdModel responseModel = GetSubCategoryByCategoryIdModel.fromJson(responseBody);
+          getSubCatModel.value = responseModel;
+
+        } else {
+          Get.snackbar('Error', 'Failed to fetch home details: ${data['message'] ?? 'Unknown error'}');
+        }
+      } else {
+        Get.snackbar('Error', 'Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('Error', 'Exception: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   // Service popup data
   final RxBool isServicePopupVisible = false.obs;
   final RxInt selectedServiceIndex = 0.obs;
   final RxInt serviceQuantity = 1.obs;
   final RxBool isServiceFavorited = false.obs;
 
-  // Service details data
-  final RxList<Map<String, dynamic>> serviceDetails =
-      <Map<String, dynamic>>[].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    if (Get.arguments != null) {
-      appBarTitle.value = Get.arguments.toString();
-    }
-    _initializeServiceDetails();
-  }
-
-  void _initializeServiceDetails() {
-    serviceDetails.value = [
-      {
-        'id': '1',
-        'title': 'Home Cleaning',
-        'subtitle': 'Single - 90 mins (25% off)',
-        'duration': '90 min.',
-        'description':
-            'A gentle cleaning to increased home hygiene and cleanliness.',
-        'fullDescription':
-            'Relax, unwind & feel balanced with a rejuvenating cleaning experience.',
-        'originalPrice': 300.0,
-        'discountedPrice': 229.0,
-        'discountPercentage': 25,
-        'image': 'lib/assets/images/home_cleaning.jpg',
-        'whatsIncluded': [
-          'Long Flowing Strokes for Circulation',
-          'Deep Pressure Targets Knots',
-          'Choice of 3 Aroma Oils',
-        ],
-        'whatWeBring': [
-          'Professional cleaning equipment',
-          'Fresh, single-use supplies & towels',
-          'Fully sanitized setup for a safe, clean experience',
-          'Trained professional focused on quality & care',
-        ],
-        'bookingNotes': [
-          'For residential properties only',
-          'Not suitable during major renovations or construction',
-          'Extra charges apply for excessive mess or special requests',
-          'Clear access needed 2 hours before your session',
-          'Professional needs a clean, accessible space to work efficiently',
-        ],
-      },
-      {
-        'id': '2',
-        'title': 'Furniture Cleaning',
-        'subtitle': 'Single - 60 mins (20% off)',
-        'duration': '60 min.',
-        'description':
-            'Professional furniture cleaning for upholstery and fabric care.',
-        'fullDescription':
-            'Restore your furniture to its original beauty with professional cleaning.',
-        'originalPrice': 250.0,
-        'discountedPrice': 200.0,
-        'discountPercentage': 20,
-        'image': 'lib/assets/images/furniture_cleaning.png',
-        'whatsIncluded': [
-          'Deep fabric cleaning',
-          'Stain removal treatment',
-          'Protective coating application',
-        ],
-        'whatWeBring': [
-          'Professional cleaning equipment',
-          'Eco-friendly cleaning solutions',
-          'Protective covers and tools',
-          'Trained specialist for furniture care',
-        ],
-        'bookingNotes': [
-          'Furniture must be accessible',
-          'Remove personal items before service',
-          'Extra charges for heavily soiled items',
-          'Allow 2-3 hours for complete drying',
-          'Professional needs clear workspace',
-        ],
-      },
-      {
-        'id': '3',
-        'title': 'Home Deep Cleaning',
-        'subtitle': 'Single - 120 mins (30% off)',
-        'duration': '120 min.',
-        'description': 'Comprehensive deep cleaning for your entire home.',
-        'fullDescription':
-            'Transform your home with our thorough deep cleaning service.',
-        'originalPrice': 400.0,
-        'discountedPrice': 280.0,
-        'discountPercentage': 30,
-        'image': 'lib/assets/images/home_deep_cleaning.webp',
-        'whatsIncluded': [
-          'Complete room-by-room cleaning',
-          'Deep sanitization treatment',
-          'Appliance cleaning included',
-        ],
-        'whatWeBring': [
-          'Professional deep cleaning equipment',
-          'Hospital-grade disinfectants',
-          'Specialized cleaning tools',
-          'Trained deep cleaning specialists',
-        ],
-        'bookingNotes': [
-          'Entire home must be accessible',
-          'Remove fragile items before service',
-          'Extra charges for excessive clutter',
-          'Allow 4-6 hours for complete service',
-          'Professional team needs clear access to all areas',
-        ],
-      },
-    ];
-  }
-
   // Show service popup
   void showServicePopup(int serviceIndex) {
+    final services = getSubCatModel.value?.categoryArr ?? [];
+    if (services.isEmpty || serviceIndex >= services.length) {
+      return;
+    }
     selectedServiceIndex.value = serviceIndex;
     isServicePopupVisible.value = true;
   }
@@ -160,18 +116,6 @@ class SubCategoriesScreenController extends GetxController {
     isServiceFavorited.value = !isServiceFavorited.value;
   }
 
-  // // Increase service quantity
-  // void increaseQuantity() {
-  //   serviceQuantity.value++;
-  // }
-
-  // // Decrease service quantity
-  // void decreaseQuantity() {
-  //   if (serviceQuantity.value > 1) {
-  //     serviceQuantity.value--;
-  //   }
-  // }
-
   // Add service to cart
   void addServiceToCart(RxString appBarText) {
     // final totalPrice = service['discountedPrice'] * serviceQuantity.value;
@@ -180,21 +124,30 @@ class SubCategoriesScreenController extends GetxController {
   }
 
   // Get current service details
-  Map<String, dynamic> get currentService {
-    if (selectedServiceIndex.value < serviceDetails.length) {
-      return serviceDetails[selectedServiceIndex.value];
+  CategoryArr? get currentService {
+    final services = getSubCatModel.value?.categoryArr ?? [];
+    if (services.isEmpty) {
+      return null;
     }
-    return serviceDetails.first;
+    if (selectedServiceIndex.value < services.length) {
+      return services[selectedServiceIndex.value];
+    }
+    return services.first;
   }
 
   // Get formatted price
-  String getFormattedPrice(double price) {
-    return 'AED ${price.toStringAsFixed(0)}';
+  String getFormattedPrice(num? price) {
+    final value = price ?? 0;
+    return 'AED ${value.toStringAsFixed(0)}';
   }
 
   // Get total price for current service
   double get totalServicePrice {
     final service = currentService;
-    return service['discountedPrice'] * serviceQuantity.value;
+    if (service == null) {
+      return 0;
+    }
+    final amount = service.amount ?? 0;
+    return amount * serviceQuantity.value;
   }
 }

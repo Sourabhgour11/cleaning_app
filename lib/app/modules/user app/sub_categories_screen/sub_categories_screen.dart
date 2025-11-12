@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
 
 import 'sub_categories_screen_controller.dart';
 
@@ -19,91 +21,123 @@ class SubCategoriesScreen extends StatelessWidget {
         },
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    // height: double.infinity,
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      shrinkWrap:
-                          true, // Important: makes GridView take only required height
-                      physics:
-                          const NeverScrollableScrollPhysics(), // Prevent inner scrolling if inside another scroll
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, // 2 items per row
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 3 / 2,
-                          ),
-                      itemCount: controller
-                          .generalCleaning
-                          .length, // Dynamic number of items
-                      itemBuilder: (context, index) {
-                        final item = controller.generalCleaning[index];
-                        return InkWell(
-                          onTap: () {
-                            // Show service popup instead of navigating to booking
-                            controller.showServicePopup(index);
-                          },
-                          child: Stack(
-                            children: [
-                              // Image with dark overlay
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  6,
-                                ), // smaller radius
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                      item['image'],
-                                      // width: MediaQuery.of(context).size.width*20/100,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Container(
-                                      // width: MediaQuery.of(context).size.width*20/100,
-                                      height: double.infinity,
-                                      color: Colors.black.withOpacity(
-                                        0.4,
-                                      ), // dark overlay
-                                    ),
-                                    Positioned(
-                                      bottom: 6,
-                                      left: 6,
-                                      child: SizedBox(
-                                        width: 110,
-                                        child: Text(
-                                          item['name'],
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontFamily: AppFonts.fontFamily,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Obx(() {
+                      // ✅ 1. Show loading indicator when data is being fetched
+                      if (controller.isLoading.value) {
+                        return SizedBox(
+                          height: AppStyle.heightPercent(context, 80), // optional placeholder space
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColours.appColor, // use color (not backgroundColor)
+                            ),
                           ),
                         );
-                      },
+                      }
+
+                      // ✅ 2. Extract category array safely
+                      final categoryArr =
+                          controller.getSubCatModel.value?.categoryArr ?? [];
+
+                      // ✅ 3. Show "no data" state when empty
+                      if (categoryArr.isEmpty) {
+                        return const SizedBox(
+                          height: 400,
+                          child: Center(
+                            child: Text(
+                              "No subcategories found",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      // ✅ 4. Finally show the grid when loaded and not empty
+                      return GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 3 / 2,
+                        ),
+                        itemCount: categoryArr.length,
+                        itemBuilder: (context, index) {
+                          final item = categoryArr[index];
+
+                          return GestureDetector(
+                            onTap: () => controller.showServicePopup(index),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Stack(
+                                children: [
+                                  // Cached network image
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                    AppUrl.imageUrl + (item.image ?? ""),
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                      child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                    ),
+                                    errorWidget:
+                                        (context, url, error) => const Icon(
+                                      Icons.broken_image,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+
+                                  // Dark overlay
+                                  Container(
+                                      color: Colors.black.withOpacity(0.4)),
+
+                                  // Text label
+                                  Positioned(
+                                    bottom: 6,
+                                    left: 6,
+                                    right: 6,
+                                    child: Text(
+                                      item.name ?? "",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: AppFonts.fontFamily,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                          );
+                        }),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-
-            // Service Details Popup
             Obx(
               () => controller.isServicePopupVisible.value
-                  ? _buildServicePopup(controller)
+                  ? Positioned.fill(child: _buildServicePopup(controller))
                   : const SizedBox.shrink(),
             ),
           ],
@@ -114,11 +148,11 @@ class SubCategoriesScreen extends StatelessWidget {
 
   Widget _buildServicePopup(SubCategoriesScreenController controller) {
     return Container(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withOpacity(0.5), // semi-transparent background
       child: DraggableScrollableSheet(
-        initialChildSize: 0.75,
+        initialChildSize: 0.6,
         minChildSize: 0.5,
-        maxChildSize: 0.9,
+        maxChildSize: 0.7,
         builder: (context, scrollController) {
           return Container(
             decoration: const BoxDecoration(
@@ -127,6 +161,13 @@ class SubCategoriesScreen extends StatelessWidget {
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ],
             ),
             child: SingleChildScrollView(
               controller: scrollController,
@@ -139,10 +180,16 @@ class SubCategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildServiceContent(
-    SubCategoriesScreenController controller,
-    BuildContext context,
-  ) {
+      SubCategoriesScreenController controller,
+      BuildContext context,
+      ) {
     final service = controller.currentService;
+
+    if (service == null) return const SizedBox.shrink();
+
+    final imageUrl = (service.image ?? '').isNotEmpty
+        ? AppUrl.imageUrl + (service.image ?? '')
+        : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,317 +197,165 @@ class SubCategoriesScreen extends StatelessWidget {
         // Handle bar
         Center(
           child: Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
+            margin: const EdgeInsets.only(top: 8, bottom: 16),
+            width: 50,
+            // height: 5,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(2),
+              color: Colors.red[300],
+              borderRadius: BorderRadius.circular(2.5),
             ),
           ),
         ),
 
         // Customize label
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            AppStrings.customize,
+            AppStrings.customize.toUpperCase(),
             style: TextStyle(
               fontSize: 12,
               color: Colors.red[600],
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
               fontFamily: AppFonts.fontFamily,
             ),
           ),
         ),
 
-        // What's Included section
+        const SizedBox(height: 10),
+
+        // Service title & description
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                AppStrings.whatsInclude,
-                style: TextStyle(
-                  fontSize: 16,
+              Text(
+                service.name ?? '',
+                style: const TextStyle(
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontFamily: AppFonts.fontFamily,
                 ),
               ),
-              const SizedBox(height: 12),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...service['whatsIncluded']
-                            .map<Widget>(
-                              (item) => Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: Colors.green[600],
-                                      size: 16,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black87,
-                                          fontFamily: AppFonts.fontFamily,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ],
-                    ),
+              const SizedBox(height: 8),
+              if ((service.description ?? '').isNotEmpty)
+                Text(
+                  service.description ?? '',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                    height: 1.4,
+                    fontFamily: AppFonts.fontFamily,
                   ),
-                  const SizedBox(width: 16),
-                  // Service image
-                  Container(
-                    width: 120,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image: AssetImage(service['image']),
-                        fit: BoxFit.cover,
+                ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Service image
+        if (imageUrl != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    height: 180,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Container(
+                      height: 180,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      height: 180,
+                      color: Colors.grey[200],
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: Colors.grey,
+                        size: 40,
                       ),
                     ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: GestureDetector(
-                            onTap: controller.toggleServiceFavorite,
-                            child: Container(
-                              width: 32,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                controller.isServiceFavorited.value
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: controller.isServiceFavorited.value
-                                    ? Colors.red
-                                    : Colors.grey,
-                                size: 18,
-                              ),
+                  ),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: GestureDetector(
+                      onTap: controller.toggleServiceFavorite,
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.9),
+                          shape: BoxShape.circle,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                        child: Icon(
+                          controller.isServiceFavorited.value
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: controller.isServiceFavorited.value
+                              ? Colors.red
+                              : Colors.grey,
+                          size: 20,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
 
         const SizedBox(height: 20),
 
-        // Service details and pricing
+        // Service price & date
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                service['subtitle'],
+                controller.getFormattedPrice(service.amount),
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontFamily: AppFonts.fontFamily,
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
-                  const SizedBox(width: 4),
-                  Text(
-                    service['duration'],
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                      fontFamily: AppFonts.fontFamily,
-                    ),
+              if ((service.createtime ?? '').isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  service.createtime ?? '',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontFamily: AppFonts.fontFamily,
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      service['description'],
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                        fontFamily: AppFonts.fontFamily,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(
-                    controller.getFormattedPrice(service['discountedPrice']),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: AppFonts.fontFamily,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    controller.getFormattedPrice(service['originalPrice']),
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[500],
-                      decoration: TextDecoration.lineThrough,
-                      fontFamily: AppFonts.fontFamily,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                service['fullDescription'],
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                  fontFamily: AppFonts.fontFamily,
                 ),
-              ),
+              ],
             ],
           ),
         ),
 
         const SizedBox(height: 20),
 
-        // What We Bring section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppStrings.whatWeBring,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...service['whatWeBring']
-                  .map<Widget>(
-                    (item) => Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green[600],
-                            size: 16,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.black87,
-                                fontFamily: AppFonts.fontFamily,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        // Know This Before You Book section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppStrings.knowThisBeforeYouBook,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...service['bookingNotes']
-                  .map<Widget>(
-                    (item) => Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 4,
-                            height: 4,
-                            margin: const EdgeInsets.only(top: 6, right: 8),
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.black87,
-                                fontFamily: AppFonts.fontFamily,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 30),
-
-        // Quantity selector and Add button
+        // Add button
         Center(
           child: SizedBox(
             height: AppStyle.heightPercent(context, 5),
@@ -470,13 +365,14 @@ class SubCategoriesScreen extends StatelessWidget {
                 controller.addServiceToCart(controller.appBarTitle);
               },
               title:
-                  "${AppStrings.addFor} ${controller.getFormattedPrice(controller.totalServicePrice)}",
+              "${AppStrings.addFor} ${controller.getFormattedPrice(controller.totalServicePrice)}",
             ),
           ),
         ),
 
-        const SizedBox(height: 30),
+        // const SizedBox(height: 30),
       ],
     );
   }
+
 }

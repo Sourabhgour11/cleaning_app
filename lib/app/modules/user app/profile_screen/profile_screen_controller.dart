@@ -1,13 +1,110 @@
+import 'dart:convert';
+
+import 'package:cleaning_app/app/data/models/get_content_model.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen_controller.dart';
+import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_controller.dart';
 import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   var userName = 'Sourabh'.obs;
   var phoneNumber = '+918120527453'.obs;
   var appBarTitle = 'Payment Mehthod'.obs;
+  RxBool isLoading = false.obs;
+  var htmlContent = ''.obs;
+  dynamic userData;
+  // var userName
+
+
+  final Rx<GetContentModel?> getContentModel = Rx<GetContentModel?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    getContentApi();
+  }
+
+  // Future<void> getContentApi() async {
+  //   isLoading.value = true;
+  //
+  //   try {
+  //     final userId = AppLocalStorage.getUserId();
+  //     final token = AppLocalStorage.getToken();
+  //     // TODO: Replace with actual wallet API endpoint when available
+  //     // For now, using sample data structure
+  //     final url = Uri.parse(AppUrl.getContent);
+  //
+  //     final headers = {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': 'Bearer ${token ?? ""}',
+  //     };
+  //
+  //     final response = await http.get(url, headers: headers);
+  //
+  //     print("📡 Wallet API URL: $url");
+  //     print("📩 Status Code: ${response.statusCode}");
+  //     print("📨 Response: ${response.body}");
+  //
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //       print("Get Content Data: $data");
+  //
+  //       if (data['status'] == true || data['success'] == true) {
+  //         final responseBody = jsonDecode(response.body);
+  //         getContentModel.value = GetContentModel.fromJson(responseBody);
+  //
+  //       } else {
+  //         // If API fails, use sample data for development
+  //         Get.snackbar('Info', 'Using sample wallet data. ${data['message'] ?? 'API not configured'}');
+  //       }
+  //     } else {
+  //       // If API fails, use sample data for development
+  //       Get.snackbar('Info', 'Using sample wallet data. API returned: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print("Wallet API Error: ${e.toString()}");
+  //     // If API fails, use sample data for development
+  //     Get.snackbar('Info', 'Using sample wallet data. Error: ${e.toString()}');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
+  Future<void> getContentApi() async {
+    try {
+
+      isLoading.value = true;
+
+      final response = await http.get(
+        Uri.parse(AppUrl.getContent),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("${htmlContent.value} htmlgggg");
+
+        if (data['success'] == true &&
+            data['content_arr'] != null &&
+            data['content_arr'].isNotEmpty) {
+          htmlContent.value = data['content_arr'][0]['content'];
+          print("✅ HTML Content Loaded Successfully");
+        } else {
+          htmlContent.value = "<p>No content found</p>";
+        }
+      } else {
+        htmlContent.value = "<p>Failed to load content</p>";
+      }
+    } catch (e) {
+      htmlContent.value = "<p>Error: $e</p>";
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   var profileData = {
     'name': 'Sourabh',
@@ -99,6 +196,7 @@ class ProfileController extends GetxController {
     // Handle logout logic here
     await AppLocalStorage.clearUserData();
     Get.offAllNamed(AppRoutes.login);
+    Get.delete<UserBottomNavController>();
 
     Get.snackbar('Logout', 'You have logged out successfully');
   }

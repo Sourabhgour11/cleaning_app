@@ -225,7 +225,7 @@ class AnnouncementScreenController extends GetxController {
     try {
       final userId = AppLocalStorage.getUserId();
       final token = AppLocalStorage.getToken();
-      final url = Uri.parse(AppUrl.deleteSingleNotification);
+      final url = Uri.parse(AppUrl.deleteAllNotification);
 
       final body = jsonEncode({
         'user_id': userId,
@@ -379,7 +379,7 @@ class AnnouncementScreenController extends GetxController {
                     child: ElevatedButton(
                       onPressed: () async {
                         Get.back(); // Close dialog
-                        // await controller.deleteAllNotificationsApi(); // Call delete API
+                         await controller.deleteAllNotificationsApi(); // Call delete API
                         controller.notificationData.value?.notificationArr?.clear();
                         controller.notificationData.refresh();
 

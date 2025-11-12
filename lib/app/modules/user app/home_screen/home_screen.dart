@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaning_app/app/data/models/get_homepage_data_model.dart';
+import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:cleaning_app/app/utils/app_user_bottom_bar.dart';
 import 'package:cleaning_app/app/utils/custom_shimmer_effect.dart';
 import 'package:cleaning_app/app/utils/map_controller.dart';
-import 'package:cleaning_app/app/utils/place_search_widget.dart';
 import '../../../utils/app_greeting.dart';
 import 'home_screen_controller.dart';
 
@@ -19,8 +18,6 @@ class HomeScreen extends StatelessWidget {
   CarouselSliderController();
 
   final MapController mapController = Get.put(MapController());
-
-  // Location selection popup
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +54,6 @@ class HomeScreen extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               gradient: AppColours.gradientColor,
-                              // LinearGradient(
-                              //   begin: Alignment.topLeft,
-                              //   end: Alignment.bottomRight,
-                              //   colors: [AppColours.appColor, AppColours.appColor2],
-                              // ),
-                              // color: AppColours.appColor
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(30),
                                 bottomRight: Radius.circular(30),
@@ -77,19 +68,16 @@ class HomeScreen extends StatelessWidget {
                             top: MediaQuery
                                 .of(context)
                                 .padding
-                                .top + 20,
+                                .top + 22,
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 200),
                               opacity: isCollapsed ? 0.0 : 1.0,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Obx(
-                                        () =>
                                         Text(
                                           "${AppGreeting()
-                                              .getGreetingMessage()}, ${controller
-                                              .userName.value}",
+                                              .getGreetingMessage()}, ${AppConstants.userName}",
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600,
@@ -97,10 +85,8 @@ class HomeScreen extends StatelessWidget {
                                             color: Colors.white,
                                           ),
                                         ),
-                                  ),
+
                                   const SizedBox(height: 2),
-                                  Obx(
-                                        () =>
                                         Row(
                                           children: [
                                             const Icon(
@@ -115,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                                                 60,
                                               ),
                                               child: Text(
-                                                controller.location.value,
+                                                AppConstants.address ?? "",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,
@@ -138,8 +124,7 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                  ),
-                                  const SizedBox(height: 1),
+                                  // const SizedBox(height: 1),
                                 ],
                               ),
                             ),
@@ -149,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                           Positioned(
                             left: 16,
                             right: 16,
-                            bottom: 16,
+                            bottom: 10,
                             child: Container(
                               height: 45,
                               decoration: BoxDecoration(
@@ -331,15 +316,21 @@ class HomeScreen extends StatelessWidget {
                                 separatorBuilder: (_, __) =>
                                 const SizedBox(width: 16),
                                 itemBuilder: (context, index) {
+
                                   final item = categoryList[index];
 
                                   return GestureDetector(
                                     onTap: () {
+                                      final selectedId = categoryList[index].categoryId;
+                                      print("${categoryList[index].categoryId}330");
                                       controller.appBarTitle.value =
                                           item.name ?? "";
                                       Get.toNamed(
                                         AppRoutes.subCategory,
-                                        arguments: controller.appBarTitle,
+                                        arguments: {
+                                          "title": controller.appBarTitle.value,
+                                          "categoryId": selectedId,
+                                        },
                                       );
                                     },
                                     child: SizedBox(
@@ -523,8 +514,9 @@ Widget simpleSalonGrid(
               final name = item.name ?? 'Unnamed';
               return InkWell(
                 onTap: () {
-                  controller.appBarTitle.value = name;
-                  Get.toNamed(AppRoutes.subCategory, arguments: item);
+                  // controller.appBarTitle.value = name;
+                  // Get.toNamed(AppRoutes.subCategory, arguments: item);
+                  Get.toNamed(AppRoutes.subSubCategoryScreen);
                 },
                 child: Container(
                   width: AppStyle.widthPercent(context, 20),

@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,8 @@ void main() async {
 
   // Initialize local storage
   await AppLocalStorage.init();
+  await AppConstants.loadUserDetails();
+
   runApp(const MyApp());
 }
 

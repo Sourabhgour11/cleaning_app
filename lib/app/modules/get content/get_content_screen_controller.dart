@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class GetContentScreenController extends GetxController {
   // Observable variables
@@ -7,11 +11,45 @@ class GetContentScreenController extends GetxController {
   var content = ''.obs;
   var lastUpdated = ''.obs;
   var isLoading = true.obs;
+  var htmlContent = ''.obs;
+
+  Future<void> getContentApi() async {
+    try {
+
+      isLoading.value = true;
+
+      final response = await http.get(
+        Uri.parse(AppUrl.getContent),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("${htmlContent.value} htmlgggg");
+
+        if (data['success'] == true &&
+            data['content_arr'] != null &&
+            data['content_arr'].isNotEmpty) {
+          htmlContent.value = data['content_arr'][0]['content'];
+          print("✅ HTML Content Loaded Successfully");
+        } else {
+          htmlContent.value = "<p>No content found</p>";
+        }
+      } else {
+        htmlContent.value = "<p>Failed to load content</p>";
+      }
+    } catch (e) {
+      htmlContent.value = "<p>Error: $e</p>";
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 
   @override
   void onInit() {
     super.onInit();
     _loadContent();
+    // getContentApi();
   }
 
   void _loadContent() {

@@ -434,44 +434,7 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(
                             height: AppStyle.heightPercent(context, 1.7),
                           ),
-                          // Container(
-                          //   width: AppStyle.widthPercent(context, 90),
-                          //   decoration: BoxDecoration(
-                          //     color: AppColours.white,
-                          //     borderRadius: BorderRadius.circular(15),
-                          //     border: Border.all(
-                          //       color: AppColours.grey.withOpacity(0.2),
-                          //       width: 1.5,
-                          //     ),
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: AppColours.grey.withOpacity(0.1),
-                          //         spreadRadius: 1,
-                          //         blurRadius: 3,
-                          //         offset: const Offset(0, 1),
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: TextField(
-                          //     controller: controller.addressController,
-                          //     keyboardType: TextInputType.text,
-                          //     decoration: InputDecoration(
-                          //       hintText: 'Enter your address',
-                          //       hintStyle: TextStyle(color: AppColours.grey),
-                          //       border: InputBorder.none,
-                          //       contentPadding: EdgeInsets.symmetric(
-                          //         horizontal: 20,
-                          //         vertical: 18,
-                          //       ),
-                          //       prefixIcon: Icon(
-                          //         Icons.location_on,
-                          //         color: AppColours.grey,
-                          //         size: 20,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          PlaceSearchWidget(),
+                         PlaceSearchWidget(),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
                           // Password Field
                           SizedBox(

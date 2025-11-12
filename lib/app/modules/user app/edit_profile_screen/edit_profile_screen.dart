@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:cleaning_app/app/utils/app_camera_popup.dart';
+import 'package:cleaning_app/app/utils/place_search_widget.dart';
+
 import '../../../utils/app_export.dart';
 import 'edit_profile_screen_controller.dart';
 
@@ -41,7 +46,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: AppStyle.heightPercent(context, 2)),
-              _buildProfileImage(),
+              _buildProfileImage(context),
               SizedBox(height: AppStyle.heightPercent(context, 3)),
               _buildNameField(),
               SizedBox(height: AppStyle.heightPercent(context, 2)),
@@ -51,10 +56,6 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               SizedBox(height: AppStyle.heightPercent(context, 2)),
               _buildAddressField(),
               SizedBox(height: AppStyle.heightPercent(context, 2)),
-              // _buildPasswordField(),
-              // const SizedBox(height: 20),
-              // _buildConfirmPasswordField(),
-              // const SizedBox(height: 30),
               _buildUpdateButton(context),
               SizedBox(height: AppStyle.heightPercent(context, 2)),
             ],
@@ -64,40 +65,27 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget _buildProfileImage(BuildContext context) {
     return Center(
       child: Stack(
         children: [
-          Obx(
-            () => Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColours.white,
-                border: Border.all(color: AppColours.appColor, width: 3),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColours.appColor.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  controller.profileImage.value,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
+          Obx(() {
+            final File? image = controller.selectedImage.value;
+            return CircleAvatar(
+              radius: 60,
+              backgroundColor: Colors.grey.shade200,
+              backgroundImage: image != null ? FileImage(image) : null,
+              child: image == null
+                  ? Icon(Icons.person, color: Colors.grey[400], size: 70)
+                  : null,
+            );
+          }),
+
           Positioned(
             bottom: 0,
             right: 0,
             child: GestureDetector(
-              onTap: () => controller.pickImage(),
+              onTap: () => controller.pickImage(context),
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -314,25 +302,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               ),
             ],
           ),
-          child: TextField(
-            controller: controller.addressController,
-            keyboardType: TextInputType.text,
-            maxLines: 2,
-            decoration: const InputDecoration(
-              hintText: 'Enter your address',
-              hintStyle: TextStyle(color: AppColours.grey),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 18,
-              ),
-              prefixIcon: Icon(
-                Icons.location_on,
-                color: AppColours.grey,
-                size: 20,
-              ),
-            ),
-          ),
+          child: PlaceSearchWidget(),
         ),
       ],
     );

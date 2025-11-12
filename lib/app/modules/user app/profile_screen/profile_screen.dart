@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'profile_screen_controller.dart';
 
@@ -88,10 +89,9 @@ class ProfileScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Obx(
-                  () => Flexible(
+                Flexible(
                     child: Text(
-                      controller.userName.value,
+                      AppConstants.userName ?? "Username",
                       style: TextStyle(
                         fontSize: height * 0.12, // responsive font
                         fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
+
                 SizedBox(width: width * 0.02),
                 Container(
                   padding: EdgeInsets.all(height * 0.02),
@@ -119,16 +119,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: height * 0.02),
             // Phone Number
-            Obx(
-              () => Text(
-                controller.phoneNumber.value,
+          Text(
+                AppConstants.userMobile ?? "0000000000",
                 style: TextStyle(
                   fontSize: height * 0.07,
                   color: Colors.white70,
                   fontFamily: AppFonts.fontFamily,
                 ),
               ),
-            ),
           ],
         ),
       ),

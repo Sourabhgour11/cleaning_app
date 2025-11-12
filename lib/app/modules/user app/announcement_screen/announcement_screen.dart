@@ -60,47 +60,71 @@ class AnnouncementScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: AppStyle.heightPercent(context, 10)),
+          SizedBox(height: AppStyle.heightPercent(context, 8)),
           SizedBox(
             width: AppStyle.widthPercent(context, 90),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.announcements,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: AppFonts.fontFamily,
-                        ),
-                      ),
-                      SizedBox(height: AppStyle.heightPercent(context, 0.5)),
-                      Obx(
-                        () => Text(
-                          '${controller.unreadCount} unread announcements',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                      ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Dynamically adjust font size based on available width
+                double width = constraints.maxWidth;
+                double titleFontSize = width < 340 ? 20 : 24;
+                double subtitleFontSize = width < 340 ? 12 : 14;
 
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                    onTap: (){
-                      controller.showDeleteAllDialog(context,controller);
-                    },
-                    child: Icon(Icons.delete_forever,color: AppColours.white,)),
-              ],
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // 🧱 Text Column
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            alignment: Alignment.centerLeft,
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              AppStrings.announcements,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: AppStyle.heightPercent(context, 0.5)),
+                          Obx(
+                                () => Text(
+                              '${controller.unreadCount} unread announcements',
+                              overflow: TextOverflow.ellipsis, // ✅ Prevents overflow
+                              style: TextStyle(
+                                fontSize: subtitleFontSize,
+                                color: Colors.white70,
+                                fontFamily: AppFonts.fontFamily,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // 🗑️ Delete Icon
+                    SizedBox(width: 8), // small space before icon
+                    GestureDetector(
+                      onTap: () {
+                        controller.showDeleteAllDialog(context, controller);
+                      },
+                      child: const Icon(
+                        Icons.delete_forever,
+                        color: AppColours.white,
+                        size: 26,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
-          ),
+          )
+
         ],
       ),
     );
@@ -164,7 +188,7 @@ class AnnouncementScreen extends StatelessWidget {
               );
             },
 
-            child: _buildNotificationCard(notification, controller),
+            child: _buildNotificationCard(notification, controller,context),
           );
         },
       ),
@@ -202,13 +226,17 @@ class AnnouncementScreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildNotificationCard(
       NotificationArr notification,
       AnnouncementScreenController controller,
+      BuildContext context, // Pass context for responsive sizing
       ) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: screenHeight * 0.015), // responsive margin
+      padding: EdgeInsets.all(screenWidth * 0.03), // responsive padding
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -224,98 +252,129 @@ class AnnouncementScreen extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(10),
-        leading: Container(
-          width: 48,
-          height: 60,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.deepPurple.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
-              imageUrl: AppUrl.imageUrl + (notification.userImage ?? ''),
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-                color: Colors.red,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Leading Image
+          Container(
+            width: screenWidth * 0.13, // responsive width
+            height: screenWidth * 0.16, // responsive height
+            padding: EdgeInsets.all(screenWidth * 0.01),
+            decoration: BoxDecoration(
+              color: Colors.deepPurple.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: CachedNetworkImage(
+                imageUrl: AppUrl.imageUrl + (notification.userImage ?? ''),
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
               ),
             ),
           ),
-        ),
-        title: Text(
-          notification.name ?? "",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: AppColours.black,
-            fontFamily: AppFonts.fontFamily,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(
-              notification.message ?? "",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[700],
-                fontFamily: AppFonts.fontFamily,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Text("${notification.dateTime}",style: TextStyle(fontFamily: AppFonts.fontFamily,fontSize: 12,color: AppColours.grey),),
-                const Spacer(),
-              notification.readStatus == 0 ?  GestureDetector(
-                  onTap: () {
-                    // Add your mark as read functionality here
 
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColours.appColor,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Text(
-                      AppStrings.markReadAnnouncements,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppFonts.fontFamily,
+          SizedBox(width: screenWidth * 0.03),
+
+          // Title & Subtitle
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Name
+                Text(
+                  notification.name ?? "",
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.w600,
+                    color: AppColours.black,
+                    fontFamily: AppFonts.fontFamily,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: screenHeight * 0.005),
+
+                // Message
+                Text(
+                  notification.message ?? "",
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.035,
+                    color: Colors.grey[700],
+                    fontFamily: AppFonts.fontFamily,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.012),
+
+                // Row with Date & Mark as Read button
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        "${notification.dateTime}",
+                        style: TextStyle(
+                          fontFamily: AppFonts.fontFamily,
+                          fontSize: screenWidth * 0.03,
+                          color: AppColours.grey,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ): SizedBox()
+                    const Spacer(),
+                    if (notification.readStatus == 0)
+                      GestureDetector(
+                        onTap: () {
+                          // Add mark as read functionality
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.03,
+                            vertical: screenHeight * 0.008,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColours.appColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            AppStrings.markReadAnnouncements,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.03,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-        trailing: Container(
-          width: 10,
-          height: 10,
-          decoration: const BoxDecoration(
-            color: AppColours.appColor,
-            shape: BoxShape.circle,
           ),
-        ),
+
+          // Trailing dot
+          if (notification.readStatus == 0)
+            Container(
+              width: screenWidth * 0.025,
+              height: screenWidth * 0.025,
+              margin: EdgeInsets.only(left: screenWidth * 0.02),
+              decoration: const BoxDecoration(
+                color: AppColours.appColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+        ],
       ),
     );
   }
+
 
 
 }

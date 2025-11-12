@@ -28,5 +28,8 @@ class AppRoutes {
   static const bookingDetails = '/bookingDetails';
   static const changePassword = '/changePassword';
   static const contactUs = '/contactUs';
+  static const transactionsHistoryScreen = '/transactionsHistoryScreen';
+  static const subSubCategoryScreen = '/subSubCategoryScreen';
+
 
 }

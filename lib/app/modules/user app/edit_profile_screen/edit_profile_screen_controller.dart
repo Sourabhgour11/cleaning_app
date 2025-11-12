@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cleaning_app/app/utils/app_camera_popup.dart';
+import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_images.dart';
@@ -18,10 +22,46 @@ class EditProfileScreenController extends GetxController {
   // Profile Image
   var profileImage = AppImages.profileImage.obs;
 
+  final Rx<File?> selectedImage = Rx<File?>(null);
+
   @override
   void onInit() {
     super.onInit();
     loadProfileData();
+  }
+
+  /// Open the popup and get image
+  Future<void> pickImage(BuildContext context) async {
+    try {
+      final File? imageFile = await context.showImageSourceDialog();
+      if (imageFile != null) {
+        selectedImage.value = imageFile;
+
+        Get.snackbar(
+          "Image Selected ✅",
+          "Image loaded successfully.",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: AppColours.appColor.withOpacity(0.8),
+          colorText: AppColours.white,
+        );
+      } else {
+        Get.snackbar(
+          "Cancelled",
+          "No image was selected.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.grey.shade600,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Something went wrong while picking the image: $e",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+    }
   }
 
   void loadProfileData() {
@@ -38,17 +78,6 @@ class EditProfileScreenController extends GetxController {
 
   void toggleConfirmPasswordVisibility() {
     isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
-  }
-
-  void pickImage() {
-    // Image picker logic here
-    Get.snackbar(
-      'Image Picker',
-      'Image picker functionality coming soon!',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.blue,
-      colorText: Colors.white,
-    );
   }
 
   void updateProfile() {

@@ -91,6 +91,8 @@ class LoginScreenController extends GetxController {
               token: token,
               userDetails: userDetails,
             );
+            await AppConstants.loadUserDetails();
+
             if (saved) {
               print("User data saved to local storage");
 

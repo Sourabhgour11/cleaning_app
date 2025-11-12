@@ -49,13 +49,13 @@ class DeleteScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildWarningCard(),
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 2)),
                   _buildOtherReasonField(controller),
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 2)),
                   _buildAgreementCheckbox(controller),
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 2)),
                   _buildDeleteButton(controller),
-                  const SizedBox(height: 24),
+                   SizedBox(height: AppStyle.heightPercent(context, 2)),
                 ],
               ),
             ),
@@ -69,7 +69,7 @@ class DeleteScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context, DeleteScreenController controller) {
     return Container(
       width: AppStyle.widthPercent(context, 100),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -85,78 +85,131 @@ class DeleteScreen extends StatelessWidget {
             color: Colors.red.withOpacity(0.3),
             offset: const Offset(0, 4),
             blurRadius: 12,
-            spreadRadius: 0,
           ),
         ],
       ),
-      child: Column(
-        children: [
-          const SizedBox(height: 60),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () => Get.back(),
-                child: Container(
+      child: SafeArea( // ✅ Avoid notch issues
+        bottom: false,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double width = constraints.maxWidth;
+            double titleFontSize = width < 330 ? 18 : 22;
+            double iconSize = width < 330 ? 34 : 40;
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    // 🔙 Back Button
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+
+                    // 🧱 Center Title (flexible)
+                    Expanded(
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppStrings.deleteAccount,
+                            style: TextStyle(
+                              fontSize: titleFontSize,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              fontFamily: AppFonts.fontFamily,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Placeholder for balance
+                    Opacity(
+                      opacity: 0, // invisible but keeps spacing symmetric
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // 🗑️ Delete Icon
+                Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    shape: BoxShape.circle,
                     border: Border.all(
                       color: Colors.white.withOpacity(0.3),
-                      width: 1,
+                      width: 2,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
+                  child: Icon(
+                    Icons.delete_forever,
+                    size: iconSize,
                     color: Colors.white,
-                    size: 20,
                   ),
                 ),
-              ),
-              const Text(
-                AppStrings.deleteAccount,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  fontFamily: AppFonts.fontFamily,
-                  letterSpacing: 0.5,
+
+                const SizedBox(height: 12),
+
+                // 💬 Subtitle
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      AppStrings.weAreSorryToSeeYouGo,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: width < 330 ? 13 : 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: AppFonts.fontFamily,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 42),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3),
-                width: 2,
-              ),
-            ),
-            child: const Icon(
-              Icons.delete_forever,
-              size: 40,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            AppStrings.weAreSorryToSeeYouGo,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontFamily: AppFonts.fontFamily,
-            ),
-          ),
-        ],
+                const SizedBox(height: 10),
+              ],
+            );
+          },
+        ),
       ),
     );
+
   }
 
   Widget _buildWarningCard() {
@@ -228,32 +281,34 @@ class DeleteScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          TextField(
-            maxLines: 4,
-            onChanged: (value) => controller.otherReason.value = value,
-            decoration: InputDecoration(
-              hintText: 'Tell us more about why you\'re leaving...',
-              hintStyle: TextStyle(
-                color: Colors.grey[400],
-                fontFamily: AppFonts.fontFamily,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.grey[300]!),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: AppColours.appColor,
-                  width: 2,
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(16),
-            ),
-          ),
+          // TextField(
+          //   maxLines: 4,
+          //   onChanged: (value) => controller.otherReason.value = value,
+          //   decoration: InputDecoration(
+          //     hintText: 'Tell us more about why you\'re leaving...',
+          //     hintStyle: TextStyle(
+          //       color: Colors.grey[400],
+          //       fontFamily: AppFonts.fontFamily,
+          //     ),
+          //     border: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(12),
+          //       borderSide: BorderSide(color: Colors.grey[300]!),
+          //     ),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(12),
+          //       borderSide: const BorderSide(
+          //         color: AppColours.appColor,
+          //         width: 2,
+          //       ),
+          //     ),
+          //     contentPadding: const EdgeInsets.all(16),
+          //   ),
+          // ),
           CustomTextFormField(
+            maxLines: 4,
             hintText: "Tell us more about why you're leaving.",
             controller: controller.deleteController,
+            onChanged: (value) => controller.otherReason.value = value,
           ),
         ],
       ),

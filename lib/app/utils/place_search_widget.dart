@@ -122,7 +122,6 @@ class PlaceSearchWidget extends StatelessWidget {
                        signUpScreenController.addressController.text = mapController.selectedPlace.value!.address;
                     }
                   });
-
                   // Hide keyboard immediately
                   FocusScope.of(context).unfocus();
                 },
@@ -131,45 +130,6 @@ class PlaceSearchWidget extends StatelessWidget {
           ),
         )
             : const SizedBox.shrink()),
-
-        // Selected place details
-        // Obx(() => mapController.selectedPlace.value != null
-        //     ? Container(
-        //   margin: const EdgeInsets.all(16.0),
-        //   padding: const EdgeInsets.all(16.0),
-        //   decoration: BoxDecoration(
-        //     color: Colors.green[50],
-        //     borderRadius: BorderRadius.circular(12.0),
-        //     border: Border.all(color: Colors.green),
-        //   ),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       const Text(
-        //         'Selected Place:',
-        //         style: TextStyle(
-        //           fontWeight: FontWeight.bold,
-        //           fontSize: 16,
-        //           color: Colors.green,
-        //         ),
-        //       ),
-        //       const SizedBox(height: 8),
-        //       Text(
-        //         'Address: ${mapController.selectedPlace.value!.address}',
-        //         style: const TextStyle(fontSize: 14),
-        //       ),
-        //       Text(
-        //         'Latitude: ${mapController.selectedPlace.value!.lat.toStringAsFixed(6)}',
-        //         style: const TextStyle(fontSize: 14),
-        //       ),
-        //       Text(
-        //         'Longitude: ${mapController.selectedPlace.value!.lng.toStringAsFixed(6)}',
-        //         style: const TextStyle(fontSize: 14),
-        //       ),
-        //     ],
-        //   ),
-        // )
-        //     : const SizedBox.shrink()),
       ],
     );
   }

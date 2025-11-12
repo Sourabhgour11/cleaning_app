@@ -2,8 +2,7 @@
 class AppUrl {
 
   static const String baseUrl = 'https://turningindia.com/CleanPro/server';
-  static const String imageUrl =
-      "https://turningindia.com/CleanPro/server/images/";
+  static const String imageUrl = 'https://turningindia.com/CleanPro/server/images/';
 
   static const String login = '$baseUrl/login';
   static const String signUp = '$baseUrl/sign_up';
@@ -19,11 +18,17 @@ class AppUrl {
 
   //SOURABH
   static const String changePassword = '$baseUrl/change_password';
+
+  static String homeDetailsApi(String userId) => '$baseUrl/get_home_page_api?user_id=$userId';
+
+ static String walletDetailsApi(String userId) => '$baseUrl/get_wallet?user_id=$userId';
+
   static const String contactUs = '$baseUrl/contact_us';
   static const String deleteAccount = '$baseUrl/delete_account';
   static const String getNotification = '$baseUrl/get_notification';
   static const String deleteSingleNotification = '$baseUrl/delete_single_notification';
-
-  static const String getContent = '$baseUrl/getContent';
+  static const String deleteAllNotification = '$baseUrl/delete_all_notification';
+  static const String getContent = '$baseUrl/get_content';
+  static String getSubCatByCatId(int categoryId) => '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
 
 }

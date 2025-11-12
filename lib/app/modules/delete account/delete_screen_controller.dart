@@ -2,6 +2,7 @@ import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DeleteScreenController extends GetxController {
   // Observable variables
@@ -35,6 +36,7 @@ class DeleteScreenController extends GetxController {
     try {
       String? userId = AppLocalStorage.getUserId();
       String? token = AppLocalStorage.getToken();
+      print("${token}TOKEMNNNN");
 
       final response = await dio.post(
         AppUrl.deleteAccount,
@@ -43,7 +45,7 @@ class DeleteScreenController extends GetxController {
           'reason': deleteController.text,
         },
         options: Options(headers: {
-          'Authorization': token,
+          'Authorization': 'Bearer ${token}',
           'Accept': 'application/json',
         }),
       );
@@ -56,7 +58,8 @@ class DeleteScreenController extends GetxController {
       final errorMessage = (rawMessage is List) ? rawMessage.join(', ') : rawMessage?.toString() ?? 'Validation failed!';
 
       if (response.statusCode == 200 && response.data['success'] == true) {
-        Get.back();
+        Get.offAllNamed(AppRoutes.login);
+        await AppLocalStorage.clearUserData();
         Get.snackbar('Success', msg);
         // clearFields();
       } else {
@@ -209,7 +212,8 @@ class DeleteScreenController extends GetxController {
           ElevatedButton(
             onPressed: () {
               Get.back();
-              _deleteAccount();
+              // _deleteAccount();
+              deleteAccountAPI();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
@@ -236,46 +240,46 @@ class DeleteScreenController extends GetxController {
     );
   }
 
-  void _deleteAccount() {
-    isProcessing.value = true;
-
-    // Simulate API call
-    Future.delayed(const Duration(seconds: 2), () {
-      isProcessing.value = false;
-
-      Get.dialog(
-        AlertDialog(
-          title: const Row(
-            children: [
-              Icon(Icons.check_circle, color: Colors.green, size: 28),
-              SizedBox(width: 12),
-              Text('Account Deleted'),
-            ],
-          ),
-          content: const Text(
-            'Your account has been successfully deleted. We\'re sorry to see you go and hope to serve you again in the future.',
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Get.back(); // Close dialog
-                Get.offAllNamed(AppRoutes.selectUserScreen);
-                Get.snackbar(
-                  'Goodbye',
-                  'Your account has been deleted',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                );
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        ),
-        barrierDismissible: false,
-      );
-    });
-  }
+  // void _deleteAccount() {
+  //   isProcessing.value = true;
+  //
+  //   // Simulate API call
+  //   Future.delayed(const Duration(seconds: 2), () {
+  //     isProcessing.value = false;
+  //
+  //     Get.dialog(
+  //       AlertDialog(
+  //         title: const Row(
+  //           children: [
+  //             Icon(Icons.check_circle, color: Colors.green, size: 28),
+  //             SizedBox(width: 12),
+  //             Text('Account Deleted'),
+  //           ],
+  //         ),
+  //         content: const Text(
+  //           'Your account has been successfully deleted. We\'re sorry to see you go and hope to serve you again in the future.',
+  //         ),
+  //         actions: [
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               Get.back(); // Close dialog
+  //               Get.offAllNamed(AppRoutes.login);
+  //               Get.snackbar(
+  //                 'Goodbye',
+  //                 'Your account has been deleted',
+  //                 snackPosition: SnackPosition.BOTTOM,
+  //                 backgroundColor: Colors.green,
+  //                 colorText: Colors.white,
+  //               );
+  //             },
+  //             child: const Text('Close'),
+  //           ),
+  //         ],
+  //       ),
+  //       barrierDismissible: false,
+  //     );
+  //   });
+  // }
 
   void showAlternativeOptions() {
     Get.dialog(
