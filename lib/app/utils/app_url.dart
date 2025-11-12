@@ -30,5 +30,6 @@ class AppUrl {
   static const String deleteAllNotification = '$baseUrl/delete_all_notification';
   static const String getContent = '$baseUrl/get_content';
   static String getSubCatByCatId(int categoryId) => '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
+  static const String editProfile = '$baseUrl/edit_profile';
 
 }

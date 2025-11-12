@@ -1,9 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cleaning_app/app/utils/app_camera_popup.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
+import 'package:cleaning_app/app/utils/app_constants.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
+import 'package:cleaning_app/app/utils/app_snackbar.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
+import 'package:cleaning_app/app/utils/map_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../../../utils/app_images.dart';
 
 class EditProfileScreenController extends GetxController {
@@ -18,6 +25,8 @@ class EditProfileScreenController extends GetxController {
   final addressController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  final MapController mapController = Get.put(MapController());
 
   // Profile Image
   var profileImage = AppImages.profileImage.obs;
@@ -61,6 +70,71 @@ class EditProfileScreenController extends GetxController {
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
       );
+    }
+  }
+
+  /// EDIT PROFILE API
+  Future<void> editProfileApi({
+    required String name,
+    required String email,
+    required String phone,
+    required String address,
+  }) async {
+    try {
+      isLoading.value = true;
+
+      final uri = Uri.parse(AppUrl.editProfile); // define this in AppUrl
+      var request = http.MultipartRequest('POST', uri);
+
+      var userId = AppLocalStorage.getUserId();
+
+      // Add fields
+      request.fields.addAll({
+        'user_id': userId ?? "", // or fetch from storage
+        'name': name,
+        'email': email,
+        'phone_code': '+91', // or your stored code
+        'mobile': phone,
+        'address': address,
+        'latitude': mapController.selectedPlace.value?.lat.toString() ?? '',
+        'longitude': mapController.selectedPlace.value?.lng.toString() ?? '',
+        'device_type': AppConstants.deviceType,
+        'player_id': AppConstants.playerId,
+      });
+
+      // Add image file (if selected)
+      if (selectedImage.value != null) {
+        final file = selectedImage.value!;
+        request.files.add(
+          await http.MultipartFile.fromPath('image', file.path),
+        );
+      }
+
+      // Send the request
+      var response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      final data = jsonDecode(responseBody);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (data['success'] == true || data['status'] == 'yes') {
+          AppSnackbar.success(
+            message: data['msg'][0]?.toString() ?? 'Profile updated successfully',
+          );
+          Get.back(result: true);
+        } else {
+          AppSnackbar.error(
+            message: (data['msg'] is List ? data['msg'][0] : data['msg']).toString(),
+          );
+        }
+      } else {
+        AppSnackbar.error(
+          message: 'Failed: ${response.reasonPhrase}',
+        );
+      }
+    } catch (e) {
+      AppSnackbar.error(message: 'Error: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 

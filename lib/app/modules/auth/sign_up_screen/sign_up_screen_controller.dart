@@ -138,24 +138,6 @@ class SignUpScreenController extends GetxController {
           }
           token = data['token']?.toString();
 
-          // if (userId == null || userId.isEmpty) {
-          //   isLoading.value = false;
-          //   AppSnackbar.error(message: 'User ID not found in response');
-          //   return;
-          // }
-          // if (token != null) {
-          //   bool saved = await AppLocalStorage.saveUserData(
-          //     userId: userId,
-          //     token: token,
-          //     userDetails: userDetails,
-          //   );
-          //   if (!saved) {
-          //     print("User Details : ${userDetails}");
-          //     print("Failed to save user data to local storage");
-          //   }
-          //   print("User Details : ${userDetails}");
-          // }
-
           AppSnackbar.success(
             message: data['msg'][0]?.toString() ?? 'Registration successful',
           );
