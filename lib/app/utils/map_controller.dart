@@ -32,7 +32,11 @@ class PlaceDetail {
     required this.address,
     required this.lat,
     required this.lng,
+
   });
+
+
+
 }
 
 class MapController extends GetxController {
@@ -49,14 +53,11 @@ class MapController extends GetxController {
   final List<String> supportedCountries = ['IN', 'US', 'GB', 'AU', 'CA', 'AE', 'SA', 'SG', 'MY', 'JP', 'KR'];
 
   void updateCountryCode(String countryCode) {
-    print("${countryCode}countryrytrytyr" );
 
     // Validate if the country code is supported, otherwise default to IN
     if (supportedCountries.contains(countryCode)) {
       selectedCountryCode.value = countryCode;
-      print("${selectedCountryCode.value}idfffffff" );
     } else {
-      print("${selectedCountryCode.value}elseeee" );
       selectedCountryCode.value = 'IN'; // Default to India
       Get.snackbar(
         '⚠️ Country Not Supported',

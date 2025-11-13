@@ -17,6 +17,11 @@ class AppConstants {
   static String? userEmail;
   static String? userMobile;
   static String? address;
+  static int? phoneCode;
+  static String? userImage;
+  static String? latitude;
+  static String? longitude;
+  static RxString? latestUserImage;
 
   static RxInt? bottomNavIndex = 0.obs;
 
@@ -28,6 +33,11 @@ class AppConstants {
     userEmail = userData?['email'];
     userMobile = userData?['mobile'];
     address = userData?['address'];
+    phoneCode = userData?['phone_code'];
+    userImage = userData?['image'];
+    latitude = userData?['latitude'];
+    longitude = userData?['longitude'];
+    latestUserImage?.value = userData?['image'];
   }
 
   //JMS STORE MAPKEY

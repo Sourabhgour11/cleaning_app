@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cleaning_app/app/modules/user%20app/profile_screen/profile_screen_controller.dart';
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_camera_popup.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
-import 'package:cleaning_app/app/utils/app_snackbar.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:cleaning_app/app/utils/map_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../utils/app_images.dart';
+import '../../../utils/app_snackbar.dart';
 
 class EditProfileScreenController extends GetxController {
   var isLoading = false.obs;
@@ -28,10 +29,9 @@ class EditProfileScreenController extends GetxController {
 
   final MapController mapController = Get.put(MapController());
 
-  // Profile Image
-  var profileImage = AppImages.profileImage.obs;
+  RxString userImageUrl = ''.obs; // API image URL
 
-  final Rx<File?> selectedImage = Rx<File?>(null);
+  final Rx<File?> pickedImage = Rx<File?>(null);
 
   @override
   void onInit() {
@@ -44,7 +44,7 @@ class EditProfileScreenController extends GetxController {
     try {
       final File? imageFile = await context.showImageSourceDialog();
       if (imageFile != null) {
-        selectedImage.value = imageFile;
+        pickedImage.value = imageFile;
 
         Get.snackbar(
           "Image Selected ✅",
@@ -83,67 +83,123 @@ class EditProfileScreenController extends GetxController {
     try {
       isLoading.value = true;
 
-      final uri = Uri.parse(AppUrl.editProfile); // define this in AppUrl
+      final uri = Uri.parse(AppUrl.editProfile);
       var request = http.MultipartRequest('POST', uri);
 
-      var userId = AppLocalStorage.getUserId();
+      final userId = AppLocalStorage.getUserId();
+      final token = AppLocalStorage.getToken(); // ✅ your saved token
 
-      // Add fields
+      // ✅ Add headers with Bearer token
+      if (token != null && token.isNotEmpty) {
+        request.headers['Authorization'] = 'Bearer $token';
+        request.headers['Accept'] = 'application/json';
+      }
+
+      final selectedPlace = mapController.selectedPlace.value;
+
+      final latitude = selectedPlace?.lat != null
+          ? selectedPlace!.lat.toStringAsFixed(6)
+          : AppConstants.latitude.toString();
+
+      final longitude = selectedPlace?.lng != null
+          ? selectedPlace!.lng.toStringAsFixed(6)
+          : AppConstants.longitude.toString();
+
+      // ✅ Add form fields
       request.fields.addAll({
-        'user_id': userId ?? "", // or fetch from storage
+        'user_id': userId ?? "",
         'name': name,
-        'email': email,
-        'phone_code': '+91', // or your stored code
-        'mobile': phone,
+        'email': AppConstants.userEmail ?? "",
+        'phone_code': '+${AppConstants.phoneCode ?? 91}',
+        'mobile': phoneController.text,
         'address': address,
-        'latitude': mapController.selectedPlace.value?.lat.toString() ?? '',
-        'longitude': mapController.selectedPlace.value?.lng.toString() ?? '',
-        'device_type': AppConstants.deviceType,
-        'player_id': AppConstants.playerId,
+        'latitude': latitude,
+        'longitude': longitude,
       });
 
-      // Add image file (if selected)
-      if (selectedImage.value != null) {
-        final file = selectedImage.value!;
+      // ✅ Add image (if selected)
+      if (pickedImage.value != null) {
+        final file = pickedImage.value!;
         request.files.add(
-          await http.MultipartFile.fromPath('image', file.path),
+          await http.MultipartFile.fromPath(
+            'image',
+            file.path,
+            // filename: file.path.split('/').last,
+          ),
         );
       }
 
-      // Send the request
-      var response = await request.send();
-      final responseBody = await response.stream.bytesToString();
-      final data = jsonDecode(responseBody);
+      // ✅ Send request
+      final response = await request.send();
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (data['success'] == true || data['status'] == 'yes') {
-          AppSnackbar.success(
-            message: data['msg'][0]?.toString() ?? 'Profile updated successfully',
-          );
-          Get.back(result: true);
-        } else {
-          AppSnackbar.error(
-            message: (data['msg'] is List ? data['msg'][0] : data['msg']).toString(),
-          );
+      // ✅ Handle response
+      final responseBody = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        print("object");
+        var data =jsonDecode(responseBody);
+        print("Data : $data");
+        if(data['success']=="true"||data['success']==true){
+          // Extract and save user data
+          String? userId;
+          var token;
+          Map<String, dynamic>? userDetails;
+
+          if (data['userDataArray'] != null||data['userDataArray'].isNotEmpty) {
+            print("Data : ${data['userDataArray']}");
+
+            userDetails = data['userDataArray'];
+
+            if (userDetails != null) {
+              userId = userDetails['user_id']?.toString() ?? '';
+            }
+
+          }
+          token = AppLocalStorage.getToken();
+          // Save user data to local storage
+          if (userId != null) {
+            bool saved = await AppLocalStorage.saveUserData(
+              userId: userId,
+              token: token,
+              userDetails: userDetails,
+            );
+            await AppConstants.loadUserDetails();
+
+            if (saved) {
+              print("User data saved to local storage");
+              Get.offAllNamed(AppRoutes.userBottomNav);
+
+            }
+          }
+
+          print("✅ Profile updated successfully: $responseBody : Message : ${ data['msg'][0].toString()}");
+
+          print("Message : ${ data['msg'][0].toString()}");
+
+          AppSnackbar.success(message: data['msg'][0].toString());
+
+
+
+        }
+        else{
+
         }
       } else {
-        AppSnackbar.error(
-          message: 'Failed: ${response.reasonPhrase}',
-        );
+        print("❌ Error ${response.statusCode}: $responseBody");
       }
     } catch (e) {
-      AppSnackbar.error(message: 'Error: $e');
+      print("⚠️ Exception while updating profile: $e");
     } finally {
       isLoading.value = false;
     }
   }
 
+
   void loadProfileData() {
     // Load existing profile data
-    nameController.text = 'John Smith';
-    emailController.text = 'john.smith@email.com';
-    phoneController.text = '+91 98765 43210';
-    addressController.text = '123 Main Street, Downtown, City';
+    nameController.text = AppConstants.userName.toString();
+    emailController.text = AppConstants.userEmail.toString();
+    phoneController.text = AppConstants.userMobile.toString();
+    addressController.text =AppConstants.address.toString() ;
   }
 
   void togglePasswordVisibility() {
@@ -155,21 +211,25 @@ class EditProfileScreenController extends GetxController {
   }
 
   void updateProfile() {
-    if (validateForm()) {
-      isLoading.value = true;
-      // Simulate API call
-      Future.delayed(const Duration(seconds: 2), () {
-        isLoading.value = false;
-        Get.snackbar(
-          'Success',
-          'Profile updated successfully!',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-        Get.back();
-      });
-    }
+    print("is update call");
+    // if (validateForm()) {
+    //   isLoading.value = true;
+    //   // Simulate API call
+    //   Future.delayed(const Duration(seconds: 2), () {
+    //     isLoading.value = false;
+    //     Get.snackbar(
+    //       'Success',
+    //       'Profile updated successfully!',
+    //       snackPosition: SnackPosition.TOP,
+    //       backgroundColor: Colors.green,
+    //       colorText: Colors.white,
+    //     );
+    //
+    //     Get.back();
+    //   });
+    // }
+
+
   }
 
   bool validateForm() {

@@ -1,4 +1,5 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/custom_textformfield.dart';
 import 'package:cleaning_app/app/utils/map_controller.dart';
 import 'package:cleaning_app/app/utils/place_search_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -219,42 +220,11 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              controller: controller.nameController,
-                              keyboardType: TextInputType.name,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your name',
-                                hintStyle: TextStyle(color: AppColours.grey),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 18,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.person,
-                                  color: AppColours.grey,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
+                          //
+                          CustomTextFormField(
+                            hintText: "Enter your name",
+                            controller: controller.nameController,
+                            prefixIcon: Icons.person,
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
 
@@ -277,43 +247,12 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              controller: controller.emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your email address',
-                                hintStyle: TextStyle(color: AppColours.grey),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 18,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: AppColours.grey,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
+                          CustomTextFormField(
+                            hintText: "Enter your email address",
+                            controller: controller.emailController,
+                            prefixIcon: Icons.email,
                           ),
+
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
                           // Phone Field
                           SizedBox(
@@ -337,7 +276,7 @@ class SignUpScreen extends StatelessWidget {
                           Container(
                             width: AppStyle.widthPercent(context, 90),
                             padding: const EdgeInsets.symmetric(
-                              vertical: 4,
+                              // vertical: ,
                               horizontal: 12,
                             ),
                             decoration: BoxDecoration(
@@ -369,7 +308,8 @@ class SignUpScreen extends StatelessWidget {
                                       mapController.updateCountryCode(
                                         countryCode,
                                       );
-                                      controller.selectedCountryCode.value = countryCode;
+                                      controller.selectedCountryCode.value =
+                                          countryCode;
                                     },
                                     initialSelection: 'IN',
                                     favorite: [
@@ -390,7 +330,8 @@ class SignUpScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 // space between picker and input
                                 Expanded(
-                                  child: TextField(maxLength: 10,
+                                  child: TextField(
+                                    maxLength: 10,
                                     controller: controller.phoneController,
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
@@ -434,7 +375,7 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(
                             height: AppStyle.heightPercent(context, 1.7),
                           ),
-                         PlaceSearchWidget(),
+                          PlaceSearchWidget(controller: controller,),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
                           // Password Field
                           SizedBox(
@@ -455,57 +396,19 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: Obx(
-                              () => TextField(
-                                obscureText: controller.isPasswordVisible.value,
-                                controller: controller.passwordController,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your confirm password',
-                                  hintStyle: TextStyle(color: AppColours.grey),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 18,
-                                  ),
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: AppColours.grey,
-                                    size: 20,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      controller.togglePasswordVisibility(
-                                        controller.passwordController,
-                                      );
-                                    },
-                                    icon: Icon(
-                                      controller.isPasswordVisible.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: AppColours.grey,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
+
+                          Obx(
+                            () =>  CustomTextFormField(
+                              hintText: "Enter your password",
+                              controller: controller.passwordController,
+                              obscureText: controller.isPasswordVisible.value,
+                              prefixIcon: Icons.lock,
+                              suffixIcon: controller.isPasswordVisible.value
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              onSuffixTap: () {
+                                controller.togglePasswordVisibility(controller.passwordController);// 👈 toggle visibility
+                              },
                             ),
                           ),
 
@@ -529,64 +432,23 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: Obx(
-                              () => TextField(
-                                controller:
-                                    controller.confirmPasswordController,
-                                obscureText:
-                                    controller.isConfirmPasswordVisible.value,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your confirm password',
-                                  hintStyle: TextStyle(color: AppColours.grey),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 18,
-                                  ),
-                                  prefixIcon: Icon(
-                                    Icons.lock_outline_rounded,
-                                    color: AppColours.grey,
-                                    size: 20,
-                                  ),
 
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      controller
-                                          .toggleConfirmPasswordVisibility(
-                                            controller
-                                                .confirmPasswordController,
-                                          );
-                                    },
-                                    icon: Icon(
-                                      controller.isConfirmPasswordVisible.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: AppColours.grey,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
+                          Obx(() =>
+                              CustomTextFormField(
+                                hintText: "Confirm your password",
+                                controller: controller.confirmPasswordController,
+                                obscureText: controller.isConfirmPasswordVisible.value,
+                                prefixIcon: Icons.lock,
+                                suffixIcon: controller.isConfirmPasswordVisible.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                onSuffixTap: () {
+                                  controller.toggleConfirmPasswordVisibility(controller.confirmPasswordController);
+                                },
                               ),
-                            ),
+
                           ),
+
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                           // Sign Up Button
@@ -601,7 +463,7 @@ class SignUpScreen extends StatelessWidget {
                                     controller.phoneController.text,
                                     controller.addressController.text,
                                     controller.passwordController.text,
-                                    controller.confirmPasswordController.text
+                                    controller.confirmPasswordController.text,
                                   );
                                 },
                                 title: controller.isLoading.value == true

@@ -164,7 +164,9 @@ class UserBookingScreen extends StatelessWidget {
                   final booking = controller.upcomingBookings[index];
                   return GestureDetector(
                     onTap: (){
-                      Get.toNamed(AppRoutes.bookingDetails);
+                      Get.toNamed(AppRoutes.bookingDetails,arguments: {
+                        "isPast" : false,
+                      });
                     },
                     child: Card(
                       color: AppColours.white,
@@ -266,7 +268,9 @@ class UserBookingScreen extends StatelessWidget {
                   final booking = controller.pastBookings[index];
                   return GestureDetector(
                     onTap: (){
-                      Get.toNamed(AppRoutes.bookingDetails);
+                      Get.toNamed(AppRoutes.bookingDetails,arguments: {
+                        "isPast" : true,
+                      });
                     },
                     child: Card(
                       color: AppColours.white,

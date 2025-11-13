@@ -1,8 +1,9 @@
 import 'dart:io';
-
-import 'package:cleaning_app/app/utils/app_camera_popup.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cleaning_app/app/utils/app_constants.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
+import 'package:cleaning_app/app/utils/custom_textformfield.dart';
 import 'package:cleaning_app/app/utils/place_search_widget.dart';
-
 import '../../../utils/app_export.dart';
 import 'edit_profile_screen_controller.dart';
 
@@ -11,8 +12,14 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -70,17 +77,52 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
       child: Stack(
         children: [
           Obx(() {
-            final File? image = controller.selectedImage.value;
-            return CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.grey.shade200,
-              backgroundImage: image != null ? FileImage(image) : null,
-              child: image == null
-                  ? Icon(Icons.person, color: Colors.grey[400], size: 70)
-                  : null,
-            );
+            final File? pickedImage = controller.pickedImage.value;
+            final String? apiImage = AppConstants.userImage; // API image URL
+
+            // Determine which image to show
+            if (pickedImage != null) {
+              // 1️⃣ Show picked image
+              return CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey.shade200,
+                backgroundImage: FileImage(pickedImage),
+              );
+            } else if (apiImage != null && apiImage.isNotEmpty) {
+              // 2️⃣ Show API image
+              return CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey.shade200,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: AppUrl.imageUrl + apiImage,
+                    width: 120, // double the radius
+                    height: 120,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Icon(
+                      Icons.person,
+                      color: Colors.grey[400],
+                      size: 70,
+                    ),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      color: Colors.grey[400],
+                      size: 70,
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              // 3️⃣ Show placeholder
+              return CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey.shade200,
+                child: Icon(Icons.person, color: Colors.grey[400], size: 70),
+              );
+            }
           }),
 
+          // Camera button
           Positioned(
             bottom: 0,
             right: 0,
@@ -113,6 +155,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     );
   }
 
+
   Widget _buildNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,38 +172,8 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
           ],
         ),
         const SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColours.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: AppColours.grey.withOpacity(0.2),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColours.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: TextField(
-            controller: controller.nameController,
-            keyboardType: TextInputType.name,
-            decoration: const InputDecoration(
-              hintText: 'Enter your name',
-              hintStyle: TextStyle(color: AppColours.grey),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 18,
-              ),
-              prefixIcon: Icon(Icons.person, color: AppColours.grey, size: 20),
-            ),
-          ),
-        ),
+
+        CustomTextFormField(hintText: "Enter your name", controller: controller.nameController,prefixIcon: Icons.person,)
       ],
     );
   }
@@ -181,38 +194,8 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
           ],
         ),
         const SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColours.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: AppColours.grey.withOpacity(0.2),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColours.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: TextField(
-            controller: controller.emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Enter your email address',
-              hintStyle: TextStyle(color: AppColours.grey),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 18,
-              ),
-              prefixIcon: Icon(Icons.email, color: AppColours.grey, size: 20),
-            ),
-          ),
-        ),
+
+        CustomTextFormField(hintText: "Enter your email", controller: controller.emailController,prefixIcon: Icons.email,)
       ],
     );
   }
@@ -233,38 +216,8 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
           ],
         ),
         const SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColours.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: AppColours.grey.withOpacity(0.2),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColours.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: TextField(
-            controller: controller.phoneController,
-            keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(
-              hintText: 'Enter your phone number',
-              hintStyle: TextStyle(color: AppColours.grey),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 18,
-              ),
-              prefixIcon: Icon(Icons.phone, color: AppColours.grey, size: 20),
-            ),
-          ),
-        ),
+
+        CustomTextFormField(hintText: "Phone number", controller: controller.phoneController,prefixIcon: Icons.phone,)
       ],
     );
   }
@@ -302,7 +255,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               ),
             ],
           ),
-          child: PlaceSearchWidget(),
+          child: PlaceSearchWidget(controller: controller,),
         ),
       ],
     );
@@ -312,18 +265,25 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     return SizedBox(
       width: AppStyle.widthPercent(context, 90),
       child: Center(
-        child: Obx(
-          () => controller.isLoading.value
-              ? const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColours.appColor,
-                  ),
-                )
-              : AppButton(
-                  onPressed: () => controller.updateProfile(),
-                  title: 'Update Profile',
-                  icon: Icons.check_circle,
-                ),
+        child:
+        // Obx(
+        // () => controller.isLoading.value
+        //     ? const CircularProgressIndicator(
+        //         valueColor: AlwaysStoppedAnimation<Color>(
+        //           AppColours.appColor,
+        //         ),
+        //       )
+        //     :
+        AppButton(
+          onPressed: () {
+            print(("${AppUrl.imageUrl} + ${AppConstants.userImage}"));
+            controller.editProfileApi(name: controller.nameController.text,
+                email: controller.emailController.text,
+                phone: controller.phoneController.text,
+                address: controller.addressController.text);
+          },
+          title: 'Update Profile',
+          icon: Icons.check_circle,
         ),
       ),
     );

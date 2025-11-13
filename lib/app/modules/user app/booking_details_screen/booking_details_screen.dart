@@ -38,7 +38,7 @@ class BookingDetailsScreen extends StatelessWidget {
               const SizedBox(height: 15),
               
               // Action Buttons
-              _buildActionButtons(context),
+          controller.isPast!=true? _buildActionButtons(context):SizedBox(),
               const SizedBox(height: 30),
             ],
           ),
@@ -165,119 +165,124 @@ class BookingDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildServiceProviderCard(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColours.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 10,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(
-                  Icons.person_outline,
-                  color: Colors.green,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Text(
-                AppStrings.serviceProvider,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColours.black,
-                  fontFamily: AppFonts.fontFamily,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: AppColours.appColor.withOpacity(0.1),
-                child: Text(
-                  controller.bookingData['providerName']?.substring(0, 1) ?? 'J',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColours.appColor,
+    return GestureDetector(
+      onTap: (){
+        Get.dialog(controller.buildFeedbackDialog(context));
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColours.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 10,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.person_outline,
+                    color: Colors.green,
+                    size: 20,
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.bookingData['providerName'] ?? 'John Smith',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColours.black,
-                        fontFamily: AppFonts.fontFamily,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      AppStrings.professionalCleaner,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColours.grey,
-                        fontFamily: AppFonts.fontFamily,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          controller.bookingData['rating'] ?? '4.8',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColours.black,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '(${controller.bookingData['reviews'] ?? '120'} reviews)',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColours.grey,
-                            fontFamily: AppFonts.fontFamily,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                const SizedBox(width: 12),
+                const Text(
+                  AppStrings.serviceProvider,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColours.black,
+                    fontFamily: AppFonts.fontFamily,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: AppColours.appColor.withOpacity(0.1),
+                  child: Text(
+                    controller.bookingData['providerName']?.substring(0, 1) ?? 'J',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColours.appColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.bookingData['providerName'] ?? 'John Smith',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColours.black,
+                          fontFamily: AppFonts.fontFamily,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        AppStrings.professionalCleaner,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColours.grey,
+                          fontFamily: AppFonts.fontFamily,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 16),
+                          const SizedBox(width: 4),
+                          Text(
+                            controller.bookingData['rating'] ?? '4.8',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColours.black,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '(${controller.bookingData['reviews'] ?? '120'} reviews)',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColours.grey,
+                              fontFamily: AppFonts.fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

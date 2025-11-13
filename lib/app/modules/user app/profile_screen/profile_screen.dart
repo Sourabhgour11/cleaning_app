@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
 import 'profile_screen_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -8,15 +10,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileController controller = Get.put(ProfileController());
+        return Scaffold(
+          backgroundColor: Colors.grey[100],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 40)),
+            child: _buildProfileHeader(context, controller),
+          ),
+          body: SafeArea(child: Obx(() => _buildContent(context, controller))),
+        );
 
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(AppStyle.heightPercent(context, 40)),
-        child: _buildProfileHeader(context, controller),
-      ),
-      body: SafeArea(child: Obx(() => _buildContent(context, controller))),
-    );
   }
 
   Widget _buildContent(BuildContext context, ProfileController controller) {
@@ -41,6 +43,7 @@ class ProfileScreen extends StatelessWidget {
   ) {
     final height = AppStyle.heightPercent(context, 25); // 20% of screen
     final width = AppStyle.widthPercent(context, 100);
+    print("image is here${controller.userImage.value}");
 
     return Container(
       height: height,
@@ -71,19 +74,33 @@ class ProfileScreen extends StatelessWidget {
           children: [
             // Profile Image
             SizedBox(height: AppStyle.heightPercent(context, 2),),
-            CircleAvatar(
-              radius: height * 0.18, // responsive radius
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                radius: height * 0.29,
-                backgroundColor: AppColours.appColor.withOpacity(0.1),
-                child: Icon(
-                  Icons.person,
-                  color: AppColours.appColor,
-                  size: height * 0.2,
-                ),
+               CircleAvatar(
+                radius: height * 0.18, // responsive radius
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  radius: height * 0.29,
+                  backgroundColor: AppColours.appColor.withOpacity(0.1),
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl:AppUrl.imageUrl+ AppConstants.userImage.toString(), // URL from your API
+                      fit: BoxFit.cover,
+                      width: height * 0.58,  // double the radius for full coverage
+                      height: height * 0.58,
+                      placeholder: (context, url) => Icon(
+                        Icons.person,
+                        color: AppColours.appColor,
+                        size: height * 0.2,
+                      ),
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.abc_outlined,
+                        color: AppColours.appColor,
+                        size: height * 0.2,
+                      ),
+                    ),
+                  ),
+                )
               ),
-            ),
+
             SizedBox(height: height * 0.05),
             // Name and Verification
             Row(

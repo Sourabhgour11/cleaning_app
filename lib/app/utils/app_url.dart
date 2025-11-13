@@ -31,5 +31,6 @@ class AppUrl {
   static const String getContent = '$baseUrl/get_content';
   static String getSubCatByCatId(int categoryId) => '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
   static const String editProfile = '$baseUrl/edit_profile';
+  static String getUserBookingApi(String userId) => '$baseUrl/get_wallet?user_id=$userId';
 
 }

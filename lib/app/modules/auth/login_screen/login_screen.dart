@@ -1,3 +1,5 @@
+import 'package:cleaning_app/app/utils/custom_textformfield.dart';
+
 import '../../../utils/app_export.dart';
 import 'login_screen_controller.dart';
 
@@ -198,43 +200,14 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: controller.emailController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your email address',
-                                hintStyle: TextStyle(color: AppColours.grey),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 18,
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: AppColours.grey,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
+
+                          CustomTextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            hintText: "Enter your email address",
+                            controller: controller.emailController,
+                            prefixIcon: Icons.email,
                           ),
+
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
 
                           // Password Field
@@ -256,57 +229,19 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: AppStyle.heightPercent(context, 2)),
-                          Container(
-                            width: AppStyle.widthPercent(context, 90),
-                            decoration: BoxDecoration(
-                              color: AppColours.white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: AppColours.grey.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColours.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: Obx(
-                              () => TextField(
-                                controller: controller.passwordController,
-                                obscureText: controller.isPasswordVisible.value,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your password',
-                                  hintStyle: TextStyle(color: AppColours.grey),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 18,
-                                  ),
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: AppColours.grey,
-                                    size: 20,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      controller.togglePasswordVisibility(
-                                        controller.passwordController,
-                                      );
-                                    },
-                                    icon: Icon(
-                                      controller.isPasswordVisible.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: AppColours.grey,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
+
+                          Obx(
+                                () =>  CustomTextFormField(
+                              hintText: "Enter your password",
+                              controller: controller.passwordController,
+                              obscureText: controller.isPasswordVisible.value,
+                              prefixIcon: Icons.lock,
+                              suffixIcon: controller.isPasswordVisible.value
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              onSuffixTap: () {
+                                controller.togglePasswordVisibility(controller.passwordController);// 👈 toggle visibility
+                              },
                             ),
                           ),
 

@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'map_controller.dart';
 
 class PlaceSearchWidget extends StatelessWidget {
+  final controller;
   final MapController mapController = Get.put(MapController());
-  final SignUpScreenController signUpScreenController = Get.put(SignUpScreenController());
 
-  PlaceSearchWidget({super.key});
+  PlaceSearchWidget({super.key,required this.controller,});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class PlaceSearchWidget extends StatelessWidget {
             ],
           ),
           child: TextField(
-            controller: signUpScreenController.addressController,
+            controller: controller.addressController,
             decoration: InputDecoration(
               hintText: 'Address',
               hintStyle: TextStyle(color: AppColours.grey, fontFamily: AppFonts.fontFamily),
@@ -47,7 +47,7 @@ class PlaceSearchWidget extends StatelessWidget {
               focusedErrorBorder: InputBorder.none, // Add this
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 20,
-                vertical: 18,
+                vertical: 10,
               ),
               suffixIcon: Obx(() {
                 if (mapController.searchQuery.isNotEmpty) {
@@ -56,7 +56,7 @@ class PlaceSearchWidget extends StatelessWidget {
                     onPressed: () {
                       Get.find<SignUpScreenController>().addressController.clear();
                       mapController.clearSearch();
-                      signUpScreenController.addressController.clear();
+                      controller.addressController.clear();
                     },
                   );
                 }
@@ -119,7 +119,7 @@ class PlaceSearchWidget extends StatelessWidget {
                   mapController.getPlaceDetails(prediction.placeId).then((_) {
                     // This code runs after getPlaceDetails completes
                     if (mapController.selectedPlace.value != null) {
-                       signUpScreenController.addressController.text = mapController.selectedPlace.value!.address;
+                       controller.addressController.text = mapController.selectedPlace.value!.address;
                     }
                   });
                   // Hide keyboard immediately

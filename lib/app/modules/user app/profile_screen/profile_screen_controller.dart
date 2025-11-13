@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cleaning_app/app/data/models/get_content_model.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen_controller.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_controller.dart';
 import 'package:cleaning_app/app/rotes/app_routes.dart';
+import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:get/get.dart';
@@ -17,63 +19,23 @@ class ProfileController extends GetxController {
   RxBool isLoading = false.obs;
   var htmlContent = ''.obs;
   dynamic userData;
-  // var userName
+  RxString userImageUrl = ''.obs; // API image URL
+
+  RxString userImage = (AppConstants.userImage ?? "").obs;
 
 
-  final Rx<GetContentModel?> getContentModel = Rx<GetContentModel?>(null);
+  // final Rx<GetContentModel?> getContentModel = Rx<GetContentModel?>(null);
 
   @override
   void onInit() {
     super.onInit();
     getContentApi();
+    updated();
   }
 
-  // Future<void> getContentApi() async {
-  //   isLoading.value = true;
-  //
-  //   try {
-  //     final userId = AppLocalStorage.getUserId();
-  //     final token = AppLocalStorage.getToken();
-  //     // TODO: Replace with actual wallet API endpoint when available
-  //     // For now, using sample data structure
-  //     final url = Uri.parse(AppUrl.getContent);
-  //
-  //     final headers = {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': 'Bearer ${token ?? ""}',
-  //     };
-  //
-  //     final response = await http.get(url, headers: headers);
-  //
-  //     print("📡 Wallet API URL: $url");
-  //     print("📩 Status Code: ${response.statusCode}");
-  //     print("📨 Response: ${response.body}");
-  //
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //       print("Get Content Data: $data");
-  //
-  //       if (data['status'] == true || data['success'] == true) {
-  //         final responseBody = jsonDecode(response.body);
-  //         getContentModel.value = GetContentModel.fromJson(responseBody);
-  //
-  //       } else {
-  //         // If API fails, use sample data for development
-  //         Get.snackbar('Info', 'Using sample wallet data. ${data['message'] ?? 'API not configured'}');
-  //       }
-  //     } else {
-  //       // If API fails, use sample data for development
-  //       Get.snackbar('Info', 'Using sample wallet data. API returned: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print("Wallet API Error: ${e.toString()}");
-  //     // If API fails, use sample data for development
-  //     Get.snackbar('Info', 'Using sample wallet data. Error: ${e.toString()}');
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+  void updated(){
+    update();
+  }
 
   Future<void> getContentApi() async {
     try {
