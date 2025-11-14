@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cleaning_app/app/data/models/get_subcategory_by_categoryId_model.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
@@ -7,8 +6,10 @@ import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:http/http.dart' as http;
 
 class SubCategoriesScreenController extends GetxController {
+
   RxString appBarTitle = ''.obs;
   int? categoryId;
+  int? subCatId;
   RxBool isLoading = false.obs;
 
   @override
@@ -16,7 +17,6 @@ class SubCategoriesScreenController extends GetxController {
     super.onInit();
     if (Get.arguments != null) {
       final args = Get.arguments as Map<String, dynamic>;
-      // appBarTitle.value = Get.arguments.toString();
       appBarTitle.value = args['title'];
       categoryId = args['categoryId'];
     }
@@ -24,28 +24,6 @@ class SubCategoriesScreenController extends GetxController {
   }
 
   final Rx<GetSubCategoryByCategoryIdModel?> getSubCatModel = Rx<GetSubCategoryByCategoryIdModel?>(null);
-
-  final List<Map<String, dynamic>> generalCleaning = [
-    {'name': 'Home Cleaning', 'image': "lib/assets/images/home_cleaning.jpg"},
-    {
-      'name': 'Furniture Cleaning',
-      'image': "lib/assets/images/furniture_cleaning.png",
-    },
-    {
-      'name': 'Home Deep Cleaning',
-      'image': "lib/assets/images/home_deep_cleaning.webp",
-    },
-    {
-      'name': 'Kitchen & Bathroom Deep Cleaning',
-      'image': "lib/assets/images/kitchen_bathroom_cleaning.webp",
-    },
-    {
-      'name': 'Laundry & Deep Cleaning',
-      'image': "lib/assets/images/laundry_drycleaning.png",
-    },
-    {'name': 'AC Cleaning', 'image': "lib/assets/images/ac_cleaning.webp"},
-    {'name': 'Car Wash', 'image': "lib/assets/images/car_wash.webp"},
-  ];
 
   Future<void> getSubCatIdApi() async {
     isLoading.value = true;
@@ -83,8 +61,8 @@ class SubCategoriesScreenController extends GetxController {
         Get.snackbar('Error', 'Server error: ${response.statusCode}');
       }
     } catch (e) {
-      print(e.toString());
-      Get.snackbar('Error', 'Exception: $e');
+      // print(e.toString());
+      // Get.snackbar('Error', 'Exception: $e');
     } finally {
       isLoading.value = false;
     }

@@ -14,6 +14,8 @@ import 'package:cleaning_app/app/modules/user%20app/change_password_screen/chang
 import 'package:cleaning_app/app/modules/user%20app/change_password_screen/change_password_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/edit_profile_screen/edit_profile_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/edit_profile_screen/edit_profile_screen_binding.dart';
+import 'package:cleaning_app/app/modules/user%20app/service_detail_screen/service_details_screen.dart';
+import 'package:cleaning_app/app/modules/user%20app/service_detail_screen/service_details_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_subCategory_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_subCategory_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/transaction_history_screen/transaction_history_screen.dart';
@@ -175,6 +177,11 @@ class AppPages {
       name: AppRoutes.subSubCategoryScreen,
       page: () => SubSubCategoryScreen(),
       binding: SubSubCategoryBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.serviceDetailsScreen,
+      page: () => ServiceDetailsScreen(),
+      binding: ServiceDetailsScreenBinding(),
     ),
   ];
 }

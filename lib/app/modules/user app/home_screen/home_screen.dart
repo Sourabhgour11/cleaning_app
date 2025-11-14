@@ -308,53 +308,53 @@ class HomeScreen extends StatelessWidget {
                             }
 
                             return SizedBox(
-                              height: 100, // enough height for icons + text
+                              height: 100,
                               child: ListView.separated(
                                 padding: const EdgeInsets.only(right: 13),
                                 scrollDirection: Axis.horizontal,
                                 itemCount: categoryList.length,
-                                separatorBuilder: (_, __) =>
-                                const SizedBox(width: 16),
+                                separatorBuilder: (_, __) => const SizedBox(width: 16),
                                 itemBuilder: (context, index) {
 
                                   final item = categoryList[index];
 
                                   return GestureDetector(
                                     onTap: () {
-                                      final selectedId = categoryList[index].categoryId;
-                                      print("${categoryList[index].categoryId}330");
-                                      controller.appBarTitle.value =
-                                          item.name ?? "";
+                                      print("is workingggggggggggggggggggggg");
+
+                                      final categoryId = item.categoryId;
+
+                                      // final subcategoryData = homeData!.data!.first.,
+
+                                      controller.appBarTitle.value = item.name ?? "";
+
                                       Get.toNamed(
                                         AppRoutes.subCategory,
                                         arguments: {
                                           "title": controller.appBarTitle.value,
-                                          "categoryId": selectedId,
+                                          "categoryId": categoryId,
                                         },
                                       );
                                     },
+
                                     child: SizedBox(
                                       width: 70,
-                                      // slightly wider for better proportion
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          // Circular icon container
+
+                                          // ICON CIRCLE
+
                                           Container(
-                                            width: AppStyle.widthPercent(
-                                                context, 14),
-                                            height: AppStyle.widthPercent(
-                                                context, 14),
+                                            width: AppStyle.widthPercent(context, 14),
+                                            height: AppStyle.widthPercent(context, 14),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               shape: BoxShape.circle,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
+                                                  color: Colors.grey.withOpacity(0.2),
                                                   blurRadius: 5,
                                                   offset: const Offset(0, 2),
                                                 ),
@@ -362,32 +362,25 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                             child: ClipOval(
                                               child: CachedNetworkImage(
-                                                imageUrl: AppUrl.imageUrl +
-                                                    (item.image ?? ''),
+                                                imageUrl: AppUrl.imageUrl + (item.image ?? ''),
                                                 fit: BoxFit.cover,
-                                                placeholder: (context, url) =>
-                                                    Container(
-                                                      color: Colors.grey[300],
-                                                      child: const Center(
-                                                        child: CircularProgressIndicator(
-                                                            strokeWidth: 2),
-                                                      ),
-                                                    ),
-                                                errorWidget: (context, url,
-                                                    error) =>
-                                                    Container(
-                                                      color: Colors.grey[200],
-                                                      child: const Icon(Icons
-                                                          .image_not_supported,
-                                                          color: Colors.grey),
-                                                    ),
+                                                placeholder: (context, url) => Container(
+                                                  color: Colors.grey[300],
+                                                  child: const Center(
+                                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url, error) => Container(
+                                                  color: Colors.grey[200],
+                                                  child: const Icon(Icons.image_not_supported, color: Colors.grey),
+                                                ),
                                               ),
                                             ),
                                           ),
 
                                           const SizedBox(height: 6),
 
-                                          // Category name text
+                                          // CATEGORY NAME
                                           Text(
                                             item.name ?? "",
                                             textAlign: TextAlign.center,
@@ -408,6 +401,8 @@ class HomeScreen extends StatelessWidget {
                                 },
                               ),
                             );
+
+
                           }),
                           SizedBox(height: 10),
                           Text(
@@ -418,25 +413,36 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
 
-                          // SizedBox(height: AppStyle.heightPercent(context, 1)),
                           Obx(() {
+                            final categories = controller.homeDetailsModel.value?.data?.first.subCategoryArr ?? [];
+
                             return Column(
-                              children: controller.homeDetailsModel.value?.data
-                                  ?.first.subCategoryArr
-                                  ?.map((category) {
-                                final List<dynamic> subList = category.subcategories ?? [];
+                              children: categories.map((category) {
+                                final subList = category.subcategories ?? [];
+
                                 if (subList.isEmpty) return const SizedBox.shrink();
-                                return simpleSalonGrid(
+
+                                return homeScreenGrid(
                                   category.categoryName ?? "Category",
                                   subList,
                                   controller,
                                   context,
+                                  // Add a callback for subcategory tap
+                                  onSubCategoryTap: (int index) {
+                                    final subCategory = subList[index];
+                                    final subCategoryId = subCategory.subCategoryId;
+                                    final name = subCategory.name;
+                                    final categoryId = category.categoryId;
+                                    Get.toNamed(AppRoutes.subSubCategoryScreen,arguments: {
+                                      "catId" : categoryId,
+                                      "subCatId" : subCategoryId,
+                                      "name" : name,
+                                    });
+                                  },
                                 );
-                              }).toList() ??
-                                  [],
+                              }).toList(),
                             );
                           }),
-
 
                           SizedBox(height: AppStyle.heightPercent(context, 14)),
                         ],
@@ -455,12 +461,15 @@ class HomeScreen extends StatelessWidget {
 }
 
 // Simple version without colors
-Widget simpleSalonGrid(
+Widget homeScreenGrid(
     String titleName,
     List<dynamic> itemList,
     HomeScreenController controller,
     BuildContext context,
-    ) {
+{
+required Function(int) onSubCategoryTap,
+})
+    {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -514,9 +523,7 @@ Widget simpleSalonGrid(
               final name = item.name ?? 'Unnamed';
               return InkWell(
                 onTap: () {
-                  // controller.appBarTitle.value = name;
-                  // Get.toNamed(AppRoutes.subCategory, arguments: item);
-                  Get.toNamed(AppRoutes.subSubCategoryScreen);
+                  onSubCategoryTap(index);
                 },
                 child: Container(
                   width: AppStyle.widthPercent(context, 20),

@@ -109,7 +109,7 @@ class EditProfileScreenController extends GetxController {
       request.fields.addAll({
         'user_id': userId ?? "",
         'name': name,
-        'email': AppConstants.userEmail ?? "",
+        'email': emailController.text,
         'phone_code': '+${AppConstants.phoneCode ?? 91}',
         'mobile': phoneController.text,
         'address': address,
@@ -135,10 +135,8 @@ class EditProfileScreenController extends GetxController {
       // ✅ Handle response
       final responseBody = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        print("object");
         var data =jsonDecode(responseBody);
-        print("Data : $data");
-        if(data['success']=="true"||data['success']==true){
+        if(data['success']=="true" || data['success']==true){
           // Extract and save user data
           String? userId;
           var token;

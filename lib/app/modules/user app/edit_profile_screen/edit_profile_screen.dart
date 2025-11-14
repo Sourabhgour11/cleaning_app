@@ -4,22 +4,19 @@ import 'package:cleaning_app/app/utils/app_constants.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:cleaning_app/app/utils/custom_textformfield.dart';
 import 'package:cleaning_app/app/utils/place_search_widget.dart';
+import 'package:flutter/services.dart';
 import '../../../utils/app_export.dart';
 import 'edit_profile_screen_controller.dart';
 
-class EditProfileScreen extends GetView<EditProfileScreenController> {
-  const EditProfileScreen({super.key});
+class EditProfileScreen extends StatelessWidget {
+  EditProfileScreen({super.key});
+
+  EditProfileScreenController controller = Get.put(EditProfileScreenController());
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -96,19 +93,14 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                 child: ClipOval(
                   child: CachedNetworkImage(
                     imageUrl: AppUrl.imageUrl + apiImage,
-                    width: 120, // double the radius
+                    width: 120,
+                    // double the radius
                     height: 120,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Icon(
-                      Icons.person,
-                      color: Colors.grey[400],
-                      size: 70,
-                    ),
-                    errorWidget: (context, url, error) => Icon(
-                      Icons.person,
-                      color: Colors.grey[400],
-                      size: 70,
-                    ),
+                    placeholder: (context, url) =>
+                        Icon(Icons.person, color: Colors.grey[400], size: 70),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.person, color: Colors.grey[400], size: 70),
                   ),
                 ),
               );
@@ -155,7 +147,6 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
     );
   }
 
-
   Widget _buildNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +164,11 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
         ),
         const SizedBox(height: 5),
 
-        CustomTextFormField(hintText: "Enter your name", controller: controller.nameController,prefixIcon: Icons.person,)
+        CustomTextFormField(
+          hintText: "Enter your name",
+          controller: controller.nameController,
+          prefixIcon: Icons.person,
+        ),
       ],
     );
   }
@@ -195,7 +190,12 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
         ),
         const SizedBox(height: 5),
 
-        CustomTextFormField(hintText: "Enter your email", controller: controller.emailController,prefixIcon: Icons.email,)
+        CustomTextFormField(
+          hintText: "Enter your email",
+          controller: controller.emailController,
+          prefixIcon: Icons.email,
+          readOnly: true,
+        ),
       ],
     );
   }
@@ -217,7 +217,21 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
         ),
         const SizedBox(height: 5),
 
-        CustomTextFormField(hintText: "Phone number", controller: controller.phoneController,prefixIcon: Icons.phone,)
+        CustomTextFormField(
+          hintText: "Phone Number",
+          controller: controller.phoneController,
+          prefixIcon: Icons.phone,
+
+          // numeric keyboard
+          keyboardType: TextInputType.number,
+
+          // limit to 10 digits only
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+          ],
+        )
+
       ],
     );
   }
@@ -255,7 +269,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
               ),
             ],
           ),
-          child: PlaceSearchWidget(controller: controller,),
+          child: PlaceSearchWidget(controller: controller),
         ),
       ],
     );
@@ -266,25 +280,27 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
       width: AppStyle.widthPercent(context, 90),
       child: Center(
         child:
-        // Obx(
-        // () => controller.isLoading.value
-        //     ? const CircularProgressIndicator(
-        //         valueColor: AlwaysStoppedAnimation<Color>(
-        //           AppColours.appColor,
-        //         ),
-        //       )
-        //     :
-        AppButton(
-          onPressed: () {
-            print(("${AppUrl.imageUrl} + ${AppConstants.userImage}"));
-            controller.editProfileApi(name: controller.nameController.text,
-                email: controller.emailController.text,
-                phone: controller.phoneController.text,
-                address: controller.addressController.text);
-          },
-          title: 'Update Profile',
-          icon: Icons.check_circle,
-        ),
+            // Obx(
+            // () => controller.isLoading.value
+            //     ? const CircularProgressIndicator(
+            //         valueColor: AlwaysStoppedAnimation<Color>(
+            //           AppColours.appColor,
+            //         ),
+            //       )
+            //     :
+            AppButton(
+              onPressed: () {
+                print(("${AppUrl.imageUrl} + ${AppConstants.userImage}"));
+                controller.editProfileApi(
+                  name: controller.nameController.text,
+                  email: controller.emailController.text,
+                  phone: controller.phoneController.text,
+                  address: controller.addressController.text,
+                );
+              },
+              title: 'Update Profile',
+              icon: Icons.check_circle,
+            ),
       ),
     );
   }

@@ -1,15 +1,11 @@
-class GetSubCategoryByCategoryIdModel {
+class GetSubSubCategoryModel {
   bool? success;
   List<String>? msg;
-  List<CategoryArr>? categoryArr;
+  List<CategoryArray>? categoryArray;
 
-  GetSubCategoryByCategoryIdModel({
-    this.success,
-    this.msg,
-    this.categoryArr,
-  });
+  GetSubSubCategoryModel({this.success, this.msg, this.categoryArray});
 
-  GetSubCategoryByCategoryIdModel.fromJson(Map<String, dynamic> json) {
+  GetSubSubCategoryModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
 
     // Handle msg (can be String or List)
@@ -21,14 +17,13 @@ class GetSubCategoryByCategoryIdModel {
       msg = [];
     }
 
-    // Handle category_arr (can be List or String or null)
+    // Handle category_arr safely
     if (json['category_arr'] is List) {
-      categoryArr = (json['category_arr'] as List)
-          .map((v) => CategoryArr.fromJson(v))
+      categoryArray = (json['category_arr'] as List)
+          .map((v) => CategoryArray.fromJson(v))
           .toList();
     } else {
-      // When category_arr is not a list (e.g., "No data found")
-      categoryArr = [];
+      categoryArray = [];
     }
   }
 
@@ -36,25 +31,27 @@ class GetSubCategoryByCategoryIdModel {
     final Map<String, dynamic> data = {};
     data['success'] = success;
     data['msg'] = msg;
-    if (categoryArr != null) {
-      data['category_arr'] = categoryArr!.map((v) => v.toJson()).toList();
+    if (categoryArray != null) {
+      data['category_arr'] = categoryArray!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class CategoryArr {
+class CategoryArray {
   int? subCategoryId;
+  int? catSubCatId;
   int? categoryId;
   String? name;
   String? image;
-  double? amount;
+  int? amount;
   String? description;
   bool? status;
   String? createtime;
 
-  CategoryArr({
+  CategoryArray({
     this.subCategoryId,
+    this.catSubCatId,
     this.categoryId,
     this.name,
     this.image,
@@ -64,34 +61,22 @@ class CategoryArr {
     this.createtime,
   });
 
-  CategoryArr.fromJson(Map<String, dynamic> json) {
-    subCategoryId = json['cat_sub_cat_id'];
+  CategoryArray.fromJson(Map<String, dynamic> json) {
+    subCategoryId = json['sub_category_id'];
+    catSubCatId = json['cat_sub_cat_id'];
     categoryId = json['category_id'];
     name = json['name'];
     image = json['image'];
-
-    // Handle amount (int, double, string)
-    final amountValue = json['amount'];
-    if (amountValue is int) {
-      amount = amountValue.toDouble();
-    } else if (amountValue is double) {
-      amount = amountValue;
-    } else if (amountValue is String) {
-      amount = double.tryParse(amountValue) ?? 0.0;
-    } else {
-      amount = 0.0;
-    }
-
+    amount = json['amount'];
     description = json['description'];
-    status = json['status'] is bool
-        ? json['status']
-        : json['status'] == 1 || json['status'] == '1';
+    status = json['status'];
     createtime = json['createtime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['cat_sub_cat_id'] = subCategoryId;
+    data['sub_category_id'] = subCategoryId;
+    data['cat_sub_cat_id'] = catSubCatId;
     data['category_id'] = categoryId;
     data['name'] = name;
     data['image'] = image;

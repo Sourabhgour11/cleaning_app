@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'app_colours.dart';
 import 'app_fonts.dart';
 import 'app_style.dart';
@@ -27,6 +28,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool isPassword;
   final bool isConfirmPassword;
   final VoidCallback? onSuffixTap;
+  final List<TextInputFormatter>? inputFormatters;
+
 
   const CustomTextFormField({
     super.key,
@@ -53,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isConfirmPassword = false,
     this.confirmWithController,
     this.onSuffixTap,
+    this.inputFormatters,
   });
 
   @override
@@ -71,6 +75,7 @@ class CustomTextFormField extends StatelessWidget {
 
       ),
       child: TextFormField(
+        inputFormatters: inputFormatters,
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,

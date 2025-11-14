@@ -1,3 +1,4 @@
+import 'package:cleaning_app/app/utils/app_export.dart';
 
 class AppUrl {
 
@@ -19,9 +20,11 @@ class AppUrl {
   //SOURABH
   static const String changePassword = '$baseUrl/change_password';
 
-  static String homeDetailsApi(String userId) => '$baseUrl/get_home_page_api?user_id=$userId';
+  static String homeDetailsApi(String userId) =>
+      '$baseUrl/get_home_page_api?user_id=$userId';
 
- static String walletDetailsApi(String userId) => '$baseUrl/get_wallet?user_id=$userId';
+  static String walletDetailsApi(String userId) =>
+      '$baseUrl/get_wallet?user_id=$userId';
 
   static const String contactUs = '$baseUrl/contact_us';
   static const String deleteAccount = '$baseUrl/delete_account';
@@ -29,8 +32,15 @@ class AppUrl {
   static const String deleteSingleNotification = '$baseUrl/delete_single_notification';
   static const String deleteAllNotification = '$baseUrl/delete_all_notification';
   static const String getContent = '$baseUrl/get_content';
-  static String getSubCatByCatId(int categoryId) => '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
+
+  static String getSubCatByCatId(int categoryId) =>
+      '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
   static const String editProfile = '$baseUrl/edit_profile';
-  static String getUserBookingApi(String userId) => '$baseUrl/get_wallet?user_id=$userId';
+
+  static String getUserBookingApi(String userId) =>
+      '$baseUrl/get_wallet?user_id=$userId';
+
+  static String getSubSubCategoryApi(int catSubCatId, int categoryId) =>
+      '$baseUrl/get_service_by_subcategory?cat_sub_cat_id=${catSubCatId}&category_id=${categoryId}';
 
 }

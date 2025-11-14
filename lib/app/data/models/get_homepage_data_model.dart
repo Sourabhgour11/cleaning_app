@@ -237,7 +237,7 @@ class SubCategory {
 
   factory SubCategory.fromJson(Map<String, dynamic> json) {
     return SubCategory(
-      subCategoryId: _parseInt(json['sub_category_id']),
+      subCategoryId: _parseInt(json['cat_sub_cat_id']),
       name: _parseString(json['name']),
       image: _parseString(json['image']),
       amount: _parseDouble(json['amount']),
@@ -247,7 +247,7 @@ class SubCategory {
 
   Map<String, dynamic> toJson() {
     return {
-      'sub_category_id': subCategoryId,
+      'cat_sub_cat_id': subCategoryId,
       'name': name,
       'image': image,
       'amount': amount,

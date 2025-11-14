@@ -79,7 +79,15 @@ class SubCategoriesScreen extends StatelessWidget {
                           final item = categoryArr[index];
 
                           return GestureDetector(
-                            onTap: () => controller.showServicePopup(index),
+                            onTap: () {
+                              final subCatIdd = controller.getSubCatModel.value?.categoryArr?[index].subCategoryId;
+                              final name = controller.getSubCatModel.value?.categoryArr?[index].name;
+                              Get.toNamed(AppRoutes.subSubCategoryScreen,arguments: {
+                                "catId" : controller.categoryId,
+                                "subCatId" : subCatIdd,
+                                "name" : name,
+                              });
+                            },
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: Stack(

@@ -1,29 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_subCategory_screen_controller.dart';
+import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_fonts.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
+import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
-  const SubSubCategoryScreen({super.key});
+class SubSubCategoryScreen extends StatelessWidget {
+  SubSubCategoryScreen({super.key});
+
+  final SubSubCategoryController controller = Get.put(
+    SubSubCategoryController(),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: AppColours.appColor,
-        title: const Text(
-          "Deep Cleaning Services",
-          style: TextStyle(
-            fontFamily: AppFonts.fontFamily,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppStyle.appBarStyle("${controller.appBarName.value}"),
+
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
@@ -31,7 +28,10 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
           );
         }
 
-        if (controller.subSubCategories.isEmpty) {
+        final categoryArr =
+            controller.subSubCategoryData.value?.categoryArray ?? [];
+
+        if (categoryArr.isEmpty) {
           return const Center(
             child: Text(
               "No services available",
@@ -52,11 +52,14 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
             mainAxisSpacing: 14,
             childAspectRatio: 3 / 4,
           ),
-          itemCount: controller.subSubCategories.length,
+          itemCount: controller.subSubCategoryData.value?.categoryArray?.length,
           itemBuilder: (context, index) {
-            final item = controller.subSubCategories[index];
+            final item =
+                controller.subSubCategoryData.value?.categoryArray?[index];
             return GestureDetector(
-              onTap: () => _showServiceBottomSheet(context, item),
+              onTap: () {
+                Get.toNamed(AppRoutes.serviceDetailsScreen, arguments: item);
+              },
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -71,7 +74,7 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
                           top: Radius.circular(14),
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: item.image,
+                          imageUrl: "${AppUrl.imageUrl}${item?.image}",
                           fit: BoxFit.cover,
                           width: double.infinity,
                           placeholder: (context, url) => Container(
@@ -80,8 +83,10 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                           ),
-                          errorWidget: (context, url, error) =>
-                          const Icon(Icons.broken_image, color: Colors.grey),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.broken_image,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
@@ -91,7 +96,7 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item.name,
+                            item?.name ?? "",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -102,7 +107,7 @@ class SubSubCategoryScreen extends GetView<SubSubCategoryController> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            controller.getFormattedPrice(item.price),
+                            controller.getFormattedPrice(item?.amount ?? 0),
                             style: const TextStyle(
                               color: AppColours.appColor,
                               fontWeight: FontWeight.w600,

@@ -9,7 +9,7 @@ import 'sign_up_screen_controller.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
-  final controller = Get.put(SignUpScreenController());
+  SignUpScreenController controller = Get.put(SignUpScreenController());
   final MapController mapController = Get.put(MapController());
 
   @override

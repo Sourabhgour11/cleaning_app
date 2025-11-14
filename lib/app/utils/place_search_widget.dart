@@ -54,7 +54,7 @@ class PlaceSearchWidget extends StatelessWidget {
                   return IconButton(
                     icon: const Icon(Icons.clear, color: AppColours.grey),
                     onPressed: () {
-                      Get.find<SignUpScreenController>().addressController.clear();
+                      // Get.find<SignUpScreenController>().addressController.clear();
                       mapController.clearSearch();
                       controller.addressController.clear();
                     },

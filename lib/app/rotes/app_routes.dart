@@ -30,6 +30,7 @@ class AppRoutes {
   static const contactUs = '/contactUs';
   static const transactionsHistoryScreen = '/transactionsHistoryScreen';
   static const subSubCategoryScreen = '/subSubCategoryScreen';
+  static const serviceDetailsScreen = '/serviceDetailsScreen';
 
 
 }
