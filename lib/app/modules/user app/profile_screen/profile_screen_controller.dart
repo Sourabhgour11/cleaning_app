@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen_controller.dart';
+import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step3/book_service_step3_screen_controller.dart';
 import 'package:cleaning_app/app/modules/user%20app/bottom_nav_screen/bottom_nav_screen_controller.dart';
 import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_constants.dart';
@@ -169,7 +169,7 @@ class ProfileController extends GetxController {
         Get.toNamed(AppRoutes.favourite);
         break;
       case 'payment_methods':
-        Get.delete<BookServiceStep4ScreenController>();
+        Get.delete<BookServiceStep3ScreenController>();
         Get.toNamed(AppRoutes.bookServiceStep4, arguments: appBarTitle);
         break;
       // case 'help':

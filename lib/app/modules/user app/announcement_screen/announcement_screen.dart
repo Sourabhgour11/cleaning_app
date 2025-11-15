@@ -94,7 +94,7 @@ class AnnouncementScreen extends StatelessWidget {
                           SizedBox(height: AppStyle.heightPercent(context, 0.5)),
                           Obx(
                                 () => Text(
-                              '${controller.unreadCount} unread announcements',
+                              '${controller.notificationData.value?.notificationArr?.length} unread announcements',
                               overflow: TextOverflow.ellipsis, // ✅ Prevents overflow
                               style: TextStyle(
                                 fontSize: subtitleFontSize,

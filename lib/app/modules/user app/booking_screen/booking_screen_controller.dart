@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cleaning_app/app/data/models/get_user_booking_model.dart';
 import 'package:cleaning_app/app/utils/app_export.dart';
 import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
@@ -14,6 +15,9 @@ class UserBookingScreenController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+
+    getUserBookingsApi();
+
     // Example data
     upcomingBookings.addAll([
       {
@@ -36,6 +40,8 @@ class UserBookingScreenController extends GetxController{
       },
     ]);
   }
+
+  final Rx<GetUserBookingModel?> getUserBookingData = Rx<GetUserBookingModel?>(null);
 
 
   Future<void> getUserBookingsApi() async {
@@ -65,9 +71,9 @@ class UserBookingScreenController extends GetxController{
         if (data['status'] == true || data['success'] == true) {
 
           final responseBody = jsonDecode(response.body);
-          // final GetHomeScreenDataModel responseModel = GetHomeScreenDataModel.fromJson(responseBody);
+          final GetUserBookingModel responseModel = GetUserBookingModel.fromJson(responseBody);
           //
-          // homeDetailsModel.value = responseModel;
+          getUserBookingData.value = responseModel;
 
           print("message is here${data['data']}");
 

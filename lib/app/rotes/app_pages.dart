@@ -4,8 +4,6 @@ import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_ser
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step2/book_service_step2_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step3/book_service_step3_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step3/book_service_step3_screen_binding.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen.dart';
-import 'package:cleaning_app/app/modules/user%20app/book_service_screen/book_service_step4/book_service_step4_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/booking_details_screen/booking_details_screen.dart';
 import 'package:cleaning_app/app/modules/user%20app/booking_details_screen/booking_details_screen_binding.dart';
 import 'package:cleaning_app/app/modules/user%20app/booking_screen/booking_screen.dart';
@@ -121,12 +119,6 @@ class AppPages {
       page: () => BookServiceStep3Screen(),
       binding: BookServiceStep3ScreenBinding(),
     ),
-    GetPage(
-      name: AppRoutes.bookServiceStep4,
-      page: () => BookServiceStep4Screen(),
-      binding: BookServiceStep4ScreenBinding(),
-    ),
-
 
     GetPage(
       name: AppRoutes.userBottomNav,

@@ -1,50 +1,53 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
 
-class Professional {
+class PaymentMethod {
   final String id;
   final String name;
-  final String image;
-  final double rating;
-  final String description;
-  final bool isAutoAssign;
+  final String icon;
+  final List<String> supportedCards;
 
-  Professional({
+  PaymentMethod({
     required this.id,
     required this.name,
-    required this.image,
-    required this.rating,
-    required this.description,
-    this.isAutoAssign = false,
+    required this.icon,
+    required this.supportedCards,
   });
 }
 
-class TimeSlot {
-  final String id;
-  final String timeRange;
-  final bool isAvailable;
+class PaymentSummary {
+  final double subtotal;
+  final double serviceFee;
+  final double vat;
+  final double total;
 
-  TimeSlot({
-    required this.id,
-    required this.timeRange,
-    this.isAvailable = true,
+  PaymentSummary({
+    required this.subtotal,
+    required this.serviceFee,
+    required this.vat,
+    required this.total,
   });
 }
 
 class BookServiceStep3ScreenController extends GetxController {
+  // Selected payment method
+  final RxString selectedPaymentMethodId = 'credit_card'.obs;
 
-  // Selected professional
-  final RxString selectedProfessionalId = 'auto'.obs;
-  
-  // Selected date
-  final RxString selectedDate = ''.obs;
-  
-  // Selected time slot
-  final RxString selectedTimeSlotId = ''.obs;
-  
-  // Base service price (this would come from previous step)
-  final RxDouble baseServicePrice = 209.0.obs;
+  // Card details
+  final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController expiryDateController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+  final TextEditingController voucherCodeController = TextEditingController();
 
-  final TextEditingController instructionsController = TextEditingController();
+  // Payment summary
+  final Rx<PaymentSummary> paymentSummary = PaymentSummary(
+    subtotal: 209.0,
+    serviceFee: 9.0,
+    vat: 0.0,
+    total: 218.0,
+  ).obs;
+
+  // Verification amount
+  final RxDouble verificationAmount = 3.67.obs;
 
   var appBarTitle = "".obs;
 
@@ -52,192 +55,211 @@ class BookServiceStep3ScreenController extends GetxController {
   void onInit() {
     super.onInit();
     appBarTitle.value = Get.arguments.toString();
-    _initializeDates();
   }
 
-  // Professionals data
-  // final List<Professional> professionals = [
-  //   Professional(
-  //     id: 'auto',
-  //     name: 'justlife',
-  //     image: '',
-  //     rating: 0.0,
-  //     description: "We'll assign the best professional.",
-  //     isAutoAssign: true,
-  //   ),
-  //   Professional(
-  //     id: 'honeey',
-  //     name: 'Honeey Lyn',
-  //     image: 'lib/assets/images/woman_salon.webp',
-  //     rating: 5.0,
-  //     description: 'Recommended in your area.',
-  //   ),
-  //   Professional(
-  //     id: 'mariel',
-  //     name: 'Mariel',
-  //     image: 'lib/assets/images/mans_salon.jpg',
-  //     rating: 4.9,
-  //     description: 'Recommended in your area.',
-  //   ),
-  // ];
+  @override
+  void onClose() {
+    cardNumberController.dispose();
+    expiryDateController.dispose();
+    cvvController.dispose();
+    voucherCodeController.dispose();
+    super.onClose();
+  }
 
-  // Available time slots
-  final List<TimeSlot> timeSlots = [
-    TimeSlot(id: '1', timeRange: '11:30-12:00'),
-    TimeSlot(id: '2', timeRange: '12:00-12:30'),
-    TimeSlot(id: '3', timeRange: '12:30-13:00'),
-    TimeSlot(id: '4', timeRange: '13:00-13:30'),
-    TimeSlot(id: '5', timeRange: '13:30-14:00'),
-    TimeSlot(id: '6', timeRange: '14:00-14:30'),
-    TimeSlot(id: '7', timeRange: '14:30-15:00'),
-    TimeSlot(id: '8', timeRange: '15:00-15:30'),
+  // Payment methods data
+  final List<PaymentMethod> paymentMethods = [
+    PaymentMethod(
+      id: 'credit_card',
+      name: 'Credit / Debit Card',
+      icon: 'credit_card',
+      supportedCards: ['amex', 'mastercard', 'visa'],
+    ),
+    PaymentMethod(
+      id: 'apple_pay',
+      name: 'Apple Pay',
+      icon: 'apple_pay',
+      supportedCards: [],
+    ),
+    PaymentMethod(
+      id: 'google_pay',
+      name: 'Google Pay',
+      icon: 'google_pay',
+      supportedCards: [],
+    ),
   ];
 
-  // Date-related variables
-  final RxList<Map<String, dynamic>> availableDates = <Map<String, dynamic>>[].obs;
-  final RxInt selectedDateIndex = 0.obs;
-
-  void _initializeDates() {
-    final now = DateTime.now();
-    final List<Map<String, dynamic>> dates = [];
-    
-    for (int i = 0; i < 7; i++) {
-      final date = now.add(Duration(days: i));
-      final dayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-      
-      dates.add({
-        'dayName': dayNames[date.weekday - 1],
-        'date': date.day,
-        'fullDate': date,
-        'isSelected': i == 0,
-      });
-    }
-    
-    availableDates.value = dates;
-    if (dates.isNotEmpty) {
-      selectedDate.value = '${dates[0]['date']}';
-    }
-  }
-
-  // // Select professional
-  // void selectProfessional(String professionalId) {
-  //   selectedProfessionalId.value = professionalId;
-  //   update();
-  // }
-
-  // Select date
-  void selectDate(int index) {
-    selectedDateIndex.value = index;
-    selectedDate.value = '${availableDates[index]['date']}';
+  // Select payment method
+  void selectPaymentMethod(String paymentMethodId) {
+    selectedPaymentMethodId.value = paymentMethodId;
     update();
   }
 
-  // Select time slot
-  void selectTimeSlot(String timeSlotId) {
-    selectedTimeSlotId.value = timeSlotId;
-    update();
+  // Apply voucher code
+  void applyVoucherCode() {
+    final code = voucherCodeController.text.trim();
+    if (code.isNotEmpty) {
+      // TODO: Validate voucher code with API
+      Get.snackbar('Success', 'Voucher code applied successfully!');
+      // Update payment summary if voucher is valid
+    } else {
+      Get.snackbar('Error', 'Please enter a voucher code');
+    }
   }
 
-  // // Get selected professional
-  // Professional get selectedProfessional {
-  //   return professionals.firstWhere(
-  //     (prof) => prof.id == selectedProfessionalId.value,
-  //     orElse: () => professionals.first,
-  //   );
-  // }
+  // Format card number
+  String formatCardNumber(String value) {
+    // Remove all non-digits
+    String digitsOnly = value.replaceAll(RegExp(r'\D'), '');
 
-  // Get selected time slot
-  TimeSlot get selectedTimeSlot {
-    return timeSlots.firstWhere(
-      (slot) => slot.id == selectedTimeSlotId.value,
-      orElse: () => timeSlots.first,
+    // Add spaces every 4 digits
+    String formatted = '';
+    for (int i = 0; i < digitsOnly.length; i++) {
+      if (i > 0 && i % 4 == 0) {
+        formatted += ' ';
+      }
+      formatted += digitsOnly[i];
+    }
+
+    return formatted;
+  }
+
+  // Format expiry date
+  String formatExpiryDate(String value) {
+    // Remove all non-digits
+    String digitsOnly = value.replaceAll(RegExp(r'\D'), '');
+
+    // Add slash after 2 digits
+    if (digitsOnly.length >= 2) {
+      return '${digitsOnly.substring(0, 2)}/${digitsOnly.substring(2)}';
+    }
+
+    return digitsOnly;
+  }
+
+  // Validate card details
+  bool validateCardDetails() {
+    if (cardNumberController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter card number');
+      return false;
+    }
+
+    if (expiryDateController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter expiry date');
+      return false;
+    }
+
+    if (cvvController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter CVV');
+      return false;
+    }
+
+    return true;
+  }
+
+  // Process payment
+  void processPayment() {
+    if (validateCardDetails()) {
+      // TODO: Process payment with API
+      // Show Lottie success popup
+      // showLottiePopup(context);
+    }
+  }
+
+  // Get selected payment method
+  PaymentMethod get selectedPaymentMethod {
+    return paymentMethods.firstWhere(
+      (method) => method.id == selectedPaymentMethodId.value,
+      orElse: () => paymentMethods.first,
     );
   }
 
-  // Navigate to next step
-  void goToNextStep() {
-    // TODO: Navigate to next step with selected data
-    Get.snackbar('Success', 'Date & Time selected successfully!');
+  // Get card type icon
+  String getCardTypeIcon(String cardNumber) {
+    if (cardNumber.startsWith('4')) {
+      return 'visa';
+    } else if (cardNumber.startsWith('5') || cardNumber.startsWith('2')) {
+      return 'mastercard';
+    } else if (cardNumber.startsWith('3')) {
+      return 'amex';
+    }
+    return 'credit_card';
   }
 
-  RxBool isEdit = false.obs;
-
-  void showAdditionalInstructionsBottomSheet(BuildContext context) {
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 20,
-            // To make sure keyboard doesn’t cover the textfield
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+  void showLottiePopup(BuildContext context) {
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 300, maxHeight: 400),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title
-              const Text(
-                'Additional Instructions',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColours.black,
-                  fontFamily: AppFonts.fontFamily,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Lottie Animation Container
+                Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(75),
+                    color: Colors.grey[50],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(75),
+                    child: Image.asset('lib/assets/icons/checkMark.gif'),
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 20),
 
-              // Text field
-              TextFormField(
-                controller: instructionsController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: 'Type your instructions here...',
-                  hintStyle: const TextStyle(
+                // Success Text
+                const Text(
+                  'Payment Successful!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColours.black,
+                    fontFamily: AppFonts.fontFamily,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 8),
+
+                const Text(
+                  'Your booking has been confirmed',
+                  style: TextStyle(
+                    fontSize: 14,
                     color: Colors.grey,
                     fontFamily: AppFonts.fontFamily,
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: AppColours.appColor),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 24),
+
+                // OK Button
+                SizedBox(
+                  width: double.infinity,
+                  height: AppStyle.heightPercent(context, 6),
+                  child: AppButton(
+                    onPressed: () {
+                      Get.offAllNamed(AppRoutes.userBottomNav);
+                    },
+                    title: "OK",
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Done Button
-              SizedBox(
-                width: double.infinity,
-                height: AppStyle.heightPercent(context, 6),
-                child: AppButton(onPressed: (){
-                  update();
-                  Get.back();
-                }, title: "Done")
-              ),
-            ],
+              ],
+            ),
           ),
-        );
-      },
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
-
-
 }

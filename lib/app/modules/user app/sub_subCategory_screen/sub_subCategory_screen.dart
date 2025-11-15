@@ -3,6 +3,7 @@ import 'package:cleaning_app/app/modules/user%20app/sub_subCategory_screen/sub_s
 import 'package:cleaning_app/app/rotes/app_routes.dart';
 import 'package:cleaning_app/app/utils/app_colours.dart';
 import 'package:cleaning_app/app/utils/app_fonts.dart';
+import 'package:cleaning_app/app/utils/app_local_storage.dart';
 import 'package:cleaning_app/app/utils/app_style.dart';
 import 'package:cleaning_app/app/utils/app_url.dart';
 import 'package:flutter/material.dart';
@@ -48,9 +49,9 @@ class SubSubCategoryScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 3 / 4,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 4.5 / 5,
           ),
           itemCount: controller.subSubCategoryData.value?.categoryArray?.length,
           itemBuilder: (context, index) {
@@ -62,63 +63,124 @@ class SubSubCategoryScreen extends StatelessWidget {
               },
               child: Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                elevation: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(14),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: "${AppUrl.imageUrl}${item?.image}",
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          placeholder: (context, url) => Container(
-                            color: Colors.grey[200],
-                            child: const Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.broken_image,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                elevation: 1,
+                child: Container(
+                  width: 150, // reduce card width (optional)
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // IMAGE + HEART
+                      Stack(
                         children: [
-                          Text(
-                            item?.name ?? "",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              fontFamily: AppFonts.fontFamily,
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                            child: CachedNetworkImage(
+                              imageUrl: "${AppUrl.imageUrl}${item?.image}",
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 110, // 🔥 reduced height
+                              placeholder: (context, url) => Container(
+                                height: 110,
+                                color: Colors.grey[200],
+                                child: const Center(
+                                  child: CircularProgressIndicator(strokeWidth: 1.5),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                height: 110,
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            controller.getFormattedPrice(item?.amount ?? 0),
-                            style: const TextStyle(
-                              color: AppColours.appColor,
-                              fontWeight: FontWeight.w600,
+
+                          // ❤️ FAVORITE ICON
+                          Positioned(
+                            top: 6,
+                            right: 6,
+                            child: GestureDetector(
+                              onTap: () {
+                                final userId = AppLocalStorage.getUserId();
+                                if (userId != null && item?.subCategoryId != null) {
+                                  controller.getLikeUnlikeApi(
+                                    userId: userId,
+                                    subCatId: item!.subCategoryId!,
+                                  );
+                                }
+                              },
+                              child: CircleAvatar(
+                                radius: 14,
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  (item?.likeUnlikeStatus ?? 0) == 1
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: (item?.likeUnlikeStatus ?? 0) == 1
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  size: 18,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+
+                      // TEXT SECTION
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // NAME
+                            Text(
+                              item?.name ?? "",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14, // 🔥 smaller font
+                              ),
+                            ),
+
+                            const SizedBox(height: 3),
+
+                            // DESCRIPTION
+                            Text(
+                              item?.description ?? "",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.black54,
+                              ),
+                            ),
+
+                            const SizedBox(height: 5),
+
+                            // PRICE
+                            Text(
+                              controller.getFormattedPrice(item?.amount ?? 0),
+                              style: const TextStyle(
+                                color: AppColours.appColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13, // 🔥 smaller font
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
+
+
             );
           },
         );

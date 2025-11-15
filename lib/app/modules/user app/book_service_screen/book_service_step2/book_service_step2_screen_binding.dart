@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import 'book_service_step2_screen_controller.dart';
 
 class BookServiceStep2ScreenBinding extends Bindings {

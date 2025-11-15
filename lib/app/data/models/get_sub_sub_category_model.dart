@@ -47,6 +47,8 @@ class CategoryArray {
   int? amount;
   String? description;
   bool? status;
+  int? likeUnlikeStatus; // 0 = not liked, 1 = liked
+  String? likeUnlikeStatusLabel;
   String? createtime;
 
   CategoryArray({
@@ -58,6 +60,8 @@ class CategoryArray {
     this.amount,
     this.description,
     this.status,
+    this.likeUnlikeStatus,
+    this.likeUnlikeStatusLabel,
     this.createtime,
   });
 
@@ -70,6 +74,8 @@ class CategoryArray {
     amount = json['amount'];
     description = json['description'];
     status = json['status'];
+    likeUnlikeStatus = json['like_unlike_status'];
+    likeUnlikeStatusLabel = json['like_unlike_status_label'];
     createtime = json['createtime'];
   }
 
@@ -83,6 +89,8 @@ class CategoryArray {
     data['amount'] = amount;
     data['description'] = description;
     data['status'] = status;
+    data['like_unlike_status'] = likeUnlikeStatus;
+    data['like_unlike_status_label'] = likeUnlikeStatusLabel;
     data['createtime'] = createtime;
     return data;
   }

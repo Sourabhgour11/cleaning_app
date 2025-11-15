@@ -326,39 +326,6 @@ class BookServiceStep1Screen extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            // Text(
-            //   AppStrings.poweredBy,
-            //   style: TextStyle(
-            //     fontSize: 12,
-            //     color: Colors.grey[600],
-            //     fontFamily: AppFonts.fontFamily,
-            //   ),
-            // ),
-            // const SizedBox(width: 4),
-            // Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            //   decoration: BoxDecoration(
-            //     color: Colors.green[50],
-            //     borderRadius: BorderRadius.circular(4),
-            //     border: Border.all(color: Colors.green[200]!),
-            //   ),
-            //   child: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       Icon(Icons.eco, color: Colors.green[600], size: 12),
-            //       const SizedBox(width: 4),
-            //       Text(
-            //         'Jif',
-            //         style: TextStyle(
-            //           fontSize: 12,
-            //           fontWeight: FontWeight.bold,
-            //           color: Colors.green[600],
-            //           fontFamily: AppFonts.fontFamily,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
         const SizedBox(height: 16),
@@ -541,7 +508,7 @@ class BookServiceStep1Screen extends StatelessWidget {
             child: AppButton(
               onPressed: () {
                 Get.toNamed(
-                  AppRoutes.bookServiceStep3,
+                  AppRoutes.bookServiceStep2,
                   arguments: controller.appBarTitle,
                 );
               },

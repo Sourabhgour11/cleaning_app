@@ -1,378 +1,343 @@
 import 'package:cleaning_app/app/utils/app_export.dart';
+import 'package:intl/intl.dart';
 
-class AddOnService {
+class Professional {
   final String id;
-  final String title;
+  final String name;
   final String image;
-  final double price;
-  final double originalPrice;
+  final double rating;
   final String description;
+  final bool isAutoAssign;
 
-  AddOnService({
+  Professional({
     required this.id,
-    required this.title,
+    required this.name,
     required this.image,
-    required this.price,
-    required this.originalPrice,
+    required this.rating,
     required this.description,
+    this.isAutoAssign = false,
+  });
+}
+
+class TimeSlot {
+  final String id;
+  final String timeRange;
+  final bool isAvailable;
+
+  TimeSlot({
+    required this.id,
+    required this.timeRange,
+    this.isAvailable = true,
   });
 }
 
 class BookServiceStep2ScreenController extends GetxController {
-  // Observable list of selected add-ons
-  final RxList<String> selectedAddOns = <String>[].obs;
-  
-  // Base service price (this would come from previous step)
-  final RxDouble baseServicePrice = 209.0.obs;
 
+  final RxString selectedProfessionalId = 'auto'.obs;
+  final RxString selectedTimeSlotId = ''.obs;
+  final RxDouble baseServicePrice = 209.0.obs;
+  final TextEditingController instructionsController = TextEditingController();
   var appBarTitle = "".obs;
 
   @override
   void onInit() {
     super.onInit();
     appBarTitle.value = Get.arguments.toString();
+    generate30Days();
   }
 
+  // RxList<DateTime> weekDates = <DateTime>[].obs;
+  Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
-  // Add-on services data
-  final List<AddOnService> addOnServices = [
-    AddOnService(
-      id: '1',
-      title: 'Under Eye Pads',
-      image: 'lib/assets/images/woman\'s_spa.jpg',
-      price: 25.0,
-      originalPrice: 35.0,
-      description: 'Soothing under eye treatment',
-    ),
-    AddOnService(
-      id: '2',
-      title: 'Hyaluronic Sheet Mask',
-      image: 'lib/assets/images/mans_spa.jpg',
-      price: 39.0,
-      originalPrice: 55.0,
-      description: 'Hydrating sheet mask treatment',
-    ),
-    AddOnService(
-      id: '3',
-      title: 'Single - 30 mins Extension',
-      image: 'lib/assets/images/woman_salon.webp',
-      price: 49.0,
-      originalPrice: 80.0,
-      description: 'Extended facial massage session',
-    ),
-    AddOnService(
-      id: '4',
-      title: 'Herbal Clean Up',
-      image: 'lib/assets/images/mans_salon.jpg',
-      price: 89.0,
-      originalPrice: 120.0,
-      description: 'Natural herbal facial treatment',
-    ),
-    AddOnService(
-      id: '5',
-      title: 'Body Scrub',
-      image: 'lib/assets/images/spray_tanning.jpg',
-      price: 99.0,
-      originalPrice: 150.0,
-      description: 'Exfoliating body scrub treatment',
-    ),
-    AddOnService(
-      id: '6',
-      title: 'Vitamin C Sheet Mask',
-      image: 'lib/assets/images/lashes_brows.webp',
-      price: 39.0,
-      originalPrice: 55.0,
-      description: 'Brightening vitamin C treatment',
-    ),
-    AddOnService(
-      id: '7',
-      title: 'Retinol Sheet Mask',
-      image: 'lib/assets/images/makeup.jpg',
-      price: 39.0,
-      originalPrice: 55.0,
-      description: 'Anti-aging retinol treatment',
-    ),
-    AddOnService(
-      id: '8',
-      title: 'Soothing Face Mask',
-      image: 'lib/assets/images/nail_extension.jpg',
-      price: 39.0,
-      originalPrice: 60.0,
-      description: 'Calming and soothing facial mask',
-    ),
+  // The 30 days to display in the calendar
+  List<DateTime> weekDates = List.generate(
+    30,
+        (index) => DateTime.now().add(Duration(days: index)),
+  );
+  /// Store final selected date in a String
+  RxString selectedDateString = "".obs;
+
+  // Keep track of selected weekdays from dialog (1 = Monday, ..., 7 = Sunday)
+  RxSet<int> selectedWeekdays = <int>{}.obs;
+
+  void generate30Days() {
+    DateTime today = DateTime.now();
+    weekDates.clear();
+
+    for (int i = 0; i < 30; i++) {
+      weekDates.add(today.add(Duration(days: i)));
+
+    }
+    update();
+  }
+
+  /// Select a date & store in variable
+  void selectDate(DateTime date) {
+    selectedDate.value = date;
+
+    // Save formatted date
+    selectedDateString.value = DateFormat("yyyy-MM-dd").format(date);
+    update();
+
+    print("Selected Date: ${selectedDateString.value}");
+  }
+
+  // This is called when user selects weekdays from dialog
+  void updateSelectedWeekdays(List<int> weekdays) {
+    selectedWeekdays.value = weekdays.toSet();
+    update();
+  }
+
+  /// Get formatted date (if needed externally)
+  String get formattedSelectedDate {
+    if (selectedDate.value == null) return "";
+    return DateFormat("yyyy-MM-dd").format(selectedDate.value!);
+  }
+
+  final List<String> weekDays = [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
   ];
 
-  // Get total price including selected add-ons
-  double get totalPrice {
-    double addOnTotal = selectedAddOns.fold(0.0, (sum, addOnId) {
-      final addOn = addOnServices.firstWhere((service) => service.id == addOnId);
-      return sum + addOn.price;
-    });
-    return baseServicePrice.value + addOnTotal;
-  }
+  // Selected days
+  RxList<String> selectedDays = <String>[].obs;
 
-  // Toggle add-on selection
-  void toggleAddOn(String addOnId) {
-    if (selectedAddOns.contains(addOnId)) {
-      selectedAddOns.remove(addOnId);
-      update();
+  // Toggle checkbox
+  void toggleDay(String day, bool value) {
+    if (value) {
+      selectedDays.add(day);
     } else {
-      selectedAddOns.add(addOnId);
-      update();
+      selectedDays.remove(day);
     }
   }
 
-  // Check if add-on is selected
-  bool isAddOnSelected(String addOnId) {
-    return selectedAddOns.contains(addOnId);
+  void showWeekdayDialog(BookServiceStep2ScreenController controller) {
+    List<String> weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    List<bool> selected = List.generate(7, (index) => false);
+
+    Get.defaultDialog(
+      title: "Select Weekdays",
+      content: StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            children: List.generate(7, (index) {
+              return CheckboxListTile(
+                title: Text(weekdays[index]),
+                value: selected[index],
+                onChanged: (val) {
+                  setState(() {
+                    selected[index] = val!;
+                  });
+                },
+              );
+            }),
+          );
+        },
+      ),
+      textConfirm: "OK",
+      onConfirm: () {
+        List<int> pickedWeekdays = [];
+        for (int i = 0; i < 7; i++) {
+          if (selected[i]) pickedWeekdays.add(i + 1); // Monday = 1
+        }
+        controller.updateSelectedWeekdays(pickedWeekdays);
+        Get.back();
+      },
+    );
+  }
+
+
+
+
+  // Available time slots
+  final List<TimeSlot> timeSlots = [
+    TimeSlot(id: '1', timeRange: '11:30-12:00'),
+    TimeSlot(id: '2', timeRange: '12:00-12:30'),
+    TimeSlot(id: '3', timeRange: '12:30-13:00'),
+    TimeSlot(id: '4', timeRange: '13:00-13:30'),
+    TimeSlot(id: '5', timeRange: '13:30-14:00'),
+    TimeSlot(id: '6', timeRange: '14:00-14:30'),
+    TimeSlot(id: '7', timeRange: '14:30-15:00'),
+    TimeSlot(id: '8', timeRange: '15:00-15:30'),
+  ];
+
+  // Date-related variables
+  final RxList<Map<String, dynamic>> availableDates = <Map<String, dynamic>>[].obs;
+  final RxInt selectedDateIndex = 0.obs;
+
+  // Select time slot
+  void selectTimeSlot(String timeSlotId) {
+    selectedTimeSlotId.value = timeSlotId;
+    update();
+  }
+
+
+  // Get selected time slot
+  TimeSlot get selectedTimeSlot {
+    return timeSlots.firstWhere(
+      (slot) => slot.id == selectedTimeSlotId.value,
+      orElse: () => timeSlots.first,
+    );
   }
 
   // Navigate to next step
   void goToNextStep() {
-    // TODO: Navigate to next step with selected add-ons
-    Get.snackbar('Success', 'Add-ons selected successfully!');
+    // TODO: Navigate to next step with selected data
+    Get.snackbar('Success', 'Date & Time selected successfully!');
   }
 
-  // void showBookingSummaryBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-  //     ),
-  //     builder: (context) {
-  //       return DraggableScrollableSheet(
-  //         initialChildSize: 0.55,
-  //         minChildSize: 0.4,
-  //         maxChildSize: 0.9,
-  //         expand: false,
-  //         builder: (_, scrollController) {
-  //           return Stack(
-  //             children: [
-  //               Padding(
-  //                 padding: const EdgeInsets.symmetric(horizontal: 16),
-  //                 child: ListView(
-  //                   controller: scrollController,
-  //                   children: [
-  //                     const SizedBox(height: 10),
-  //
-  //                     // Drag handle
-  //                     Center(
-  //                       child: Container(
-  //                         width: 40,
-  //                         height: 4,
-  //                         decoration: BoxDecoration(
-  //                           color: Colors.grey[400],
-  //                           borderRadius: BorderRadius.circular(10),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     const SizedBox(height: 16),
-  //
-  //                     // Summary Title
-  //                     const Text(
-  //                       "Summary",
-  //                       style: TextStyle(
-  //                         fontSize: 18,
-  //                         fontWeight: FontWeight.bold,
-  //                         color: Colors.black,
-  //                       ),
-  //                     ),
-  //                     const SizedBox(height: 16),
-  //
-  //                     // Service Card
-  //                     Container(
-  //                       padding: const EdgeInsets.all(16),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.white,
-  //                         borderRadius: BorderRadius.circular(12),
-  //                         border: Border.all(color: Colors.grey.shade300),
-  //                       ),
-  //                       child: Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: [
-  //                           const Text(
-  //                             "Single - 60 mins",
-  //                             style: TextStyle(
-  //                               fontSize: 16,
-  //                               fontWeight: FontWeight.w600,
-  //                               color: Colors.black,
-  //                             ),
-  //                           ),
-  //                           const SizedBox(height: 8),
-  //                           Row(
-  //                             children: [
-  //                               const Text(
-  //                                 "AED 249",
-  //                                 style: TextStyle(
-  //                                   fontSize: 16,
-  //                                   fontWeight: FontWeight.bold,
-  //                                   color: Colors.black,
-  //                                 ),
-  //                               ),
-  //                               const SizedBox(width: 8),
-  //                               Text(
-  //                                 "AED 350",
-  //                                 style: TextStyle(
-  //                                   fontSize: 14,
-  //                                   color: Colors.grey[500],
-  //                                   decoration: TextDecoration.lineThrough,
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //
-  //                     const SizedBox(height: 16),
-  //
-  //                     // Payment Summary
-  //                     Container(
-  //                       padding: const EdgeInsets.all(16),
-  //                       decoration: BoxDecoration(
-  //                         color: Colors.grey[100],
-  //                         borderRadius: BorderRadius.circular(12),
-  //                       ),
-  //                       child: Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: [
-  //                           const Text(
-  //                             "Payment Summary",
-  //                             style: TextStyle(
-  //                               fontSize: 15,
-  //                               fontWeight: FontWeight.w600,
-  //                               color: Colors.black,
-  //                             ),
-  //                           ),
-  //                           const SizedBox(height: 12),
-  //                           Row(
-  //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                             children: const [
-  //                               Text("Subtotal", style: TextStyle(fontSize: 14)),
-  //                               Text("AED 249.00",
-  //                                   style: TextStyle(
-  //                                       fontSize: 14,
-  //                                       fontWeight: FontWeight.w500)),
-  //                             ],
-  //                           ),
-  //                           const SizedBox(height: 8),
-  //                           Row(
-  //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                             children: [
-  //                               Row(
-  //                                 children: [
-  //                                   const Text("Service Fee",
-  //                                       style: TextStyle(fontSize: 14)),
-  //                                   const SizedBox(width: 4),
-  //                                   Icon(Icons.info_outline,
-  //                                       size: 16, color: Colors.grey[500]),
-  //                                 ],
-  //                               ),
-  //                               const Text("AED 9.00",
-  //                                   style: TextStyle(
-  //                                       fontSize: 14,
-  //                                       fontWeight: FontWeight.w500)),
-  //                             ],
-  //                           ),
-  //                           const Divider(height: 24),
-  //                           Row(
-  //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                             children: const [
-  //                               Text(
-  //                                 "Total (inc. VAT)",
-  //                                 style: TextStyle(
-  //                                   fontSize: 15,
-  //                                   fontWeight: FontWeight.bold,
-  //                                 ),
-  //                               ),
-  //                               Text(
-  //                                 "AED 258.00",
-  //                                 style: TextStyle(
-  //                                   fontSize: 15,
-  //                                   fontWeight: FontWeight.bold,
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //
-  //                     const SizedBox(height: 100),
-  //                   ],
-  //                 ),
-  //               ),
-  //
-  //               // Bottom Fixed Bar
-  //               Positioned(
-  //                 left: 0,
-  //                 right: 0,
-  //                 bottom: 0,
-  //                 child: Container(
-  //                   padding:
-  //                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-  //                   decoration: const BoxDecoration(
-  //                     color: Colors.white,
-  //                     boxShadow: [
-  //                       BoxShadow(
-  //                         color: Colors.black12,
-  //                         blurRadius: 6,
-  //                         offset: Offset(0, -2),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   child: Row(
-  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                     children: [
-  //                       Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: const [
-  //                           Text(
-  //                             "Total",
-  //                             style: TextStyle(fontSize: 13, color: Colors.grey),
-  //                           ),
-  //                           Text(
-  //                             "AED 258.00",
-  //                             style: TextStyle(
-  //                               fontSize: 17,
-  //                               fontWeight: FontWeight.bold,
-  //                               color: Colors.black,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       ElevatedButton(
-  //                         onPressed: () {
-  //                           // Handle next action
-  //                         },
-  //                         style: ElevatedButton.styleFrom(
-  //                           backgroundColor: Color(0xFFFFC107), // yellow
-  //                           shape: RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.circular(10),
-  //                           ),
-  //                           padding: const EdgeInsets.symmetric(
-  //                               horizontal: 32, vertical: 14),
-  //                         ),
-  //                         child: const Text(
-  //                           "Next",
-  //                           style: TextStyle(
-  //                             color: Colors.black,
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+  RxBool isEdit = false.obs;
 
+  void showAdditionalInstructionsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 20,
+            // To make sure keyboard doesn’t cover the textfield
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title
+              const Text(
+                'Additional Instructions',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColours.black,
+                  fontFamily: AppFonts.fontFamily,
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Text field
+              TextFormField(
+                controller: instructionsController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: 'Type your instructions here...',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontFamily: AppFonts.fontFamily,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: const EdgeInsets.all(12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: AppColours.appColor),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Done Button
+              SizedBox(
+                width: double.infinity,
+                height: AppStyle.heightPercent(context, 6),
+                child: AppButton(onPressed: (){
+                  update();
+                  Get.back();
+                }, title: "Done")
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget weekCalendar(BookServiceStep2ScreenController controller) {
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Select Date",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+
+          SizedBox(
+            height: 90,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: controller.weekDates.length,
+              itemBuilder: (context, index) {
+                DateTime date = controller.weekDates[index];
+
+                bool isSelected =
+                    controller.selectedDate.value?.day == date.day &&
+                        controller.selectedDate.value?.month == date.month &&
+                        controller.selectedDate.value?.year == date.year;
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    children: [
+                      // DAY NAME
+                      Text(
+                        DateFormat("E").format(date).toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      GestureDetector(
+                        onTap: () => controller.selectDate(date),
+                        child: Container(
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            color: isSelected ? Colors.teal : Colors.transparent,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isSelected ? Colors.teal : Colors.black26,
+                              width: 1.6,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              date.day.toString(),
+                              style: TextStyle(
+                                color: isSelected ? Colors.white : Colors.black87,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      );
+    });
+  }
 
 }

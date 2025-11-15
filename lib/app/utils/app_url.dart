@@ -32,15 +32,16 @@ class AppUrl {
   static const String deleteSingleNotification = '$baseUrl/delete_single_notification';
   static const String deleteAllNotification = '$baseUrl/delete_all_notification';
   static const String getContent = '$baseUrl/get_content';
+  static const String likeUnlike = '$baseUrl/like_unlike';
 
   static String getSubCatByCatId(int categoryId) =>
       '$baseUrl/get_sub_category_by_category_id?category_id=$categoryId';
   static const String editProfile = '$baseUrl/edit_profile';
 
   static String getUserBookingApi(String userId) =>
-      '$baseUrl/get_wallet?user_id=$userId';
+      '$baseUrl/get_user_bookigs?user_id=$userId';
 
-  static String getSubSubCategoryApi(int catSubCatId, int categoryId) =>
-      '$baseUrl/get_service_by_subcategory?cat_sub_cat_id=${catSubCatId}&category_id=${categoryId}';
+  static String getSubSubCategoryApi(int catSubCatId, int categoryId, String? userId) =>
+      '$baseUrl/get_service_by_subcategory?cat_sub_cat_id=${catSubCatId}&category_id=${categoryId}&user_id=${userId}';
 
 }

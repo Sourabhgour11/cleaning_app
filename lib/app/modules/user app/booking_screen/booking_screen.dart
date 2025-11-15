@@ -9,7 +9,7 @@ class UserBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = Get.arguments ?? {};
-    final showBack = args['showBack'] ?? false;
+    bool showBack = args['showBack'] ?? false;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -263,14 +263,15 @@ class UserBookingScreen extends StatelessWidget {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: controller.pastBookings.length,
+                itemCount: controller.getUserBookingData.value?.pastBookings?.length,
                 itemBuilder: (context, index) {
-                  final booking = controller.pastBookings[index];
+                  final booking = controller.getUserBookingData.value?.pastBookings?[index];
                   return GestureDetector(
                     onTap: (){
-                      Get.toNamed(AppRoutes.bookingDetails,arguments: {
-                        "isPast" : true,
-                      });
+                      print("${controller.getUserBookingData.value?.pastBookings?.length}");
+                      // Get.toNamed(AppRoutes.bookingDetails,arguments: {
+                      //   "isPast" : true,
+                      // });
                     },
                     child: Card(
                       color: AppColours.white,
@@ -301,7 +302,7 @@ class UserBookingScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    booking['service']!,
+                                    booking?.rescheduleDate ?? "",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
@@ -309,7 +310,7 @@ class UserBookingScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    "${booking['date']} | ${booking['time']}",
+                                    "${booking?.bookingDate} | ${booking?.bookingEndTime}",
                                     style: const TextStyle(color: Colors.grey),
                                   ),
                                 ],
